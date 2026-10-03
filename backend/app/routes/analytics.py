@@ -34,7 +34,7 @@ def get_quantum_benchmark():
 @router.get("/data/{disease}/preview")
 def get_dataset_preview(disease: str, limit: int = 100):
     """
-    Returns JSON preview of the 15,000-record CDC dataset containing first N rows, columns, and metadata.
+    Returns JSON preview of the 45,000-record CDC dataset containing first N rows, columns, and metadata.
     """
     if disease not in ["diabetes", "cardiovascular", "cvd"]:
         raise HTTPException(status_code=404, detail="Disease must be 'diabetes' or 'cardiovascular'")
@@ -49,7 +49,7 @@ def get_training_data(
     view: str = ""
 ):
     """
-    Returns the genuine 15,000-record CDC BRFSS training & evaluation dataset:
+    Returns the genuine 45,000-record CDC BRFSS training & evaluation dataset:
     - If viewed directly in browser (or format=html / view=html): renders interactive web dataset viewer with search & column definitions.
     - If format=json: returns JSON preview with metadata and sample rows.
     - If download=True, format=csv, or requested as file download: delivers full CSV dataset.
@@ -73,7 +73,7 @@ def get_training_data(
         return HTMLResponse(content=html_content, status_code=200)
 
     disease_label = "diabetes" if disease_norm == "diabetes" else "cardiovascular"
-    filename = f"cdc_{disease_label}_training_dataset_15000.csv"
+    filename = f"cdc_{disease_label}_training_dataset_45000.csv"
     return FileResponse(
         path=str(fpath),
         media_type="text/csv",

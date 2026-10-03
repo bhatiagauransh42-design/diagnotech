@@ -553,14 +553,14 @@ export default function CdcDataDocsView({ backendUrl }) {
 
           <div style={{ background: '#F8FAFC', padding: '1rem 1.25rem', borderRadius: '16px', border: '1px solid #E2E8F0' }}>
             <div style={{ fontSize: '0.75rem', color: '#64748B', textTransform: 'uppercase', fontWeight: 600 }}>Model Training Cohort</div>
-            <div style={{ fontSize: '1.6rem', fontWeight: 800, color: '#059669', fontFamily: 'var(--font-mono)' }}>15,000</div>
-            <div style={{ fontSize: '0.7rem', color: '#64748B' }}>Balanced per disease</div>
+            <div style={{ fontSize: '1.6rem', fontWeight: 800, color: '#059669', fontFamily: 'var(--font-mono)' }}>45,000</div>
+            <div style={{ fontSize: '0.7rem', color: '#64748B' }}>Verified CDC BRFSS Cohort</div>
           </div>
 
           <div style={{ background: '#F8FAFC', padding: '1rem 1.25rem', borderRadius: '16px', border: '1px solid #E2E8F0' }}>
             <div style={{ fontSize: '0.75rem', color: '#64748B', textTransform: 'uppercase', fontWeight: 600 }}>Holdout Test Cohort</div>
-            <div style={{ fontSize: '1.6rem', fontWeight: 800, color: '#7C3AED', fontFamily: 'var(--font-mono)' }}>3,000</div>
-            <div style={{ fontSize: '0.7rem', color: '#64748B' }}>Unseen validation samples</div>
+            <div style={{ fontSize: '1.6rem', fontWeight: 800, color: '#7C3AED', fontFamily: 'var(--font-mono)' }}>9,000</div>
+            <div style={{ fontSize: '0.7rem', color: '#64748B' }}>Unseen validation samples (20%)</div>
           </div>
 
           <div style={{ background: '#F8FAFC', padding: '1rem 1.25rem', borderRadius: '16px', border: '1px solid #E2E8F0' }}>
@@ -739,7 +739,7 @@ export default function CdcDataDocsView({ backendUrl }) {
             as="button"
             variant="tab"
             active={selectedCohort === 'diabetes'}
-            btnText="Diabetes CDC Cohort (N=15,000)"
+            btnText="Diabetes CDC Cohort (N=45,000)"
             hoverColor="#0284c7"
             showArrow={false}
             showLine={false}
@@ -750,7 +750,7 @@ export default function CdcDataDocsView({ backendUrl }) {
             as="button"
             variant="tab"
             active={selectedCohort === 'cardiovascular'}
-            btnText="Cardiovascular CDC Cohort (N=15,000)"
+            btnText="Cardiovascular CDC Cohort (N=45,000)"
             hoverColor="#e11d48"
             showArrow={false}
             showLine={false}
@@ -786,8 +786,8 @@ export default function CdcDataDocsView({ backendUrl }) {
           </h3>
           <p style={{ fontSize: '0.82rem', color: '#4B5563', lineHeight: 1.5, marginBottom: '1.25rem' }}>
             {selectedCohort === 'diabetes'
-              ? 'Trained on 15,000 CDC BRFSS epidemiological samples (5,000 positive, 10,000 negative) with class-balanced weighting to counter severe class disparity.'
-              : 'Trained on 15,000 CDC BRFSS cardiovascular cohort records with scaled gradient tree boosting optimizing ROC-AUC on holdout validation.'}
+              ? 'Trained on 45,000 CDC BRFSS epidemiological samples (15,000 positive, 30,000 negative) with class-balanced weighting to counter severe class disparity.'
+              : 'Trained on 45,000 CDC BRFSS cardiovascular cohort records with scaled gradient tree boosting optimizing ROC-AUC on holdout validation.'}
           </p>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem', borderTop: '1px solid #E5E7EB', paddingTop: '1rem' }}>
@@ -896,7 +896,7 @@ export default function CdcDataDocsView({ backendUrl }) {
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', flexWrap: 'wrap' }}>
             <a
               href={selectedCohort === 'diabetes' ? '/datasets/cdc_diabetes.csv' : '/datasets/cdc_cvd.csv'}
-              download={`cdc_${selectedCohort === 'diabetes' ? 'diabetes' : 'cvd'}_training_dataset_15000.csv`}
+              download={`cdc_${selectedCohort === 'diabetes' ? 'diabetes' : 'cvd'}_training_dataset_45000.csv`}
               id="btn-download-cdc-dataset-docs"
               style={{
                 display: 'inline-flex',
@@ -913,7 +913,7 @@ export default function CdcDataDocsView({ backendUrl }) {
               }}
             >
               <Download size={13} />
-              <span>Download 15k CSV</span>
+              <span>Download 45k CSV</span>
             </a>
             <a
               href={selectedCohort === 'diabetes' ? '/datasets/diabetes_metadata.json' : '/datasets/cvd_metadata.json'}
@@ -937,7 +937,7 @@ export default function CdcDataDocsView({ backendUrl }) {
               <span>Schema JSON</span>
             </a>
             <span style={{ fontSize: '0.75rem', padding: '0.25rem 0.75rem', borderRadius: '9999px', background: '#F1F5F9', color: '#475569', border: '1px solid #E2E8F0', fontWeight: 600 }}>
-              Showing 10 of 15,000 real training rows
+              Showing 10 of 45,000 real training rows
             </span>
           </div>
         </div>

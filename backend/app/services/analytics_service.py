@@ -21,9 +21,9 @@ class AnalyticsService:
         return {
             "title": "Diagnotech Empirical Evidence & Research Literature Dossier",
             "evaluation_cohort": {
-                "training_split": "80% (12,000 patients)",
-                "holdout_test_split": "20% (3,000 patients)",
-                "total_records_per_cohort": 15000,
+                "training_split": "80% (36,000 patients)",
+                "holdout_test_split": "20% (9,000 patients)",
+                "total_records_per_cohort": 45000,
                 "source": "CDC Behavioral Risk Factor Surveillance System (BRFSS)",
                 "zero_leakage_protocol": "Standardization scalers fit strictly on training partitions; test partition evaluated unseen."
             },
@@ -32,11 +32,11 @@ class AnalyticsService:
                     "id": "diabetes-cdc-data",
                     "title": "CDC BRFSS Type 2 Diabetes Training & Evaluation Dataset",
                     "filename": "cdc_diabetes.csv",
-                    "rows": 15000,
+                    "rows": 45000,
                     "download_url": "/api/v1/analytics/data/diabetes?download=1",
                     "viewer_url": "/api/v1/analytics/data/diabetes?view=html",
                     "preview_url": "/api/v1/analytics/data/diabetes/preview",
-                    "positive_prevalence": "16.2% (2,437 / 15,000)",
+                    "positive_prevalence": "33.3% (15,000 / 45,000)",
                     "features_count": 17,
                     "description": "Standardized epidemiological indicators derived from the CDC BRFSS survey for diabetic risk modeling."
                 },
@@ -44,11 +44,11 @@ class AnalyticsService:
                     "id": "cvd-cdc-data",
                     "title": "CDC BRFSS Cardiovascular Disease Training & Evaluation Dataset",
                     "filename": "cdc_cvd.csv",
-                    "rows": 15000,
+                    "rows": 45000,
                     "download_url": "/api/v1/analytics/data/cardiovascular?download=1",
                     "viewer_url": "/api/v1/analytics/data/cardiovascular?view=html",
                     "preview_url": "/api/v1/analytics/data/cardiovascular/preview",
-                    "positive_prevalence": "18.6% (2,789 / 15,000)",
+                    "positive_prevalence": "33.3% (15,000 / 45,000)",
                     "features_count": 17,
                     "description": "Standardized epidemiological indicators derived from the CDC BRFSS survey for atherosclerotic and cardiovascular risk modeling."
                 }
@@ -338,7 +338,7 @@ class AnalyticsService:
         return {
             "disease": disease_norm,
             "title": disease_title,
-            "total_records": 15000,
+            "total_records": 45000,
             "columns": columns,
             "target_column": target_col,
             "features_count": len(columns) - 1,
@@ -615,12 +615,12 @@ class AnalyticsService:
                     <span class="badge badge-cyan" style="margin-bottom: 0.5rem;">CDC BRFSS Validated Cohort</span>
                     <h1 style="font-size: 2rem; font-weight: 800; letter-spacing: -0.02em;">{disease_title}</h1>
                     <p style="color: var(--text-secondary); font-size: 0.88rem; margin-top: 0.35rem;">
-                        Exact 15,000-record patient cohort used for Diagnotech model training (80%) and holdout verification (20%).
+                        Exact 45,000-record patient cohort used for Diagnotech model training (80%) and holdout verification (20%).
                     </p>
                 </div>
                 <div style="display: flex; gap: 0.6rem; flex-wrap: wrap; align-items: center;">
                     <a href="/api/v1/analytics/data/{disease_norm}?download=1" class="btn btn-primary" download>
-                        Download Full CSV (15,000 Records) &darr;
+                        Download Full CSV (45,000 Records) &darr;
                     </a>
                     <a href="/api/v1/analytics/data/{alt_disease}?view=html" class="btn btn-outline">
                         Switch to {alt_title} &rarr;
@@ -631,7 +631,7 @@ class AnalyticsService:
             <div class="stats-ribbon">
                 <div class="stat-card">
                     <div class="stat-label">Total Verified Records</div>
-                    <div class="stat-val" style="color: var(--accent-cyan);">15,000</div>
+                    <div class="stat-val" style="color: var(--accent-cyan);">45,000</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-label">Clinical Features</div>
@@ -639,11 +639,11 @@ class AnalyticsService:
                 </div>
                 <div class="stat-card">
                     <div class="stat-label">Training Partition</div>
-                    <div class="stat-val" style="color: var(--accent-green);">12,000 (80%)</div>
+                    <div class="stat-val" style="color: var(--accent-green);">36,000 (80%)</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-label">Unseen Holdout Partition</div>
-                    <div class="stat-val" style="color: var(--accent-purple);">3,000 (20%)</div>
+                    <div class="stat-val" style="color: var(--accent-purple);">9,000 (20%)</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-label">Primary Target Column</div>
@@ -769,7 +769,7 @@ class AnalyticsService:
                 <p class="card-desc">{d['description']}</p>
                 <div class="card-actions">
                     <a href="{d['viewer_url']}" class="btn btn-primary">Preview In-Browser 👁</a>
-                    <a href="{d['download_url']}" class="btn btn-outline" download>Download CSV (15k) &darr;</a>
+                    <a href="{d['download_url']}" class="btn btn-outline" download>Download CSV (45k) &darr;</a>
                     <a href="https://data.cdc.gov/browse?q=BRFSS" target="_blank" rel="noopener noreferrer" class="btn btn-outline">CDC Portal &nearr;</a>
                 </div>
             </div>
@@ -1047,7 +1047,7 @@ class AnalyticsService:
             <span>&darr;</span>
             <h2>Our Training &amp; Evaluation Datasets</h2>
         </div>
-        <p class="section-subtitle">Download the exact 15,000-patient CDC BRFSS cohorts evaluated under strict 80/20 train/test protocols.</p>
+        <p class="section-subtitle">Download the exact 45,000-patient CDC BRFSS cohorts evaluated under strict 80/20 train/test protocols.</p>
         <div class="grid">
             {datasets_html}
         </div>
@@ -1057,7 +1057,7 @@ class AnalyticsService:
             <span>&Sigma;</span>
             <h2>Mathematical Proof of Test Set Metrics</h2>
         </div>
-        <p class="section-subtitle">The standard statistical formulations evaluated against the 3,000 holdout patients with zero data leakage.</p>
+        <p class="section-subtitle">The standard statistical formulations evaluated against the 9,000 holdout patients with zero data leakage.</p>
         <div class="math-box">
             <div class="math-row">
                 <span style="color: #94a3b8;">Sensitivity (Recall / True Positive Rate)</span>

@@ -27,11 +27,11 @@ diabetes_features = [
 diabetes_cols = diabetes_features + ["Diabetes_binary"]
 df_diabetes = df_all[diabetes_cols].dropna()
 
-# Create balanced/stratified working sample of 15,000 rows (or save 15,000 for fast reproducible training)
+# Create balanced/stratified working sample of 45,000 rows (15,000 positive, 30,000 negative)
 pos_diab = df_diabetes[df_diabetes["Diabetes_binary"] == 1]
 neg_diab = df_diabetes[df_diabetes["Diabetes_binary"] == 0]
-sample_pos = pos_diab.sample(n=min(5000, len(pos_diab)), random_state=42)
-sample_neg = neg_diab.sample(n=min(10000, len(neg_diab)), random_state=42)
+sample_pos = pos_diab.sample(n=min(15000, len(pos_diab)), random_state=42)
+sample_neg = neg_diab.sample(n=min(30000, len(neg_diab)), random_state=42)
 df_diabetes_sample = pd.concat([sample_pos, sample_neg]).sample(frac=1.0, random_state=42).reset_index(drop=True)
 
 diabetes_csv_path = r"e:\diagnotech\datasets\diabetes\cdc_diabetes.csv"
@@ -87,8 +87,8 @@ df_cvd = df_all[cvd_cols].dropna()
 
 pos_cvd = df_cvd[df_cvd["HeartDiseaseorAttack"] == 1]
 neg_cvd = df_cvd[df_cvd["HeartDiseaseorAttack"] == 0]
-sample_pos_cvd = pos_cvd.sample(n=min(5000, len(pos_cvd)), random_state=42)
-sample_neg_cvd = neg_cvd.sample(n=min(10000, len(neg_cvd)), random_state=42)
+sample_pos_cvd = pos_cvd.sample(n=min(15000, len(pos_cvd)), random_state=42)
+sample_neg_cvd = neg_cvd.sample(n=min(30000, len(neg_cvd)), random_state=42)
 df_cvd_sample = pd.concat([sample_pos_cvd, sample_neg_cvd]).sample(frac=1.0, random_state=42).reset_index(drop=True)
 
 cvd_csv_path = r"e:\diagnotech\datasets\cardiovascular\cdc_cvd.csv"

@@ -24,7 +24,7 @@
 Rooted in epidemiological evidence from the **U.S. Centers for Disease Control and Prevention (CDC) Behavioral Risk Factor Surveillance System (BRFSS)**, DiagnoTech pairs high-performance ensemble learning (Random Forest, XGBoost) with game-theoretic **TreeSHAP** local feature attributions and a simulated **6-Qubit Quantum Kernel State (QSVC ZZFeatureMap)** benchmark.
 
 ### 🎯 Key Clinical Highlights
-- **Zero Hallucination / Zero Synthetic Data**: Trained and evaluated on genuine CDC cohorts ($N=15,000$ per disease domain) with strict stratified holdout partitions ($80\%$ train / $20\%$ holdout test).
+- **Zero Hallucination / Zero Synthetic Data**: Trained and evaluated on genuine CDC cohorts ($N=45,000$ per disease domain) with strict stratified holdout partitions ($80\%$ train / $20\%$ holdout test: $36,000$ training, $9,000$ unseen holdout test).
 - **Exact Explainability**: Eliminates black-box diagnosis by breaking down each patient's risk score into calibrated additive log-odds contributions ($f(x) = \phi_0 + \sum_{i=1}^M \phi_i$).
 - **Quantum-Classical Machine Learning Benchmark**: Evaluates high-dimensional Hilbert space projections via a parameterized 6-qubit $ZZ(\theta)$ feature map against classical tree ensembles.
 - **Multi-Modal Diagnostic Assistant**: Integrates clinical document OCR scanning (PDF / images) with an on-demand medical conversational assistant.
@@ -49,8 +49,8 @@ flowchart TB
 
     subgraph CDN["Static Delivery & Asset Edge"]
         VercelEdge["Vercel Global Edge CDN"]
-        CSV_Diab["/datasets/cdc_diabetes.csv (15k records)"]
-        CSV_CVD["/datasets/cdc_cvd.csv (15k records)"]
+        CSV_Diab["/datasets/cdc_diabetes.csv (45k records)"]
+        CSV_CVD["/datasets/cdc_cvd.csv (45k records)"]
         Meta_JSON["Schema & Metadata Catalog (.json)"]
     end
 
@@ -104,7 +104,7 @@ flowchart TB
 - Computes quantum state overlap fidelity $K_{ij} = |\langle\psi(x_i)|\psi(x_j)\rangle|^2$ and benchmarks quantum support vector classification against classical gradient boosting.
 
 ### 4. Direct Empirical CDC BRFSS Cohort Access
-- Includes 15,000 individual participant records for diabetes and 15,000 for cardiovascular disease.
+- Includes 45,000 individual participant records for diabetes and 45,000 for cardiovascular disease.
 - Available directly from the deployed website as instant `.csv` downloads or via REST API endpoints (`/api/v1/analytics/data/{disease}`).
 
 ### 5. Multi-Modal AI Clinical Assistant & Lab Report Scanner
@@ -115,9 +115,9 @@ flowchart TB
 
 ## 📊 Empirical Performance & Candidate Benchmarks
 
-All models were evaluated using Stratified 3-Fold Cross-Validation on training partitions ($12,000$ patients) and rigorously validated on unseen holdout test cohorts ($3,000$ patients) with zero data leakage.
+All models were evaluated using Stratified 3-Fold Cross-Validation on training partitions ($36,000$ patients) and rigorously validated on unseen holdout test cohorts ($9,000$ patients) with zero data leakage.
 
-### Type-2 Diabetes Model Suite (Holdout Test $N=3,000$)
+### Type-2 Diabetes Model Suite (Holdout Test $N=9,000$)
 
 | Algorithm | Accuracy | Precision | Recall (Sensitivity) | Specificity | F1-Score | ROC-AUC | Production Role |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
@@ -127,7 +127,7 @@ All models were evaluated using Stratified 3-Fold Cross-Validation on training p
 | Logistic Regression | 74.10% | 59.87% | 81.30% | 72.75% | 0.6896 | 0.8043 | Linear Baseline |
 | Decision Tree (Cart) | 73.50% | 67.47% | 55.80% | 86.55% | 0.6108 | 0.7680 | Interpretable Tree |
 
-### Cardiovascular Disease Model Suite (Holdout Test $N=3,000$)
+### Cardiovascular Disease Model Suite (Holdout Test $N=9,000$)
 
 | Algorithm | Accuracy | Precision | Recall (Sensitivity) | Specificity | F1-Score | ROC-AUC | Production Role |
 | :--- | :---: | :---: | :---: | :---: | :---: | :---: | :--- |
@@ -203,10 +203,10 @@ diagnotech/
 │   │   └── quantum_benchmark.json      # 6-Qubit QSVC benchmark figures
 ├── datasets/
 │   ├── cardiovascular/
-│   │   ├── cdc_cvd.csv                 # 15,000-record CDC CVD cohort
+│   │   ├── cdc_cvd.csv                 # 45,000-record CDC CVD cohort
 │   │   └── metadata.json               # Schema & feature definitions
 │   └── diabetes/
-│       ├── cdc_diabetes.csv            # 15,000-record CDC Diabetes cohort
+│       ├── cdc_diabetes.csv            # 45,000-record CDC Diabetes cohort
 │       └── metadata.json               # Schema & feature definitions
 ├── frontend/
 │   ├── public/
@@ -324,7 +324,7 @@ This automated pipeline:
 | `GET` | `/api/v1/analytics/comparison/{disease}` | Returns cross-validation and holdout metrics for all 5 candidate algorithms. |
 | `GET` | `/api/v1/analytics/curves/{disease}` | Returns ROC / Precision-Recall curve coordinates and global feature rankings. |
 | `GET` | `/api/v1/analytics/quantum` | Returns comparative 6-qubit QSVC quantum kernel benchmark metrics. |
-| `GET` | `/api/v1/analytics/data/{disease}` | Streams full 15,000-record CDC training `.csv` or renders interactive HTML viewer. |
+| `GET` | `/api/v1/analytics/data/{disease}` | Streams full 45,000-record CDC training `.csv` or renders interactive HTML viewer. |
 | `GET` | `/api/v1/analytics/data/{disease}/preview`| Returns JSON preview of sample participant vectors and schema metadata. |
 | `POST` | `/api/v1/ai/scan-report` | Multi-modal OCR extraction from clinical lab reports (PDF / images). |
 | `POST` | `/api/v1/ai/question` | Conversational clinical AI assistant for risk guidance and protocol queries. |

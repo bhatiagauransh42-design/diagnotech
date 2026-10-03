@@ -32,7 +32,7 @@ import { ScrambleLinkButton } from './ui/scramble-link-button';
 const RESEARCH_LITERATURE_AND_DATA = [
   {
     id: 'our-diabetes-data',
-    title: 'CDC BRFSS Type 2 Diabetes Training & Holdout Evaluation Cohort (15,000 Records)',
+    title: 'CDC BRFSS Type 2 Diabetes Training & Holdout Evaluation Cohort (45,000 Records)',
     category: 'training_data',
     categoryLabel: 'Our Training Data',
     authors: 'U.S. CDC BRFSS / Diagnotech ML Engineering',
@@ -40,16 +40,16 @@ const RESEARCH_LITERATURE_AND_DATA = [
     url: '/datasets/cdc_diabetes.csv',
     status: '200 OK (Verified Download)',
     isDataset: true,
-    downloadFilename: 'cdc_diabetes_training_dataset_15000.csv',
-    rows: 15000,
+    downloadFilename: 'cdc_diabetes_training_dataset_45000.csv',
+    rows: 45000,
     features: 17,
     tag: 'Primary Model Training Data',
-    description: 'The exact empirical patient cohort used to train the Random Forest ensemble and evaluate candidate models on 3,000 unseen holdout respondents with zero data leakage.',
+    description: 'The exact empirical patient cohort used to train the Random Forest ensemble and evaluate candidate models on holdout respondents with zero data leakage.',
     roleInProvingNumbers: 'Proves the 74.90% Accuracy, 86.35% Specificity, and 0.8108 ROC-AUC metrics displayed in the Candidate Evaluation Matrix.'
   },
   {
     id: 'our-cvd-data',
-    title: 'CDC BRFSS Cardiovascular Disease Training & Holdout Evaluation Cohort (15,000 Records)',
+    title: 'CDC BRFSS Cardiovascular Disease Training & Holdout Evaluation Cohort (45,000 Records)',
     category: 'training_data',
     categoryLabel: 'Our Training Data',
     authors: 'U.S. CDC BRFSS / Diagnotech ML Engineering',
@@ -57,11 +57,11 @@ const RESEARCH_LITERATURE_AND_DATA = [
     url: '/datasets/cdc_cvd.csv',
     status: '200 OK (Verified Download)',
     isDataset: true,
-    downloadFilename: 'cdc_cardiovascular_training_dataset_15000.csv',
-    rows: 15000,
+    downloadFilename: 'cdc_cardiovascular_training_dataset_45000.csv',
+    rows: 45000,
     features: 17,
     tag: 'Primary Model Training Data',
-    description: 'The exact empirical patient cohort used to train the XGBoost model and evaluate candidate models on 3,000 unseen holdout respondents with zero data leakage.',
+    description: 'The exact empirical patient cohort used to train the XGBoost model and evaluate candidate models on holdout respondents with zero data leakage.',
     roleInProvingNumbers: 'Proves the 72.90% Accuracy, 97.55% Specificity, 82.81% Precision, and 0.8389 ROC-AUC metrics displayed in the Candidate Evaluation Matrix.'
   },
   {
@@ -140,7 +140,7 @@ const RESEARCH_LITERATURE_AND_DATA = [
     status: '200 OK (Verified)',
     tag: 'Federal Ground Truth Registry',
     description: 'The world’s premier continuous public health survey tracking chronic conditions and risk behaviors across 253,680+ annual respondents.',
-    roleInProvingNumbers: 'The primary federal source from which our 15,000-record training and holdout test partitions were stratified.'
+    roleInProvingNumbers: 'The primary federal source from which our 45,000-record training and holdout test partitions were stratified.'
   },
   {
     id: 'who-diabetes-factsheet',
@@ -694,7 +694,7 @@ export default function AnalyticsDashboard({ backendUrl }) {
               <span>1. Zero-Leakage Holdout Partitioning</span>
             </div>
             <p style={{ fontSize: '0.82rem', color: '#334155', lineHeight: 1.5 }}>
-              Each cohort (15,000 CDC records) underwent a strict <strong>80/20 Stratified Train/Test Split</strong> (12,000 training, 3,000 unseen holdout). Preprocessing scaling parameters (means, standard deviations) were fit strictly on the training partition to guarantee that zero test distribution information leaked into model parameters.
+              Each cohort (45,000 CDC records) underwent a strict <strong>80/20 Stratified Train/Test Split</strong> (36,000 training, 9,000 unseen holdout). Preprocessing scaling parameters (means, standard deviations) were fit strictly on the training partition to guarantee that zero test distribution information leaked into model parameters.
             </p>
           </div>
 
@@ -797,7 +797,7 @@ export default function AnalyticsDashboard({ backendUrl }) {
 
             <a
               href="/datasets/cdc_diabetes.csv"
-              download="cdc_diabetes_training_dataset_15000.csv"
+              download="cdc_diabetes_training_dataset_45000.csv"
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
@@ -814,12 +814,12 @@ export default function AnalyticsDashboard({ backendUrl }) {
               id="btn-dl-diabetes-data-top"
             >
               <Download size={14} />
-              DIABETES DATA (15k CSV ⤓)
+              DIABETES DATA (45k CSV ⤓)
             </a>
 
             <a
               href="/datasets/cdc_cvd.csv"
-              download="cdc_cardiovascular_training_dataset_15000.csv"
+              download="cdc_cardiovascular_training_dataset_45000.csv"
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
@@ -836,7 +836,7 @@ export default function AnalyticsDashboard({ backendUrl }) {
               id="btn-dl-cvd-data-top"
             >
               <Download size={14} />
-              CVD DATA (15k CSV ⤓)
+              CVD DATA (45k CSV ⤓)
             </a>
 
             <button
@@ -1033,7 +1033,7 @@ export default function AnalyticsDashboard({ backendUrl }) {
                       }}
                     >
                       <Download size={13} />
-                      Download CSV (15k ⤓)
+                      Download CSV (45k ⤓)
                     </a>
 
                     <a
@@ -1283,7 +1283,7 @@ export default function AnalyticsDashboard({ backendUrl }) {
                 </div>
                 <div>
                   <h3 style={{ fontSize: '1.25rem', fontWeight: 800, color: '#0F0F0F', margin: 0 }}>
-                    CDC BRFSS Training &amp; Holdout Evaluation Cohort (15,000 Records)
+                    CDC BRFSS Training &amp; Holdout Evaluation Cohort (45,000 Records)
                   </h3>
                   <p style={{ color: '#64748B', fontSize: '0.8rem', margin: 0 }}>
                     Live empirical dataset evaluated under zero data leakage (80% training / 20% holdout split)
@@ -1340,7 +1340,7 @@ export default function AnalyticsDashboard({ backendUrl }) {
                     transition: 'all 0.2s'
                   }}
                 >
-                  Diabetes Cohort (15,000 Rows)
+                  Diabetes Cohort (45,000 Rows)
                 </button>
                 <button
                   onClick={() => handleSwitchDatasetTab('cardiovascular')}
@@ -1357,7 +1357,7 @@ export default function AnalyticsDashboard({ backendUrl }) {
                     transition: 'all 0.2s'
                   }}
                 >
-                  Cardiovascular Cohort (15,000 Rows)
+                  Cardiovascular Cohort (45,000 Rows)
                 </button>
               </div>
 
@@ -1380,8 +1380,8 @@ export default function AnalyticsDashboard({ backendUrl }) {
                   }}
                 />
                 <a
-                  href={`${backendUrl}/analytics/data/${activeDatasetTab}?download=1`}
-                  download={`cdc_${activeDatasetTab}_training_dataset_15000.csv`}
+                  href={`/datasets/cdc_${activeDatasetTab === 'diabetes' ? 'diabetes' : 'cvd'}.csv`}
+                  download={`cdc_${activeDatasetTab}_training_dataset_45000.csv`}
                   style={{
                     display: 'inline-flex',
                     alignItems: 'center',
@@ -1397,7 +1397,7 @@ export default function AnalyticsDashboard({ backendUrl }) {
                   }}
                 >
                   <Download size={13} />
-                  Download Full CSV (15k ⤓)
+                  Download Full CSV (45k ⤓)
                 </a>
                 <a
                   href={`${backendUrl}/analytics/data/${activeDatasetTab}?view=html`}
@@ -1523,7 +1523,7 @@ export default function AnalyticsDashboard({ backendUrl }) {
               background: '#F8FAFC'
             }}>
               <div style={{ fontSize: '0.8rem', color: '#64748B' }}>
-                15,000 Verified CDC Records • Zero Data Leakage Split Protocol • TreeSHAP Ground Truth
+                45,000 Verified CDC Records • Zero Data Leakage Split Protocol • TreeSHAP Ground Truth
               </div>
               <div style={{ display: 'flex', gap: '0.75rem' }}>
                 <a

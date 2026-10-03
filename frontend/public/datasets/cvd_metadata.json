@@ -4,10 +4,10 @@
   "target": "HeartDiseaseorAttack",
   "task": "binary_classification",
   "total_survey_samples": 253680,
-  "sample_count": 15000,
+  "sample_count": 45000,
   "feature_count": 17,
-  "positive_samples": 5000,
-  "negative_samples": 10000,
+  "positive_samples": 15000,
+  "negative_samples": 30000,
   "source": "Centers for Disease Control and Prevention (CDC) - Behavioral Risk Factor Surveillance System (BRFSS)",
   "license": "Public Domain (U.S. Government)",
   "features": [
@@ -147,5 +147,7 @@
       "max": 13,
       "description": "13-level age category (1: 18-24, 2: 25-29, 3: 30-34, 4: 35-39, 5: 40-44, 6: 45-49, 7: 50-54, 8: 55-59, 9: 60-64, 10: 65-69, 11: 70-74, 12: 75-79, 13: 80+)"
     }
-  ]
+  ],
+  "training_samples": 36000,
+  "holdout_test_samples": 9000
 }

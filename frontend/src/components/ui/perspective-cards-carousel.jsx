@@ -12,9 +12,9 @@ export function PerspectiveCardsCarousel({
     {
       id: 'cardiovascular',
       tag: 'cvd_xgb_v1.0 (XGBoost)',
-      domain: 'CDC Cohort N=15,000',
+      domain: 'CDC Cohort N=45,000',
       title: 'Cardiovascular Risk',
-      subtitle: 'XGBClassifier • 3,000 Test Cohort (CDC BRFSS)',
+      subtitle: 'XGBClassifier • 9,000 Test Cohort (CDC BRFSS)',
       metric: 'ROC-AUC: 0.842 • RECALL: 79.6% • ACC: 77.4%',
       color: '#f43f5e',
       gradient: 'linear-gradient(145deg, #1e1124 0%, #4c0519 50%, #881337 100%)',
@@ -36,9 +36,9 @@ export function PerspectiveCardsCarousel({
     {
       id: 'diabetes',
       tag: 'diabetes_rf_v1.0 (Random Forest)',
-      domain: 'CDC Cohort N=15,000',
+      domain: 'CDC Cohort N=45,000',
       title: 'Type 2 Diabetes Screening',
-      subtitle: 'RandomForestClassifier • 3,000 Test Cohort (CDC BRFSS)',
+      subtitle: 'RandomForestClassifier • 9,000 Test Cohort (CDC BRFSS)',
       metric: 'ROC-AUC: 0.838 • RECALL: 79.2% • ACC: 76.8%',
       color: '#06b6d4',
       gradient: 'linear-gradient(145deg, #0c202d 0%, #0e3a47 50%, #0369a1 100%)',

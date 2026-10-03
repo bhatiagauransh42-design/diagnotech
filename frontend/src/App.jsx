@@ -965,7 +965,7 @@ export default function App() {
                     Epidemiological Surveillance & Model Benchmark Matrix
                   </h1>
                   <p style={{ fontSize: '0.92rem', opacity: 0.92, marginTop: '0.4rem', maxWidth: '680px', lineHeight: 1.5 }}>
-                    Authentic test cohort evaluations across 3,000 unseen CDC BRFSS respondents with ROC-AUC, confusion matrices, and research literature.
+                    Authentic test cohort evaluations across 9,000 unseen CDC BRFSS respondents (from 45,000 total verified patient records) with ROC-AUC, confusion matrices, and research literature.
                   </p>
                 </div>
 
