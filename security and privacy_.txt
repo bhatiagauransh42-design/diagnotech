@@ -1,0 +1,1326 @@
+Diagnotech — AI/ML Security, Privacy & Data Protection Specifications
+
+1. Security & Privacy Objective
+
+Diagnotech shall protect:
+
+- user health inputs
+- screening results
+- model explanations
+- authentication credentials
+- model artifacts
+- datasets
+- experiment results
+- administrative information
+
+The security architecture shall follow:
+
+«Collect Less → Protect More → Access Minimally → Retain Briefly → Audit Continuously»
+
+The design should also follow established security and trustworthy-AI principles. NIST's AI Risk Management Framework identifies security, resilience, privacy enhancement, accountability, transparency, explainability, and fairness among the characteristics of trustworthy AI.
+
+---
+
+2. Privacy-by-Design
+
+Privacy must be considered throughout the complete lifecycle:
+
+Data Collection
+      ↓
+Data Transmission
+      ↓
+Processing
+      ↓
+ML Inference
+      ↓
+Explanation
+      ↓
+Storage
+      ↓
+Retention
+      ↓
+Deletion
+
+Security controls should exist at every stage.
+
+---
+
+3. Data Minimization
+
+The application should collect only information necessary for its intended functionality.
+
+For screening, the model may require:
+
+Clinical / Health Features
+
+but generally does not require:
+
+Name
+Address
+Phone Number
+Government ID
+Unnecessary Demographic Information
+
+Therefore, the default screening workflow should be usable without collecting unnecessary personally identifying information.
+
+---
+
+4. Stateless Screening by Default
+
+For the SIH MVP, the recommended architecture is:
+
+User Input
+    ↓
+HTTPS
+    ↓
+FastAPI
+    ↓
+Prediction
+    ↓
+Explanation
+    ↓
+Response
+    ↓
+Discard Temporary Input
+
+The system should not permanently store raw health inputs unless the user-facing product genuinely requires screening history.
+
+This is one of the strongest privacy improvements we can make.
+
+---
+
+5. Optional Screening History
+
+If screening history is added, the system must explicitly define:
+
+- why the data is stored
+- what data is stored
+- how long it is retained
+- who can access it
+- how the user can request deletion where applicable
+
+The default should be the minimum amount of information required.
+
+---
+
+6. Consent and User Notice
+
+Before collecting personal information beyond what is necessary for the screening workflow, provide a clear privacy notice.
+
+The notice should explain:
+
+What data is collected
+        ↓
+Why it is collected
+        ↓
+How it is processed
+        ↓
+Whether it is stored
+        ↓
+Whether it is shared
+        ↓
+How long it is retained
+        ↓
+How users can exercise applicable rights
+
+India's Digital Personal Data Protection Rules, 2025 require the data-processing notice to be clear, standalone, understandable, and to describe the personal data being collected and the purpose of processing; the Rules were notified by MeitY on 14 November 2025 with a phased commencement schedule.
+
+For the actual project, the team should verify the applicable provisions and effective dates before production deployment rather than treating a hackathon prototype as automatically compliant.
+
+---
+
+7. Data Classification
+
+The system should classify information according to sensitivity.
+
+Level 1 — Public
+
+Examples:
+
+Public documentation
+Public model metrics
+Public dataset descriptions
+
+Level 2 — Internal
+
+Examples:
+
+Experiment metadata
+Non-public model configuration
+Internal logs
+
+Level 3 — Restricted
+
+Examples:
+
+User account information
+Screening records
+Health-related inputs
+Prediction history
+
+Level 4 — Highly Restricted
+
+Examples:
+
+Passwords
+Authentication secrets
+Database credentials
+API keys
+Signing keys
+Private encryption keys
+
+Access should increase in strictness as the classification level increases.
+
+---
+
+8. Encryption in Transit
+
+All production communication involving the platform shall use HTTPS/TLS.
+
+Browser
+   │
+   │ TLS
+   ▼
+Load Balancer / Platform
+   │
+   │ TLS
+   ▼
+FastAPI
+
+HTTP should redirect to HTTPS or be disabled in production.
+
+---
+
+9. Encryption at Rest
+
+Where health-related or personal information is stored, storage encryption should be enabled.
+
+Potentially protected resources:
+
+- PostgreSQL database
+- backups
+- object storage
+- screening records
+- exported reports
+- application secrets
+
+Managed cloud databases should use provider-supported encryption at rest.
+
+---
+
+10. Password Security
+
+If accounts are implemented:
+
+Never store plaintext passwords.
+
+Incorrect:
+
+password = "mypassword123"
+
+Instead:
+
+Password
+   ↓
+Strong password hash
+   ↓
+Database
+
+Use a modern password-hashing algorithm such as:
+
+- Argon2id
+- bcrypt where Argon2id is unavailable
+
+Passwords should never appear in:
+
+- logs
+- API responses
+- analytics
+- database exports
+
+---
+
+11. Authentication
+
+Protected resources should require authentication.
+
+Example:
+
+Public Screening
+      ↓
+No account required
+
+Admin / Research Dashboard
+      ↓
+Authentication required
+
+Where token-based authentication is used:
+
+Login
+  ↓
+Short-lived access token
+  +
+Secure refresh mechanism
+
+Tokens should have:
+
+- expiration
+- revocation strategy where appropriate
+- secure storage
+- minimum privileges
+
+---
+
+12. Authorization
+
+Authentication answers:
+
+«“Who are you?”»
+
+Authorization answers:
+
+«“What are you allowed to access?”»
+
+Diagnotech should implement role-based access control.
+
+USER
+ └── Screening
+
+SCREENER
+ ├── Screening
+ └── Limited analytics
+
+RESEARCHER
+ ├── Analytics
+ ├── Experiments
+ └── Model metrics
+
+ADMIN
+ ├── User management
+ ├── Model management
+ └── System administration
+
+The backend—not the frontend—must enforce authorization.
+
+---
+
+13. Object-Level Authorization
+
+Every resource containing an identifier must be checked against the requesting user's authorization.
+
+Example:
+
+GET /screenings/{screening_id}
+
+The server must verify:
+
+Is this user allowed to access this screening?
+
+before returning it.
+
+This directly addresses the type of object-level authorization issue highlighted by OWASP's API Security Top 10.
+
+---
+
+14. API Security
+
+The API must be designed against common API risks including:
+
+- broken authentication
+- broken object-level authorization
+- excessive data exposure
+- unrestricted resource consumption
+- broken function-level authorization
+- security misconfiguration
+- improper API inventory
+
+These are among the risks covered by the OWASP API Security Top 10.
+
+---
+
+15. Request Validation
+
+Every request must be validated on the backend.
+
+Validation should cover:
+
+Data Type
+Required Fields
+Allowed Categories
+Numerical Bounds
+String Length
+Array Size
+Object Structure
+
+Never trust frontend validation alone.
+
+Correct architecture:
+
+React Validation
+       ↓
+FastAPI Validation
+       ↓
+Domain Validation
+       ↓
+ML Pipeline
+
+---
+
+16. Input Sanitization
+
+User-controlled strings must be safely handled.
+
+The application should defend against:
+
+- SQL injection
+- command injection
+- XSS
+- malicious payloads
+- unexpected serialization input
+
+Use parameterized database queries/ORM mechanisms rather than constructing SQL from raw user input.
+
+---
+
+17. Rate Limiting
+
+Prediction APIs should have rate limits.
+
+Example:
+
+Client
+  ↓
+Rate Limiter
+  ↓
+FastAPI
+
+This protects against:
+
+- automated abuse
+- excessive API usage
+- denial-of-service style consumption
+- accidental request loops
+
+OWASP specifically identifies unrestricted resource consumption as an API security risk.
+
+---
+
+18. Request Size Limits
+
+Reject unnecessarily large requests.
+
+For example:
+
+Maximum JSON body size
+Maximum array length
+Maximum string length
+Maximum uploaded file size
+
+This prevents resource exhaustion.
+
+---
+
+19. CORS
+
+Production CORS configuration should allow only trusted frontend origins.
+
+Avoid:
+
+Access-Control-Allow-Origin: *
+
+for authenticated or sensitive application endpoints unless there is a specific justified requirement.
+
+Preferred:
+
+Allowed Origin:
+https://diagnotech.example
+
+---
+
+20. Security Headers
+
+Where appropriate, configure headers such as:
+
+Content-Security-Policy
+Strict-Transport-Security
+X-Content-Type-Options
+Referrer-Policy
+Frame-ancestors
+
+The exact policy should be tested against the frontend so that security controls do not unintentionally break legitimate functionality.
+
+---
+
+21. Secrets Management
+
+Never store secrets in:
+
+GitHub
+Frontend code
+Dockerfile
+Database
+JavaScript bundles
+Logs
+
+Use environment variables or a managed secrets system.
+
+Example:
+
+DATABASE_URL
+JWT_SECRET
+ENCRYPTION_KEY
+
+The ".env" file must be excluded from version control.
+
+---
+
+22. Model Security
+
+ML models themselves are security-sensitive artifacts.
+
+Protect:
+
+model.joblib
+preprocessor.joblib
+feature_schema.json
+model metadata
+
+Only trusted model artifacts should be loaded by the production server.
+
+---
+
+23. Safe Model Loading
+
+Model serialization formats can introduce security risks when loading untrusted artifacts.
+
+Therefore:
+
+External Model File
+        ↓
+Verification
+        ↓
+Trusted Artifact Store
+        ↓
+Production Loader
+
+Never allow arbitrary users to upload a serialized model and have the server execute/load it automatically.
+
+---
+
+24. Model Artifact Integrity
+
+Every production model should have:
+
+Model Version
+Artifact Hash
+Training Commit
+Dataset Version
+Metadata
+
+Example:
+
+{
+  "model": "diabetes_rf_v1",
+  "sha256": "...",
+  "dataset_version": "v1.0",
+  "git_commit": "abc123"
+}
+
+This helps detect accidental or malicious model replacement.
+
+---
+
+25. Model Registry Access Control
+
+Only authorized researchers/admins should be able to:
+
+- upload a model
+- activate a model
+- replace a model
+- archive a model
+- modify model metadata
+
+Production users should never have model-management permissions.
+
+---
+
+26. Dataset Security
+
+Training datasets should be stored separately from production user data.
+
+Recommended:
+
+Public / Research Dataset
+        ↓
+Research Storage
+
+User Screening Data
+        ↓
+Production Database
+
+Do not mix research datasets and live user records.
+
+---
+
+27. Training Data Integrity
+
+Before training:
+
+Dataset
+ ↓
+Checksum / Version
+ ↓
+Schema Validation
+ ↓
+Data Quality Checks
+ ↓
+Training
+
+Record:
+
+- dataset version
+- source
+- acquisition date
+- checksum if practical
+- preprocessing version
+
+---
+
+28. Training Data Leakage Security
+
+Avoid accidentally including protected or future information in model features.
+
+Check for:
+
+- identifiers
+- target leakage
+- post-outcome features
+- duplicate records across train/test
+- hidden labels
+
+This is both an ML integrity and privacy concern.
+
+---
+
+29. Health Data in Logs
+
+Never log complete health records.
+
+Bad:
+
+POST /predict
+age=52
+cholesterol=240
+blood_pressure=160
+...
+
+Better:
+
+request_id=scr_123
+disease=cardiovascular
+model=cvd_xgb_v1
+status=success
+latency=84ms
+
+Logs should contain the minimum metadata necessary for debugging and monitoring.
+
+---
+
+30. Log Redaction
+
+Sensitive fields should be automatically excluded or redacted.
+
+Potential sensitive fields:
+
+name
+email
+phone
+health_inputs
+screening_output
+authentication tokens
+cookies
+passwords
+
+Even error logging should avoid accidentally dumping full request bodies.
+
+---
+
+31. Database Security
+
+PostgreSQL should use:
+
+- strong credentials
+- encrypted connections
+- least-privilege DB users
+- restricted network access
+- regular backups
+- encrypted backups
+- appropriate connection limits
+
+The application should not connect as the PostgreSQL superuser.
+
+---
+
+32. Database Roles
+
+Example:
+
+app_reader
+app_writer
+migration_admin
+
+The production API should receive only the permissions it actually requires.
+
+---
+
+33. Backup Security
+
+Backups must be treated as sensitive copies of the underlying data.
+
+Therefore:
+
+Database
+   ↓
+Encrypted Backup
+   ↓
+Restricted Storage
+   ↓
+Controlled Restore
+
+Backups should not be publicly accessible.
+
+---
+
+34. Data Retention
+
+The system should define retention periods before storing user information.
+
+Example policy for MVP:
+
+Raw screening input:
+Transient where possible
+
+Prediction:
+Store only when history is required
+
+Technical logs:
+Limited retention
+
+Expired records:
+Secure deletion
+
+Do not retain health-related information indefinitely without a legitimate purpose.
+
+---
+
+35. Secure Deletion
+
+When information is no longer required, delete it from the relevant application storage.
+
+Also consider:
+
+- backups
+- caches
+- exported reports
+- temporary files
+
+The exact deletion procedure should account for the capabilities and retention behavior of the storage provider.
+
+---
+
+36. User Data Controls
+
+Where accounts and persistent personal data are implemented, the product should provide appropriate mechanisms for:
+
+View data
+Update data
+Delete data
+Withdraw applicable consent
+Raise privacy requests/complaints
+
+The exact rights and processes should be implemented according to the applicable legal framework and the product's role as a data fiduciary/processor.
+
+---
+
+37. Privacy-Preserving Analytics
+
+Analytics dashboards should preferably operate on aggregate information.
+
+Instead of showing:
+
+User A → health values
+User B → health values
+User C → health values
+
+show:
+
+Total screenings
+Aggregate prediction distribution
+Aggregate model metrics
+
+Avoid exposing individual user health information through researcher dashboards unless explicitly authorized.
+
+---
+
+38. Researcher Access
+
+Researchers should receive:
+
+Aggregated / anonymized information
+
+whenever individual-level information is not required.
+
+This follows the least-privilege principle.
+
+---
+
+39. Data Separation
+
+Maintain clear boundaries between:
+
+Production User Data
+       ≠
+Research Data
+       ≠
+Training Dataset
+       ≠
+Experiment Artifacts
+
+This prevents accidental use of user records in model training.
+
+---
+
+40. User Data Must Not Automatically Become Training Data
+
+A screening performed by a user must not automatically be added to the future training dataset.
+
+Correct:
+
+User Screening
+      ↓
+Prediction
+      ↓
+Result
+
+Separate:
+
+Approved Research Dataset
+      ↓
+Controlled Training Pipeline
+
+Any future reuse of user-provided data for model development must have an appropriately designed governance/consent basis.
+
+---
+
+41. AI Privacy Risk
+
+Machine-learning systems can potentially expose information through:
+
+- logs
+- model artifacts
+- training datasets
+- explanations
+- exported reports
+- experiment notebooks
+
+Therefore, privacy review must include the ML lifecycle, not only the database.
+
+---
+
+42. Explainability Privacy
+
+SHAP and similar explanations should not reveal unnecessary information about:
+
+- other users
+- training examples
+- private datasets
+- hidden identifiers
+
+Individual explanations should be generated from the current authorized request.
+
+---
+
+43. Membership / Data Leakage Considerations
+
+For future production-grade ML deployment, evaluate whether models or analytics could inadvertently reveal information about training records.
+
+Potential future controls include:
+
+- data minimization
+- stronger dataset governance
+- privacy-preserving training where justified
+- differential privacy for appropriate aggregate use cases
+- attack testing such as membership-inference assessment
+
+These are advanced measures and are not mandatory for the initial SIH prototype.
+
+---
+
+44. Adversarial / ML Security
+
+Future ML security testing should consider:
+
+Input manipulation
+Data poisoning
+Model tampering
+Model extraction
+Adversarial examples
+Inference abuse
+
+For the SIH MVP, the immediate priorities are:
+
+Input validation
+Model artifact protection
+Access control
+Rate limiting
+Secure deployment
+
+---
+
+45. AI Output Security
+
+The model response must be generated from trusted backend logic.
+
+Users should not be able to submit a request like:
+
+"risk_category": "low"
+
+and have the backend trust it.
+
+Instead:
+
+User Input
+ ↓
+Backend Prediction
+ ↓
+Backend-generated Probability
+ ↓
+Backend-generated Risk Category
+
+The frontend should be considered untrusted.
+
+---
+
+46. Model Version Security
+
+A user request should never be allowed to arbitrarily select:
+
+model=v999
+
+unless the model is explicitly available and authorized.
+
+The backend should determine which model is active.
+
+Request
+ ↓
+Disease
+ ↓
+Production Model Registry
+ ↓
+Authorized Active Model
+
+---
+
+47. Audit Logging
+
+For security-sensitive actions, maintain an audit trail.
+
+Examples:
+
+LOGIN_SUCCESS
+LOGIN_FAILURE
+MODEL_UPLOADED
+MODEL_ACTIVATED
+MODEL_ARCHIVED
+ADMIN_PERMISSION_CHANGED
+DATA_DELETED
+
+Audit records should contain technical metadata but should avoid unnecessary health information.
+
+---
+
+48. Incident Response
+
+Define a basic response process:
+
+Detection
+   ↓
+Containment
+   ↓
+Investigation
+   ↓
+Remediation
+   ↓
+Recovery
+   ↓
+Post-Incident Review
+
+For example, if a model artifact is unexpectedly changed:
+
+Detection
+ ↓
+Disable affected model
+ ↓
+Restore trusted version
+ ↓
+Verify artifact hash
+ ↓
+Review audit logs
+
+---
+
+49. Dependency Security
+
+The project should regularly inspect dependencies.
+
+Examples:
+
+FastAPI
+Pydantic
+React
+scikit-learn
+XGBoost
+SHAP
+Qiskit/PennyLane
+PostgreSQL drivers
+
+Keep dependencies pinned and reviewed.
+
+Use:
+
+requirements.txt
+package-lock.json / equivalent
+
+and automated vulnerability scanning where practical.
+
+---
+
+50. Container Security
+
+If Docker is used:
+
+- use trusted base images
+- minimize installed packages
+- don't run as root where practical
+- keep images updated
+- don't place secrets in images
+- scan images for vulnerabilities
+
+---
+
+51. Network Architecture
+
+Recommended production topology:
+
+                    INTERNET
+                       │
+                       ▼
+                HTTPS / TLS
+                       │
+                       ▼
+              ┌────────────────┐
+              │ Frontend/CDN   │
+              └───────┬────────┘
+                      │
+                      ▼
+              ┌────────────────┐
+              │ FastAPI        │
+              │ API            │
+              └───────┬────────┘
+                      │
+            ┌─────────┴─────────┐
+            ▼                   ▼
+      ML Artifacts          PostgreSQL
+      / Model Store          Private Network
+
+The database should not be publicly exposed.
+
+---
+
+52. Network Segmentation
+
+Where supported:
+
+Public Layer
+     ↓
+Application Layer
+     ↓
+Database Layer
+
+Only the application layer should communicate directly with the database.
+
+---
+
+53. Security Monitoring
+
+Monitor:
+
+- failed authentication attempts
+- abnormal API traffic
+- repeated prediction requests
+- model-loading failures
+- unauthorized access attempts
+- database errors
+- suspicious administrative activity
+
+---
+
+54. Privacy Threat Model
+
+Before deployment, identify:
+
+Assets
+
+Health Inputs
+Predictions
+Accounts
+Models
+Datasets
+Secrets
+
+Threats
+
+Unauthorized access
+Data leakage
+Credential theft
+API abuse
+Model tampering
+Database compromise
+Insider misuse
+
+Controls
+
+Encryption
+Authentication
+Authorization
+Validation
+Rate limiting
+Audit logs
+Data minimization
+Artifact integrity
+
+---
+
+55. Security Testing
+
+The project should test:
+
+API
+
+- authentication
+- authorization
+- malformed requests
+- rate limiting
+- object-level access
+
+Frontend
+
+- XSS protections
+- secure token handling
+- security headers
+
+Database
+
+- access controls
+- injection resistance
+- backup security
+
+ML
+
+- model artifact integrity
+- training-data separation
+- model/version consistency
+
+---
+
+56. OWASP Alignment
+
+The API should explicitly consider the OWASP API Security Top 10, including broken object-level authorization, broken authentication, excessive/broken property authorization, unrestricted resource consumption, function-level authorization, security misconfiguration, and improper API inventory management.
+
+---
+
+57. Responsible AI Security
+
+Security should be combined with responsible AI.
+
+The AI system should aim to be:
+
+Secure
++
+Private
++
+Reliable
++
+Explainable
++
+Fair
++
+Transparent
+
+This aligns with NIST's AI RMF approach to trustworthy and responsible AI.
+
+---
+
+58. Security Requirements for the SIH MVP
+
+The minimum implementation should include:
+
+Mandatory
+
+- [ ] HTTPS in production
+- [ ] Backend-side validation
+- [ ] CORS restrictions
+- [ ] Rate limiting
+- [ ] Authentication for admin/research functions
+- [ ] Role-based authorization
+- [ ] Object-level authorization
+- [ ] Secure password hashing
+- [ ] Environment-based secrets
+- [ ] No secrets in Git
+- [ ] No health data in normal logs
+- [ ] Database access restrictions
+- [ ] Model artifact protection
+- [ ] Model versioning
+- [ ] Model integrity/hash checking
+- [ ] Error-message sanitization
+- [ ] Dependency version locking
+- [ ] Basic audit logging
+- [ ] Privacy notice
+- [ ] Data minimization
+- [ ] Defined retention policy
+
+---
+
+59. Recommended MVP Privacy Architecture
+
+The strongest SIH approach is:
+
+                    USER
+                      │
+                      ▼
+              React Frontend
+                      │
+                   HTTPS
+                      │
+                      ▼
+              FastAPI Backend
+                      │
+              ┌───────┴───────┐
+              │               │
+              ▼               ▼
+        Temporary Data     Model Layer
+              │               │
+              ▼               ▼
+         Prediction       Explanation
+              │               │
+              └───────┬───────┘
+                      ▼
+                   Result
+                      │
+                      ▼
+                 USER SEES
+                      │
+                      ▼
+              Raw Input Discarded*
+
+"*" unless persistent screening history is an explicitly enabled, appropriately governed feature.
+
+---
+
+60. Security-Aware ML Architecture
+
+The complete system becomes:
+
+                          USER
+                            │
+                            ▼
+                   React Frontend
+                            │
+                       HTTPS/TLS
+                            │
+                            ▼
+                 API Gateway / FastAPI
+                            │
+              ┌─────────────┼─────────────┐
+              │             │             │
+              ▼             ▼             ▼
+        Authentication  Validation    Rate Limiting
+              │             │             │
+              └─────────────┼─────────────┘
+                            ▼
+                     Authorization
+                            │
+                            ▼
+                    Disease Service
+                      │           │
+                      ▼           ▼
+                 Diabetes        CVD
+                    ML             ML
+                  Pipeline       Pipeline
+                      │           │
+                      └─────┬─────┘
+                            ▼
+                     Trusted Model
+                      Artifact Store
+                            │
+                            ▼
+                       Prediction
+                            │
+                            ▼
+                    Explainability
+                       / SHAP
+                            │
+                            ▼
+                     Risk Analysis
+                            │
+                            ▼
+                      Audit Event
+                            │
+                            ▼
+                    Secure Response
+                            │
+                            ▼
+                       FRONTEND
+
+
+        ───────────── RESEARCH ENVIRONMENT ─────────────
+
+Datasets
+   │
+   ▼
+Data Validation
+   │
+   ▼
+Controlled Research Storage
+   │
+   ▼
+Experiments
+   │
+   ├───────────────┐
+   ▼               ▼
+Classical ML   Quantum ML
+   │               │
+   └───────┬───────┘
+           ▼
+      Evaluation
+           │
+           ▼
+     Model Registry
+           │
+           ▼
+   Integrity Verification
+           │
+           ▼
+    Production Model
+
+---
+
+61. Final Security Principle
+
+The system should follow:
+
+«Never trust the client, never expose unnecessary data, never give more access than required, and never let untrusted input control the model or database.»
+
+For Diagnotech specifically, the most important architectural choice is to make raw health-data storage optional rather than automatic. Combined with backend validation, strict authorization, encryption, protected model artifacts, auditability, and a clear privacy notice, this gives the SIH prototype a much stronger security/privacy story.
+
+India's current data-protection framework should be treated as a deployment requirement to validate against, not merely a presentation slide: MeitY lists the DPDP Rules 2025 as notified on 14 November 2025, with phased commencement provisions.

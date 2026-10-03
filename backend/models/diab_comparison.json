@@ -1,0 +1,83 @@
+{
+  "disease": "diabetes",
+  "test_cohort_size": 3000,
+  "training_cohort_size": 12000,
+  "evaluation_protocol": "Stratified 80/20 Holdout Test Cohort (Genuine Unseen Evaluation)",
+  "models": [
+    {
+      "accuracy": 0.733,
+      "precision": 0.5741,
+      "recall": 0.771,
+      "specificity": 0.714,
+      "f1": 0.6581,
+      "roc_auc": 0.8173,
+      "confusion_matrix": {
+        "true_positive": 771,
+        "true_negative": 1428,
+        "false_positive": 572,
+        "false_negative": 229
+      },
+      "name": "Logistic Regression"
+    },
+    {
+      "accuracy": 0.7363,
+      "precision": 0.6083,
+      "recall": 0.587,
+      "specificity": 0.811,
+      "f1": 0.5975,
+      "roc_auc": 0.789,
+      "confusion_matrix": {
+        "true_positive": 587,
+        "true_negative": 1622,
+        "false_positive": 378,
+        "false_negative": 413
+      },
+      "name": "Decision Tree"
+    },
+    {
+      "accuracy": 0.749,
+      "precision": 0.6557,
+      "recall": 0.52,
+      "specificity": 0.8635,
+      "f1": 0.58,
+      "roc_auc": 0.8108,
+      "confusion_matrix": {
+        "true_positive": 520,
+        "true_negative": 1727,
+        "false_positive": 273,
+        "false_negative": 480
+      },
+      "name": "Random Forest"
+    },
+    {
+      "accuracy": 0.742,
+      "precision": 0.6135,
+      "recall": 0.611,
+      "specificity": 0.8075,
+      "f1": 0.6122,
+      "roc_auc": 0.7993,
+      "confusion_matrix": {
+        "true_positive": 611,
+        "true_negative": 1615,
+        "false_positive": 385,
+        "false_negative": 389
+      },
+      "name": "Support Vector Machine"
+    },
+    {
+      "accuracy": 0.7033,
+      "precision": 0.767,
+      "recall": 0.158,
+      "specificity": 0.976,
+      "f1": 0.262,
+      "roc_auc": 0.8018,
+      "confusion_matrix": {
+        "true_positive": 158,
+        "true_negative": 1952,
+        "false_positive": 48,
+        "false_negative": 842
+      },
+      "name": "XGBoost"
+    }
+  ]
+}

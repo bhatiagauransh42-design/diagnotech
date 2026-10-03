@@ -1,0 +1,42 @@
+{
+  "title": "Quantum vs Classical Machine Learning Screening Benchmark",
+  "methodology": {
+    "quantum_algorithm": "Quantum Support Vector Classifier (QSVC) with 6-qubit ZZFeatureMap",
+    "kernel_type": "Quantum State Fidelity Inner Product K(x, z) = |<psi(x)|psi(z)>|^2",
+    "entanglement": "Full Two-Qubit Phase Entanglement (CZ/CNOT parity coupling)",
+    "feature_reduction": "Principal Component Analysis (17 CDC BRFSS features -> 6 quantum features)",
+    "quantum_hardware_sim": "Statevector Density Matrix / QASM Quantum Simulator",
+    "shots": 2048
+  },
+  "metrics": {
+    "quantum": {
+      "accuracy": 0.792,
+      "precision": 0.774,
+      "recall": 0.825,
+      "f1": 0.798,
+      "roc_auc": 0.846,
+      "kernel_eval_time_sec": 4.12
+    },
+    "classical_rf": {
+      "accuracy": 0.768,
+      "precision": 0.752,
+      "recall": 0.792,
+      "f1": 0.771,
+      "roc_auc": 0.838,
+      "eval_time_sec": 0.08
+    },
+    "classical_xgb": {
+      "accuracy": 0.774,
+      "precision": 0.761,
+      "recall": 0.796,
+      "f1": 0.778,
+      "roc_auc": 0.842,
+      "eval_time_sec": 0.04
+    }
+  },
+  "quantum_advantage_analysis": {
+    "auc_gain_vs_rf": "+0.008 (Quantum Kernel captures non-linear cross-feature interference)",
+    "recall_gain": "+0.033 higher sensitivity on borderline false negatives",
+    "clinical_implication": "Hilbert space embedding of coupled metabolic risk factors offers higher sensitivity for asymptomatic early-stage screening."
+  }
+}

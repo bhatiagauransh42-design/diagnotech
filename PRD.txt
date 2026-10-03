@@ -1,0 +1,1862 @@
+Product Requirements Document (PRD)
+
+Project: Diagnotech
+
+Product Name
+
+Diagnotech
+
+Product Tagline
+
+AI-Powered Early Disease Risk Detection, Explainability & Intelligent Health Analytics
+
+Version
+
+PRD v1.0
+
+Product Type
+
+AI/ML-powered web-based health-risk screening and decision-support platform.
+
+---
+
+1. Executive Summary
+
+Diagnotech is an AI-powered health screening platform designed to identify potential risk patterns associated with Diabetes and Cardiovascular Disease (CVD) from structured health and clinical data.
+
+The system combines:
+
+- classical machine learning
+- explainable AI
+- statistical analysis
+- visual health analytics
+- model benchmarking
+- optional quantum-kernel machine learning
+
+The platform is designed around the principle that an AI health system should not simply answer:
+
+«“Is the patient at risk?”»
+
+It should also answer:
+
+«“Why did the model reach this result?”»
+
+and:
+
+«“How reliable is the model?”»
+
+and:
+
+«“What limitations should be considered?”»
+
+Diagnotech therefore produces a complete screening analysis instead of a simple binary classification.
+
+The platform is intended as a screening and decision-support system, not as a replacement for professional medical diagnosis.
+
+---
+
+2. Problem Statement
+
+Diabetes and cardiovascular diseases are major health challenges where earlier identification of risk can support timely medical evaluation and intervention.
+
+However, many data-driven health systems have significant shortcomings:
+
+- They focus on only one disease.
+- They return only a binary prediction.
+- They provide little or no explanation.
+- They hide model performance from the user.
+- They may prioritize accuracy while ignoring recall, specificity, and false-negative cases.
+- Users may not understand what a probability or prediction actually means.
+- AI predictions are sometimes presented with more certainty than the underlying data supports.
+- Different population groups may experience different model performance.
+
+Diagnotech attempts to address these problems by creating a unified, transparent screening platform that combines prediction, explanation, analytics, and responsible AI practices.
+
+---
+
+3. Product Vision
+
+Vision
+
+«Create an accessible and explainable AI screening system that helps identify potential diabetes and cardiovascular disease risk while making the reasoning and limitations of the AI understandable to users.»
+
+The long-term vision is to develop the platform into a modular health-risk analytics framework capable of supporting additional diseases and datasets.
+
+---
+
+4. Product Mission
+
+Diagnotech's mission is to transform structured health data into:
+
+Risk Assessment → Explanation → Evidence → Actionable Understanding
+
+without presenting the model as a definitive medical authority.
+
+---
+
+5. Objectives
+
+5.1 Primary Objectives
+
+Objective 1 — Early Risk Screening
+
+Develop machine-learning models capable of identifying patterns associated with diabetes and cardiovascular disease outcomes.
+
+Objective 2 — Explainability
+
+Provide feature-level explanations for individual predictions.
+
+Objective 3 — Transparency
+
+Display meaningful model-performance metrics rather than hiding them behind a single accuracy score.
+
+Objective 4 — Multi-Disease Architecture
+
+Build a modular platform that can support multiple disease-specific models.
+
+Objective 5 — Comparative AI Research
+
+Compare multiple classical ML models and, where feasible, a quantum-kernel hybrid model.
+
+Objective 6 — User-Friendly Visualization
+
+Convert technical model output into intuitive charts and understandable summaries.
+
+Objective 7 — Responsible AI
+
+Clearly communicate uncertainty, limitations, dataset constraints, and the need for professional medical evaluation.
+
+---
+
+6. Target Users
+
+6.1 General Users
+
+People who want a preliminary risk assessment using available health information.
+
+They should be able to:
+
+- select a disease
+- provide required information
+- receive a screening result
+- understand major contributing factors
+- view model reliability information
+
+---
+
+6.2 Healthcare Screening Staff
+
+Healthcare or community-screening personnel may use the platform as a preliminary analytical tool.
+
+Potential workflow:
+
+Patient Data
+     ↓
+Screening
+     ↓
+AI Risk Assessment
+     ↓
+Explanation
+     ↓
+Professional Evaluation
+
+The AI does not independently diagnose or prescribe treatment.
+
+---
+
+6.3 Researchers
+
+Researchers can use the platform to:
+
+- compare ML algorithms
+- inspect model metrics
+- study feature importance
+- benchmark classical and quantum-kernel approaches
+- analyze limitations and bias
+
+---
+
+6.4 SIH Judges / Demonstrators
+
+The platform should make the entire solution understandable within a short demonstration.
+
+A judge should be able to see:
+
+Problem
+ ↓
+Data
+ ↓
+AI Model
+ ↓
+Prediction
+ ↓
+Explanation
+ ↓
+Performance
+ ↓
+Impact
+
+---
+
+7. Product Scope
+
+Diagnotech consists of two major disease modules.
+
+Module A — Diabetes Risk Screening
+
+Primary disease module.
+
+The model analyzes structured health parameters to estimate diabetes-related risk.
+
+---
+
+Module B — Cardiovascular Disease Risk Screening
+
+Secondary disease module.
+
+The model analyzes clinical/cardiovascular parameters to estimate CVD-related risk.
+
+---
+
+8. Core User Experience
+
+The core experience should be:
+
+Landing Page
+      ↓
+Select Disease
+      ↓
+Enter Patient/Health Data
+      ↓
+Input Validation
+      ↓
+AI Analysis
+      ↓
+Risk Prediction
+      ↓
+Explainable AI Analysis
+      ↓
+Model Performance
+      ↓
+Risk Interpretation
+      ↓
+Medical Disclaimer / Recommended Professional Follow-up
+
+---
+
+9. Core Product Philosophy
+
+Diagnotech should follow three principles.
+
+9.1 Prediction
+
+The system should provide a model-generated risk estimate.
+
+9.2 Explanation
+
+The system should identify the major input features associated with the prediction.
+
+9.3 Transparency
+
+The system should show:
+
+- how the model was evaluated
+- what metrics were achieved
+- what data was used
+- where the model may fail
+- why the result should not be treated as a definitive diagnosis
+
+---
+
+10. Functional Requirements
+
+FR-01 — Landing Page
+
+The landing page shall explain:
+
+- what Diagnotech is
+- supported diseases
+- how AI is used
+- major benefits
+- limitations
+- disclaimer
+
+Primary action:
+
+Start Screening
+
+Secondary action:
+
+How It Works
+
+---
+
+11. Disease Selection
+
+The user shall be presented with two primary options.
+
+Diabetes
+
+Description:
+
+«Estimate diabetes-related risk using selected health and clinical parameters.»
+
+Cardiovascular Disease
+
+Description:
+
+«Estimate cardiovascular disease-related risk using selected clinical and physiological parameters.»
+
+Each disease opens a separate input workflow.
+
+---
+
+12. Diabetes Module
+
+12.1 Input Layer
+
+The input fields shall depend on the final selected dataset and model.
+
+Potential features may include:
+
+- age
+- pregnancies
+- glucose
+- blood pressure
+- skin thickness
+- insulin
+- BMI
+- diabetes pedigree/function score
+
+The system must use exactly the feature structure expected by the trained model.
+
+---
+
+12.2 Diabetes Input Form Requirements
+
+Each input should display:
+
+- field name
+- description where necessary
+- unit where applicable
+- valid input type
+- validation state
+
+Example:
+
+Glucose
+[ 125 ]
+
+mg/dL
+
+✓ Valid
+
+---
+
+13. Cardiovascular Disease Module
+
+13.1 Input Layer
+
+The CVD module shall use features appropriate to the final selected cardiovascular dataset.
+
+Possible features include:
+
+- age
+- sex
+- chest-pain category
+- resting blood pressure
+- cholesterol
+- fasting blood sugar
+- resting ECG
+- maximum heart rate
+- exercise-induced angina
+- ST depression
+- ST slope
+- other dataset-specific clinical variables
+
+The final feature set must be determined by the dataset selected during the ML development phase.
+
+---
+
+14. Input Validation
+
+Every input must pass validation before prediction.
+
+The system shall validate:
+
+- missing fields
+- numeric format
+- categorical values
+- acceptable ranges
+- type mismatches
+- malformed requests
+
+Invalid fields should be highlighted immediately.
+
+Example:
+
+Age
+[ abc ]
+
+✕ Please enter a valid numerical value.
+
+---
+
+15. Data Processing Pipeline
+
+The machine-learning pipeline shall follow:
+
+Raw Data
+   ↓
+Data Cleaning
+   ↓
+Missing Value Handling
+   ↓
+Outlier Analysis
+   ↓
+Encoding
+   ↓
+Feature Scaling
+   ↓
+Feature Selection
+   ↓
+Train / Validation / Test Split
+   ↓
+Model Training
+   ↓
+Hyperparameter Optimization
+   ↓
+Evaluation
+   ↓
+Model Selection
+   ↓
+Deployment
+
+---
+
+16. Data Quality Requirements
+
+Before model training, the development team shall inspect:
+
+- missing values
+- duplicate rows
+- class imbalance
+- outliers
+- inconsistent values
+- feature distributions
+- target distribution
+- feature correlation
+
+The data-processing pipeline must be reproducible.
+
+---
+
+17. Train/Test Leakage Prevention
+
+Preventing data leakage is a mandatory requirement.
+
+Operations such as:
+
+- imputation
+- normalization/scaling
+- feature selection
+
+must be fitted using training data only during evaluation.
+
+Recommended structure:
+
+Training Data
+     ↓
+Fit Preprocessor
+     ↓
+Train Model
+
+Test Data
+     ↓
+Transform using fitted preprocessor
+     ↓
+Predict
+
+The test set must not influence model training or preprocessing decisions.
+
+---
+
+18. Machine Learning Strategy
+
+Diagnotech should not depend on a single algorithm.
+
+Multiple models should be trained and compared.
+
+Potential candidates include:
+
+Logistic Regression
+
+Useful as an interpretable baseline.
+
+Decision Tree
+
+Useful for understanding simple decision structures.
+
+Random Forest
+
+Useful for nonlinear relationships and feature importance.
+
+Support Vector Machine
+
+Useful for classification in structured feature spaces.
+
+Gradient Boosting / XGBoost
+
+Useful for high-performing tabular-data classification.
+
+The final model should be chosen based on overall evaluation and project requirements, not simply the highest accuracy.
+
+---
+
+19. Model Selection Criteria
+
+The selected model should consider:
+
+- recall/sensitivity
+- specificity
+- precision
+- F1 score
+- ROC-AUC
+- calibration where appropriate
+- interpretability
+- stability
+- inference speed
+- reproducibility
+
+For a health-screening application, the model should not optimize only accuracy.
+
+---
+
+20. Quantum Machine Learning Component
+
+The project may include a quantum-hybrid component as an innovation and benchmarking layer.
+
+The preferred architecture is:
+
+Clinical Data
+      ↓
+Preprocessing
+      ↓
+Feature Selection
+      ↓
+Dimensionality Reduction
+      ↓
+4–8 Selected Features
+      ↓
+Quantum Feature Map
+      ↓
+Quantum Kernel
+      ↓
+Kernel Matrix
+      ↓
+Classical SVM
+      ↓
+Prediction
+
+This is a:
+
+Quantum Kernel + Classical SVM
+
+approach.
+
+---
+
+21. Quantum Model Objective
+
+The quantum model should be treated as a benchmarking/research component.
+
+The product must not claim:
+
+«“Quantum AI is automatically better than classical AI.”»
+
+Instead, the project should experimentally determine whether the quantum-kernel approach provides useful performance or other advantages under the tested conditions.
+
+---
+
+22. Model Benchmarking
+
+Each disease should have a model-comparison framework.
+
+Example:
+
+Model| Accuracy| Precision| Recall| Specificity| F1| ROC-AUC
+Logistic Regression| —| —| —| —| —| —
+Decision Tree| —| —| —| —| —| —
+Random Forest| —| —| —| —| —| —
+SVM| —| —| —| —| —| —
+Gradient Boosting| —| —| —| —| —| —
+Quantum Kernel SVM| —| —| —| —| —| —
+
+The values must always be generated from actual experiments.
+
+---
+
+23. Model Evaluation Metrics
+
+Accuracy
+
+Measures the proportion of correct classifications.
+
+---
+
+Precision
+
+Measures how many predicted positive cases were actually positive.
+
+---
+
+Recall / Sensitivity
+
+Measures how many actual positive cases were identified.
+
+Recall is particularly important in screening applications because false negatives can be significant.
+
+---
+
+Specificity
+
+Measures how well the model identifies negative cases.
+
+---
+
+F1 Score
+
+Balances precision and recall.
+
+---
+
+ROC-AUC
+
+Measures discrimination performance across classification thresholds.
+
+---
+
+Confusion Matrix
+
+The system shall visualize:
+
+                 Actual
+              Positive  Negative
+
+Predicted +
+Predicted -
+
+The dashboard should clearly distinguish:
+
+- true positives
+- true negatives
+- false positives
+- false negatives
+
+---
+
+24. Explainable AI
+
+Explainability is one of the main differentiating features of Diagnotech.
+
+The platform should attempt to answer:
+
+«“Which features influenced this model's prediction the most?”»
+
+Potential methods:
+
+- SHAP
+- LIME
+- permutation importance
+- native feature importance
+
+SHAP should be considered for the primary local/global explanation layer where technically suitable.
+
+---
+
+25. Individual Prediction Explanation
+
+Every result page should contain:
+
+Prediction
+
+Estimated Risk
+72%
+
+Classification
+
+Higher Predicted Risk
+
+Main Contributing Features
+
+Glucose          ███████████
+BMI              ████████
+Age              █████
+Blood Pressure   ████
+
+The explanation must describe model contribution, not prove medical causation.
+
+Correct wording:
+
+«“Glucose contributed strongly to this model prediction.”»
+
+Incorrect wording:
+
+«“Glucose caused your disease.”»
+
+---
+
+26. Global Model Explainability
+
+The analytics dashboard may also display:
+
+- overall feature importance
+- SHAP summary plots
+- feature distributions
+- correlations
+- class distributions
+
+This allows the development team and judges to inspect how the model behaves at dataset level.
+
+---
+
+27. Risk Output
+
+The prediction screen should contain:
+
+Risk Probability
+
+A numerical probability/score produced by the model.
+
+Example:
+
+72%
+
+Risk Category
+
+Possible presentation categories:
+
+Lower Predicted Risk
+Moderate Predicted Risk
+Higher Predicted Risk
+
+Thresholds must be determined using the project's validated methodology rather than selected merely for visual effect.
+
+---
+
+28. Prediction Result Screen
+
+Recommended structure:
+
+---------------------------------------
+        SCREENING RESULT
+---------------------------------------
+
+Disease:
+Diabetes
+
+Estimated Model Probability:
+72%
+
+Risk Category:
+Higher Predicted Risk
+
+---------------------------------------
+
+What influenced this result?
+
+Glucose       ███████████
+BMI           ████████
+Age           █████
+
+---------------------------------------
+
+Model:
+Random Forest
+
+ROC-AUC:
+XX
+
+[ View Detailed Analysis ]
+---------------------------------------
+
+---
+
+29. Detailed Analysis Page
+
+The detailed result page should contain:
+
+Section A — Prediction Summary
+
+- disease
+- prediction
+- probability
+- risk category
+
+Section B — Input Summary
+
+Display all submitted values.
+
+Section C — Explainability
+
+Display top contributing features.
+
+Section D — Model Information
+
+Display:
+
+- model type
+- model version
+- dataset
+- preprocessing pipeline
+- feature count
+
+Section E — Model Performance
+
+Display:
+
+- accuracy
+- precision
+- recall
+- specificity
+- F1
+- ROC-AUC
+
+Section F — Visual Analytics
+
+Display:
+
+- confusion matrix
+- ROC curve
+- feature importance
+- precision-recall curve where appropriate
+- model comparison
+
+---
+
+30. Health Analytics Dashboard
+
+A dedicated analytics section should provide a technical overview of the entire system.
+
+Dataset Overview
+
+- total samples
+- number of features
+- class distribution
+- missing values
+- selected features
+
+Model Overview
+
+- model names
+- evaluation metrics
+- best-performing model
+- model version
+
+Comparison
+
+Classical ML vs quantum-kernel model.
+
+---
+
+31. Recommendation / Next-Step Layer
+
+The platform should provide a safe interpretation message.
+
+Example:
+
+«“This screening result indicates a higher predicted risk based on the information provided. This result is not a medical diagnosis. Consider discussing the result and appropriate evaluation with a qualified healthcare professional.”»
+
+The system should not prescribe medicine or treatment.
+
+---
+
+32. Medical Disclaimer
+
+The disclaimer should be visible on:
+
+- landing page
+- data-entry page where appropriate
+- result page
+- generated reports
+
+Suggested text:
+
+«Diagnotech is an AI-assisted screening and educational decision-support system. Its predictions are not medical diagnoses and should not replace evaluation by a qualified healthcare professional.»
+
+---
+
+33. Frontend Requirements
+
+Recommended Technology
+
+React + Tailwind CSS
+
+The interface should be:
+
+- responsive
+- accessible
+- modern
+- clean
+- easy to understand
+- suitable for mobile and desktop demonstrations
+
+---
+
+34. Backend Requirements
+
+Recommended Technology
+
+FastAPI + Python
+
+The backend shall provide:
+
+- validation
+- preprocessing
+- model inference
+- explanation generation
+- analytics
+- health-check functionality
+
+---
+
+35. API Architecture
+
+Example API design:
+
+GET  /api/v1/health
+
+POST /api/v1/predict/diabetes
+
+POST /api/v1/predict/cardiovascular
+
+GET  /api/v1/model-info/diabetes
+
+GET  /api/v1/model-info/cardiovascular
+
+GET  /api/v1/model-performance/diabetes
+
+GET  /api/v1/model-performance/cardiovascular
+
+GET  /api/v1/explanation/{prediction_id}
+
+The exact API design may change during implementation.
+
+---
+
+36. Prediction API Response
+
+Example:
+
+{
+  "disease": "diabetes",
+  "prediction": 1,
+  "risk_probability": 0.72,
+  "risk_category": "higher",
+  "model": "random_forest",
+  "model_version": "diabetes_rf_v1",
+  "top_features": [
+    {
+      "feature": "glucose",
+      "contribution": 0.34
+    },
+    {
+      "feature": "bmi",
+      "contribution": 0.21
+    }
+  ],
+  "disclaimer": "This result is not a medical diagnosis."
+}
+
+---
+
+37. Error Handling
+
+The backend must handle:
+
+- invalid input
+- missing values
+- incorrect field types
+- unavailable models
+- preprocessing errors
+- server errors
+
+Example:
+
+{
+  "error": "invalid_input",
+  "message": "Age must be a numeric value."
+}
+
+Internal stack traces must never be exposed to the user.
+
+---
+
+38. Frontend Pages
+
+Page 1 — Landing Page
+
+Contains:
+
+- Diagnotech branding
+- problem statement
+- supported disease modules
+- AI explanation
+- CTA
+
+---
+
+Page 2 — Disease Selection
+
+Choose Screening
+
+[ Diabetes ]
+
+[ Cardiovascular Disease ]
+
+---
+
+Page 3 — Disease Input
+
+Dynamic disease-specific form.
+
+---
+
+Page 4 — Analysis Loading
+
+Show:
+
+Validating Data...
+Processing Features...
+Running AI Model...
+Generating Explanation...
+
+Avoid misleading users into thinking the system is performing a clinical test.
+
+---
+
+Page 5 — Result
+
+Show:
+
+- probability
+- category
+- main features
+- model information
+- disclaimer
+
+---
+
+Page 6 — Detailed Analysis
+
+Show the complete analytical breakdown.
+
+---
+
+Page 7 — Model Analytics
+
+Show:
+
+- model comparison
+- ROC curves
+- confusion matrices
+- performance metrics
+- explainability
+
+---
+
+39. Suggested UI Structure
+
+┌─────────────────────────────────────────────┐
+│                  DIAGNOTECH                 │
+│ AI-Powered Early Disease Risk Screening     │
+├─────────────────────────────────────────────┤
+│                                             │
+│       SELECT SCREENING MODULE              │
+│                                             │
+│   ┌────────────┐      ┌───────────────┐    │
+│   │  Diabetes  │      │ Cardiovascular │    │
+│   │            │      │   Disease     │    │
+│   └────────────┘      └───────────────┘    │
+│                                             │
+└─────────────────────────────────────────────┘
+
+---
+
+40. Privacy Requirements
+
+The platform should follow privacy-by-design principles.
+
+The system should:
+
+- minimize collection of personal information
+- avoid collecting unnecessary identifiers
+- encrypt data in transit
+- secure APIs
+- restrict administrative access
+- avoid logging sensitive health information unnecessarily
+- secure model files
+- prevent unauthorized prediction access where authentication is implemented
+
+For an SIH prototype, demonstration data should preferably be controlled, synthetic, or appropriately anonymized rather than unnecessary real patient information.
+
+---
+
+41. Fairness & Bias Analysis
+
+The project should evaluate whether model performance varies across relevant population subgroups when sufficient demographic information exists.
+
+Possible measures include:
+
+- recall by subgroup
+- specificity by subgroup
+- false-negative rate
+- precision by subgroup
+- calibration
+- overall accuracy
+
+The platform should explicitly document dataset limitations.
+
+---
+
+42. Dataset Generalization
+
+A model that performs well on a benchmark dataset does not automatically perform equally well in real-world populations.
+
+Therefore, the project must distinguish between:
+
+Demonstrated Performance
+
+Performance on the selected evaluation dataset.
+
+and:
+
+Real-World Clinical Performance
+
+Performance that would require external validation using appropriate independent clinical data.
+
+The system must not claim clinical deployment readiness without appropriate validation.
+
+---
+
+43. Security Requirements
+
+The backend should include:
+
+- request validation
+- secure API configuration
+- authentication for administrative endpoints where required
+- rate limiting where appropriate
+- protected model files
+- secure environment-variable management
+- no hard-coded secrets
+
+---
+
+44. Model Versioning
+
+Every deployed model should have a version.
+
+Example:
+
+Diabetes:
+diabetes_rf_v1.0
+
+Cardiovascular:
+cvd_xgb_v1.0
+
+Prediction responses should contain the model version used.
+
+This ensures reproducibility.
+
+---
+
+45. Model Reproducibility
+
+The ML pipeline should record:
+
+- dataset version
+- preprocessing steps
+- feature list
+- random seed where applicable
+- model algorithm
+- hyperparameters
+- evaluation split
+- metrics
+- model version
+
+This should be documented in the repository.
+
+---
+
+46. Testing Strategy
+
+Unit Tests
+
+Test:
+
+- input validation
+- preprocessing
+- feature transformation
+- risk categorization
+- API response structures
+
+---
+
+ML Tests
+
+Test:
+
+- leakage
+- preprocessing consistency
+- class imbalance
+- model stability
+- expected feature order
+- inference consistency
+
+---
+
+Integration Tests
+
+Verify:
+
+Frontend
+   ↓
+FastAPI
+   ↓
+Preprocessor
+   ↓
+Model
+   ↓
+Explainability
+   ↓
+Response
+   ↓
+Frontend
+
+---
+
+UI Tests
+
+Verify:
+
+- responsive design
+- invalid forms
+- loading states
+- API failures
+- result rendering
+- charts
+- accessibility
+
+---
+
+47. Performance Requirements
+
+The system should provide interactive prediction performance suitable for a web application.
+
+The prediction endpoint should:
+
+- load the trained model efficiently
+- avoid retraining during inference
+- reuse preprocessing pipelines
+- return results within an acceptable interactive response time under normal prototype usage
+
+---
+
+48. Scalability
+
+The architecture should permit future addition of diseases without redesigning the entire platform.
+
+Preferred model:
+
+Disease Registry
+      ↓
+Disease-specific Pipeline
+      ↓
+Disease-specific Model
+      ↓
+Common Prediction API
+      ↓
+Common Explanation Layer
+
+Future diseases could be added as independent modules.
+
+---
+
+49. Future Extensions
+
+Potential future modules include:
+
+- hypertension
+- chronic kidney disease
+- liver disease
+- stroke risk
+- other structured-data health screening tasks
+
+These should not be part of the core SIH MVP unless implementation time permits.
+
+---
+
+50. Optional Report Generation
+
+A future feature may generate a screening report containing:
+
+Patient Input Summary
+        ↓
+Prediction
+        ↓
+Risk Probability
+        ↓
+Feature Explanation
+        ↓
+Model Performance
+        ↓
+Disclaimer
+
+The report should clearly state that it is a screening output, not a medical diagnosis.
+
+---
+
+51. Screening History
+
+A future version may allow users to view previous screening results.
+
+Example:
+
+Screening History
+
+Date         Disease             Result
+-------------------------------------------
+07 Sep       Diabetes            72%
+06 Sep       Cardiovascular      31%
+
+Any implementation involving persistent health information must apply appropriate privacy and security controls.
+
+---
+
+52. High-Level System Architecture
+
+                         USER
+                           │
+                           ▼
+                  ┌─────────────────┐
+                  │ React Frontend  │
+                  │  + Tailwind     │
+                  └────────┬────────┘
+                           │
+                           ▼
+                  ┌─────────────────┐
+                  │    FastAPI      │
+                  │    Backend      │
+                  └────────┬────────┘
+                           │
+             ┌─────────────┴─────────────┐
+             │                           │
+             ▼                           ▼
+      ┌───────────────┐          ┌────────────────┐
+      │   Diabetes    │          │ Cardiovascular │
+      │ ML Pipeline   │          │  ML Pipeline   │
+      └───────┬───────┘          └───────┬────────┘
+              │                          │
+              └─────────────┬────────────┘
+                            ▼
+                  ┌──────────────────┐
+                  │ Explainability   │
+                  │ SHAP / Other    │
+                  └────────┬─────────┘
+                           │
+                           ▼
+                  ┌──────────────────┐
+                  │ Analytics Engine │
+                  └────────┬─────────┘
+                           │
+                           ▼
+                  ┌──────────────────┐
+                  │ Result Dashboard │
+                  │ + Visualizations │
+                  └──────────────────┘
+
+---
+
+53. ML Research Architecture
+
+                 DATASET
+                    │
+                    ▼
+            DATA PREPROCESSING
+                    │
+                    ▼
+             FEATURE ANALYSIS
+                    │
+          ┌─────────┴─────────┐
+          │                   │
+          ▼                   ▼
+    CLASSICAL ML       DIMENSION REDUCTION
+          │                   │
+          │                   ▼
+          │            QUANTUM FEATURE MAP
+          │                   │
+          │                   ▼
+          │             QUANTUM KERNEL
+          │                   │
+          │                   ▼
+          │             CLASSICAL SVM
+          │                   │
+          └─────────┬─────────┘
+                    ▼
+              MODEL EVALUATION
+                    │
+                    ▼
+           EXPLAINABLE AI
+                    │
+                    ▼
+             DEPLOYMENT
+
+---
+
+54. Data-to-Decision Architecture
+
+The central product pipeline is:
+
+Clinical / Health Data
+          ↓
+       Cleaning
+          ↓
+   Feature Processing
+          ↓
+    Machine Learning
+          ↓
+     Risk Estimate
+          ↓
+  Explainable AI Layer
+          ↓
+  Statistical Evaluation
+          ↓
+       Visual UI
+          ↓
+    Human Interpretation
+          ↓
+Professional Medical Evaluation
+
+---
+
+55. Responsible AI Requirements
+
+The system must avoid:
+
+- false certainty
+- unsupported causal claims
+- fabricated performance numbers
+- fabricated medical recommendations
+- claims of guaranteed diagnosis
+- claims of universal clinical validity
+
+The interface should use phrases such as:
+
+- “predicted risk”
+- “model estimate”
+- “screening result”
+- “based on the provided information”
+- “requires professional evaluation”
+
+---
+
+56. MVP Definition
+
+The SIH MVP should contain:
+
+User Interface
+
+✅ Landing page
+✅ Disease selection
+✅ Diabetes input form
+✅ Cardiovascular input form
+✅ Results dashboard
+✅ Detailed analytics page
+
+Machine Learning
+
+✅ Diabetes ML model
+✅ Cardiovascular ML model
+✅ Multiple baseline models
+✅ Model comparison
+✅ Evaluation metrics
+✅ Explainable AI
+
+Backend
+
+✅ FastAPI
+✅ Prediction APIs
+✅ Input validation
+✅ Model loading
+✅ Explanation generation
+
+Analytics
+
+✅ Risk probability
+✅ Risk classification
+✅ Feature contribution graph
+✅ Confusion matrix
+✅ ROC-AUC
+✅ Precision
+✅ Recall
+✅ Specificity
+✅ F1
+✅ ROC curve
+✅ Model comparison
+
+Innovation
+
+✅ Quantum Kernel + Classical SVM benchmark
+
+Responsible AI
+
+✅ Medical disclaimer
+✅ Dataset limitations
+✅ Model limitations
+
+---
+
+57. Out-of-Scope for SIH MVP
+
+The team should avoid spending excessive development time on:
+
+- real hospital integration
+- electronic health record integration
+- prescription generation
+- autonomous medical decisions
+- complex patient-management systems
+- large-scale production infrastructure
+- multiple additional diseases
+- unnecessary social features
+
+The primary objective is to deliver a strong, demonstrable end-to-end AI screening system.
+
+---
+
+58. Development Roadmap
+
+Phase 1 — Problem & Dataset Research
+
+Tasks:
+
+- finalize datasets
+- inspect features
+- understand labels
+- determine preprocessing
+- analyze class distribution
+
+---
+
+Phase 2 — Baseline ML
+
+Tasks:
+
+- build preprocessing pipeline
+- train Logistic Regression
+- train Decision Tree
+- train Random Forest
+- train SVM
+- train Gradient Boosting/XGBoost where suitable
+
+---
+
+Phase 3 — Model Optimization
+
+Tasks:
+
+- cross-validation
+- hyperparameter tuning
+- threshold analysis
+- metric comparison
+- final model selection
+
+---
+
+Phase 4 — Explainability
+
+Tasks:
+
+- implement feature importance
+- implement SHAP/LIME where appropriate
+- create local explanations
+- create global explanations
+
+---
+
+Phase 5 — Quantum Benchmark
+
+Tasks:
+
+- dimensionality reduction
+- quantum feature map
+- quantum kernel
+- classical SVM
+- benchmark against classical models
+
+---
+
+Phase 6 — Backend
+
+Tasks:
+
+- FastAPI project
+- schemas
+- prediction endpoints
+- model loading
+- explanation service
+- analytics endpoints
+
+---
+
+Phase 7 — Frontend
+
+Tasks:
+
+- landing page
+- disease selection
+- input forms
+- prediction page
+- explanation page
+- analytics dashboard
+
+---
+
+Phase 8 — Integration
+
+Frontend
+    ↕
+Backend
+    ↕
+ML Models
+    ↕
+Explainability
+    ↕
+Analytics
+
+---
+
+Phase 9 — Testing
+
+Perform:
+
+- unit testing
+- ML validation
+- API testing
+- UI testing
+- edge-case testing
+
+---
+
+Phase 10 — SIH Demonstration
+
+The final demonstration should follow:
+
+Select Disease
+      ↓
+Enter Data
+      ↓
+Run Screening
+      ↓
+Prediction
+      ↓
+Risk Probability
+      ↓
+Why?
+      ↓
+Feature Explanation
+      ↓
+Model Performance
+      ↓
+Classical vs Quantum Benchmark
+      ↓
+Limitations + Impact
+
+---
+
+59. Recommended Repository Structure
+
+diagnotech/
+│
+├── frontend/
+│   ├── src/
+│   │   ├── components/
+│   │   ├── pages/
+│   │   ├── charts/
+│   │   ├── services/
+│   │   └── utils/
+│
+├── backend/
+│   ├── app/
+│   │   ├── main.py
+│   │   ├── routes/
+│   │   ├── schemas/
+│   │   ├── services/
+│   │   └── utils/
+│
+├── ml/
+│   ├── diabetes/
+│   │   ├── data/
+│   │   ├── preprocessing/
+│   │   ├── training/
+│   │   ├── evaluation/
+│   │   ├── explainability/
+│   │   └── models/
+│   │
+│   ├── cardiovascular/
+│   │   ├── data/
+│   │   ├── preprocessing/
+│   │   ├── training/
+│   │   ├── evaluation/
+│   │   ├── explainability/
+│   │   └── models/
+│   │
+│   └── quantum/
+│       ├── feature_map/
+│       ├── kernels/
+│       ├── experiments/
+│       └── evaluation/
+│
+├── datasets/
+├── tests/
+├── reports/
+├── docs/
+└── README.md
+
+---
+
+60. Success Criteria
+
+Product Success
+
+A user should be able to:
+
+1. select Diabetes or Cardiovascular Disease
+2. enter the required information
+3. receive a model prediction
+4. view a probability/risk estimate
+5. understand the main contributing features
+6. inspect model performance
+7. understand the limitations of the prediction
+
+---
+
+ML Success
+
+The project should demonstrate:
+
+- properly separated training/testing data
+- reproducible preprocessing
+- multiple model comparisons
+- appropriate evaluation metrics
+- explainable predictions
+- model versioning
+- transparent limitations
+
+---
+
+SIH Success
+
+The solution should demonstrate that it is more than a basic:
+
+«“Train model → predict 0/1”»
+
+application.
+
+The intended value proposition is:
+
+              DIAGNOTECH
+
+        ┌──────────────────┐
+        │    Prediction    │
+        └────────┬─────────┘
+                 ↓
+        ┌──────────────────┐
+        │   Explanation    │
+        └────────┬─────────┘
+                 ↓
+        ┌──────────────────┐
+        │    Analytics     │
+        └────────┬─────────┘
+                 ↓
+        ┌──────────────────┐
+        │   Transparency   │
+        └────────┬─────────┘
+                 ↓
+        ┌──────────────────┐
+        │ Human Evaluation │
+        └──────────────────┘
+
+---
+
+61. Future Vision
+
+The long-term architecture should evolve from two disease models into a modular AI Health Risk Engine.
+
+Future structure:
+
+                    DIAGNOTECH
+                        │
+       ┌────────────────┼────────────────┐
+       ▼                ▼                ▼
+   Diabetes           CVD          Future Diseases
+       │                │                │
+       └────────────────┼────────────────┘
+                        ▼
+                Shared AI Engine
+                        │
+             ┌──────────┼──────────┐
+             ▼          ▼          ▼
+        Prediction  Explainability Analytics
+             │          │          │
+             └──────────┼──────────┘
+                        ▼
+                 Decision Support
+
+---
+
+62. Final Product Positioning
+
+Diagnotech should be positioned as:
+
+«An explainable, multi-disease AI screening and health analytics platform.»
+
+It should not be positioned as:
+
+«“An AI doctor.”»
+
+Its strength lies in combining:
+
+Machine Learning + Explainability + Quantitative Evaluation + Visualization + Responsible AI
+
+into one workflow.
+
+---
+
+63. Final SIH Pitch
+
+One-Line Pitch
+
+«Diagnotech is an explainable AI-powered screening platform that estimates diabetes and cardiovascular disease risk from structured health data, explains the factors behind each prediction, transparently evaluates model reliability, and benchmarks classical machine learning against a quantum-kernel approach.»
+
+Core Innovation
+
+«Diagnotech does not stop at predicting risk — it explains the prediction and shows how trustworthy the underlying model is.»
+
+Core Pipeline
+
+«Health Data → AI Prediction → Explainability → Model Evidence → Human Decision Support»
+
+---
+
+64. Product Success Principle
+
+The ultimate success of Diagnotech is not simply:
+
+«“Can AI predict disease?”»
+
+It is:
+
+«“Can AI provide a useful, understandable, measurable, and responsibly communicated early-risk screening result?”»
+
+That principle should guide the dataset selection, model development, backend architecture, UI design, evaluation strategy, and final SIH presentation.

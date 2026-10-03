@@ -1,0 +1,83 @@
+{
+  "disease": "cardiovascular",
+  "test_cohort_size": 3000,
+  "training_cohort_size": 12000,
+  "evaluation_protocol": "Stratified 80/20 Holdout Test Cohort (Genuine Unseen Evaluation)",
+  "models": [
+    {
+      "accuracy": 0.756,
+      "precision": 0.5987,
+      "recall": 0.813,
+      "specificity": 0.7275,
+      "f1": 0.6896,
+      "roc_auc": 0.8443,
+      "confusion_matrix": {
+        "true_positive": 813,
+        "true_negative": 1455,
+        "false_positive": 545,
+        "false_negative": 187
+      },
+      "name": "Logistic Regression"
+    },
+    {
+      "accuracy": 0.763,
+      "precision": 0.6747,
+      "recall": 0.558,
+      "specificity": 0.8655,
+      "f1": 0.6108,
+      "roc_auc": 0.8109,
+      "confusion_matrix": {
+        "true_positive": 558,
+        "true_negative": 1731,
+        "false_positive": 269,
+        "false_negative": 442
+      },
+      "name": "Decision Tree"
+    },
+    {
+      "accuracy": 0.779,
+      "precision": 0.6854,
+      "recall": 0.623,
+      "specificity": 0.857,
+      "f1": 0.6527,
+      "roc_auc": 0.8511,
+      "confusion_matrix": {
+        "true_positive": 623,
+        "true_negative": 1714,
+        "false_positive": 286,
+        "false_negative": 377
+      },
+      "name": "Random Forest"
+    },
+    {
+      "accuracy": 0.7613,
+      "precision": 0.6064,
+      "recall": 0.809,
+      "specificity": 0.7375,
+      "f1": 0.6932,
+      "roc_auc": 0.8481,
+      "confusion_matrix": {
+        "true_positive": 809,
+        "true_negative": 1475,
+        "false_positive": 525,
+        "false_negative": 191
+      },
+      "name": "Support Vector Machine"
+    },
+    {
+      "accuracy": 0.729,
+      "precision": 0.8281,
+      "recall": 0.236,
+      "specificity": 0.9755,
+      "f1": 0.3673,
+      "roc_auc": 0.8389,
+      "confusion_matrix": {
+        "true_positive": 236,
+        "true_negative": 1951,
+        "false_positive": 49,
+        "false_negative": 764
+      },
+      "name": "XGBoost"
+    }
+  ]
+}

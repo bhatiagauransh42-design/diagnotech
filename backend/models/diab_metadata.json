@@ -1,0 +1,45 @@
+{
+  "disease": "diabetes",
+  "model_name": "Random Forest",
+  "version": "diabetes_v1.0",
+  "algorithm": "Random Forest",
+  "dataset": "CDC BRFSS (DIABETES Cohort)",
+  "total_dataset_samples": 15000,
+  "training_samples": 12000,
+  "test_samples": 3000,
+  "feature_count": 17,
+  "status": "production",
+  "features": [
+    "HighBP",
+    "HighChol",
+    "CholCheck",
+    "BMI",
+    "Smoker",
+    "Stroke",
+    "HeartDiseaseorAttack",
+    "PhysActivity",
+    "Fruits",
+    "Veggies",
+    "HvyAlcoholConsump",
+    "GenHlth",
+    "MentHlth",
+    "PhysHlth",
+    "DiffWalk",
+    "Sex",
+    "Age"
+  ],
+  "metrics": {
+    "accuracy": 0.749,
+    "precision": 0.6557,
+    "recall": 0.52,
+    "specificity": 0.8635,
+    "f1": 0.58,
+    "roc_auc": 0.8108,
+    "confusion_matrix": {
+      "true_positive": 520,
+      "true_negative": 1727,
+      "false_positive": 273,
+      "false_negative": 480
+    }
+  }
+}

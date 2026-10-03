@@ -1,0 +1,1681 @@
+Diagnotech — AI/ML Technical Specifications
+
+1. AI/ML System Overview
+
+Diagnotech uses a disease-specific supervised learning architecture for early-risk screening of:
+
+1. Diabetes
+2. Cardiovascular Disease (CVD)
+
+The AI subsystem has four major layers:
+
+Clinical / Health Dataset
+          ↓
+Data Processing & Quality Control
+          ↓
+Feature Engineering & Selection
+          ↓
+Classical ML Models
+          │
+          ├───────────────┐
+          │               │
+          ▼               ▼
+   Production Model   Quantum Benchmark
+          │               │
+          └───────┬───────┘
+                  ▼
+        Evaluation & Calibration
+                  ↓
+        Explainable AI Layer
+                  ↓
+       Prediction + Interpretation
+
+The AI system must distinguish clearly between:
+
+- prediction
+- probability estimate
+- model explanation
+- medical interpretation
+
+The first three are software outputs. The fourth should not be represented as a definitive medical diagnosis.
+
+---
+
+2. AI Objectives
+
+The AI subsystem shall:
+
+O1 — Predict
+
+Estimate the probability of the target outcome from structured input data.
+
+O2 — Classify
+
+Convert model output into a documented screening category.
+
+O3 — Explain
+
+Identify the features that contributed most strongly to an individual prediction.
+
+O4 — Compare
+
+Evaluate multiple classical ML algorithms.
+
+O5 — Benchmark Quantum ML
+
+Compare a quantum-kernel hybrid model against classical baselines.
+
+O6 — Measure Reliability
+
+Evaluate models using clinically relevant classification metrics rather than accuracy alone.
+
+O7 — Support Reproducibility
+
+Track dataset versions, preprocessing, model versions, hyperparameters, and evaluation results.
+
+---
+
+3. ML Problem Definition
+
+Diabetes
+
+Problem Type
+
+Binary supervised classification.
+
+Input:
+Patient/health features
+
+Output:
+Target = 0 or 1
+
+The model estimates:
+
+P(Diabetes-related target | input features)
+
+---
+
+Cardiovascular Disease
+
+Problem Type
+
+Binary supervised classification.
+
+Input:
+Clinical/cardiovascular features
+
+Output:
+Target = 0 or 1
+
+The model estimates:
+
+P(CVD-related target | input features)
+
+The exact target definition must match the selected dataset.
+
+---
+
+4. Dataset Requirements
+
+The final datasets should be:
+
+- publicly accessible
+- documented
+- sufficiently structured for supervised learning
+- accompanied by a clear target definition
+- suitable for reproducible experimentation
+- legally usable for the intended prototype/research purpose
+
+For each dataset record:
+
+Dataset name
+Dataset version
+Source
+URL
+License
+Sample count
+Feature count
+Target definition
+Class distribution
+Known limitations
+
+---
+
+5. Dataset Documentation Contract
+
+Each dataset should have a metadata file:
+
+{
+  "name": "diabetes_dataset_v1",
+  "version": "1.0",
+  "target": "outcome",
+  "task": "binary_classification",
+  "samples": 0,
+  "features": 0,
+  "source": "",
+  "license": "",
+  "notes": ""
+}
+
+Actual values must come from the finalized dataset.
+
+---
+
+6. Data Ingestion Pipeline
+
+Source Dataset
+      ↓
+Load
+      ↓
+Schema Validation
+      ↓
+Data Type Validation
+      ↓
+Duplicate Detection
+      ↓
+Missing-Value Analysis
+      ↓
+Outlier Analysis
+      ↓
+Target Validation
+      ↓
+Clean Dataset
+
+The ingestion process must fail loudly when required columns or target labels are missing.
+
+---
+
+7. Exploratory Data Analysis
+
+Before training, perform:
+
+Structural analysis
+
+- rows
+- columns
+- data types
+- unique values
+
+Statistical analysis
+
+- mean
+- median
+- standard deviation
+- minimum
+- maximum
+- quartiles
+
+Target analysis
+
+- positive cases
+- negative cases
+- class ratio
+
+Feature analysis
+
+- distributions
+- correlations
+- outliers
+- missingness
+
+Visualization
+
+Recommended:
+
+- histograms
+- box plots
+- correlation matrix
+- target distribution
+- feature-vs-target plots
+
+EDA must be performed using training data for decisions that could influence preprocessing/model selection, to avoid test-set leakage.
+
+---
+
+8. Data Quality Rules
+
+The pipeline should detect:
+
+Missing values
+Duplicate records
+Invalid numerical values
+Unexpected categorical values
+Impossible/implausible values
+Incorrect units
+Incorrect target encoding
+
+Data corrections should be documented.
+
+---
+
+9. Train / Validation / Test Strategy
+
+Recommended structure:
+
+                 FULL DATASET
+                      │
+          ┌───────────┴───────────┐
+          │                       │
+       TRAINING                 TEST
+          │                       │
+          ▼                       │
+   Cross-Validation               │
+          │                       │
+          ▼                       │
+ Hyperparameter Tuning            │
+          │                       │
+          └───────────┬───────────┘
+                      ▼
+              FINAL EVALUATION
+
+For small tabular datasets, stratified cross-validation should be considered.
+
+The test set must remain untouched until final evaluation.
+
+---
+
+10. Leakage Prevention
+
+This is a mandatory AI requirement.
+
+The following must never be fitted using the test set:
+
+- imputation
+- scaling
+- encoding
+- feature selection
+- dimensionality reduction
+- threshold optimization
+
+Correct:
+
+TRAIN
+ ↓
+Fit preprocessing
+ ↓
+Fit model
+
+Then:
+
+TEST
+ ↓
+Transform using fitted preprocessing
+ ↓
+Predict
+
+---
+
+11. Preprocessing Pipeline
+
+The exact pipeline depends on the final dataset.
+
+Numerical Features
+
+Potential operations:
+
+- missing-value imputation
+- scaling
+- optional transformation
+
+Categorical Features
+
+Potential operations:
+
+- missing-value handling
+- ordinal encoding
+- one-hot encoding
+
+Pipeline
+
+Raw Input
+   ↓
+Schema Validation
+   ↓
+Numerical Transformer
+   +
+Categorical Transformer
+   ↓
+Feature Selection
+   ↓
+Model
+
+A single serialized pipeline should preferably contain the preprocessing steps necessary for inference.
+
+---
+
+12. Feature Engineering
+
+Feature engineering should be driven by the dataset and documented.
+
+Potential operations:
+
+- derived ratios
+- clinically meaningful transformations where justified
+- logarithmic transformation for skewed variables
+- interaction terms
+- standardization
+
+Do not introduce feature engineering solely to increase a benchmark number without a clear justification.
+
+---
+
+13. Feature Selection
+
+Feature selection serves two objectives:
+
+1. remove redundant/noisy features
+2. simplify model interpretation and quantum processing
+
+Potential methods:
+
+Statistical
+
+- correlation analysis
+- mutual information
+- univariate tests where appropriate
+
+Model-based
+
+- tree feature importance
+- permutation importance
+- recursive feature elimination
+
+Feature selection must be performed inside the training/evaluation methodology to avoid leakage.
+
+---
+
+14. Classical ML Model Suite
+
+The initial model benchmark should include:
+
+1. Logistic Regression
+
+Purpose:
+
+- baseline
+- interpretable
+- useful reference model
+
+2. Decision Tree
+
+Purpose:
+
+- simple nonlinear baseline
+- easy interpretation
+
+3. Random Forest
+
+Purpose:
+
+- nonlinear relationships
+- robust tabular baseline
+- feature importance
+
+4. Support Vector Machine
+
+Purpose:
+
+- effective for small/medium structured datasets
+- strong nonlinear decision boundaries when properly configured
+
+5. Gradient Boosting
+
+Purpose:
+
+- strong tabular baseline
+
+6. XGBoost
+
+Purpose:
+
+- high-performing gradient-boosting candidate
+
+The exact final model should be selected using a predefined evaluation strategy.
+
+---
+
+15. Model Training Pipeline
+
+Dataset
+   ↓
+Split
+   ↓
+Preprocessing
+   ↓
+Feature Selection
+   ↓
+Cross-Validation
+   ↓
+Model Training
+   ↓
+Hyperparameter Search
+   ↓
+Validation Metrics
+   ↓
+Candidate Models
+   ↓
+Final Test Evaluation
+
+---
+
+16. Hyperparameter Optimization
+
+Potential techniques:
+
+- Grid Search
+- Randomized Search
+- Bayesian optimization if justified
+
+Example parameters:
+
+Random Forest
+
+n_estimators
+max_depth
+min_samples_split
+min_samples_leaf
+max_features
+class_weight
+
+SVM
+
+C
+kernel
+gamma
+class_weight
+
+XGBoost
+
+n_estimators
+max_depth
+learning_rate
+subsample
+colsample_bytree
+min_child_weight
+
+Do not tune against the final test set.
+
+---
+
+17. Cross-Validation
+
+Recommended:
+
+Stratified K-Fold Cross-Validation
+
+Example:
+
+Fold 1
+Fold 2
+Fold 3
+Fold 4
+Fold 5
+
+Record:
+
+- mean metric
+- standard deviation
+
+Example:
+
+ROC-AUC = 0.84 ± 0.03
+
+This gives a more useful picture of model stability than a single split.
+
+---
+
+18. Class Imbalance Strategy
+
+First inspect the class distribution.
+
+If imbalance is significant, evaluate:
+
+- class weighting
+- stratified splits
+- suitable resampling
+- threshold tuning
+- precision-recall performance
+
+Potential techniques:
+
+class_weight="balanced"
+
+or resampling methods where appropriate.
+
+Do not automatically apply SMOTE or other resampling methods without checking whether they improve the evaluation setup.
+
+---
+
+19. Evaluation Metrics
+
+Each final candidate should report:
+
+Accuracy
+
+(TP + TN) / (TP + TN + FP + FN)
+
+Precision
+
+TP / (TP + FP)
+
+Recall / Sensitivity
+
+TP / (TP + FN)
+
+Specificity
+
+TN / (TN + FP)
+
+F1 Score
+
+2 × Precision × Recall
+/
+(Precision + Recall)
+
+ROC-AUC
+
+Area under the ROC curve.
+
+PR-AUC
+
+Useful especially when classes are imbalanced.
+
+---
+
+20. Screening-Oriented Evaluation
+
+For this project, the AI dashboard must not rank models using accuracy alone.
+
+Priority metrics should include:
+
+Recall / Sensitivity
+Specificity
+ROC-AUC
+Precision
+F1
+PR-AUC
+
+The reason is that screening performance involves a trade-off between detecting potential positive cases and generating false alarms.
+
+---
+
+21. Confusion Matrix
+
+Every final model should generate:
+
+                 ACTUAL
+              +           -
+PREDICTED +
+           TP          FP
+
+PREDICTED -
+           FN          TN
+
+The system should expose both counts and derived metrics.
+
+---
+
+22. ROC Curve
+
+For each candidate model:
+
+True Positive Rate
+        │
+    1.0 │          ╭────
+        │       ╭──╯
+        │    ╭──╯
+        │ ╭──╯
+    0.0 └──────────────────
+         0.0             1.0
+             False Positive Rate
+
+The API should expose ROC data points if the frontend renders the graph.
+
+---
+
+23. Precision-Recall Curve
+
+Recommended particularly when class imbalance exists.
+
+Show:
+
+- precision
+- recall
+- PR-AUC
+
+This provides another view of screening performance.
+
+---
+
+24. Probability Output
+
+Whenever the selected model supports meaningful probability estimation, the backend should return:
+
+probability = 0.72
+
+The system should distinguish:
+
+Probability estimate
+
+from:
+
+Clinical probability/certainty
+
+The interface should describe it as a model probability/risk estimate.
+
+---
+
+25. Threshold Management
+
+Binary prediction depends on a decision threshold.
+
+Default:
+
+threshold = 0.50
+
+may be used as a baseline, but the final threshold should be evaluated rather than assumed optimal.
+
+Possible threshold analysis:
+
+0.30
+0.40
+0.50
+0.60
+0.70
+
+Compare:
+
+- sensitivity
+- specificity
+- precision
+- F1
+
+The final operational threshold must be documented.
+
+---
+
+26. Calibration
+
+Where probability interpretation matters, evaluate model calibration.
+
+Potential tools:
+
+- calibration curve
+- Brier score
+- calibration error
+
+A model with high discrimination is not automatically well-calibrated.
+
+If the deployed output is presented as a probability, calibration should be considered.
+
+---
+
+27. Model Selection Rule
+
+The final model should be selected using a documented rule.
+
+Example:
+
+1. Remove models with poor validation stability.
+2. Compare ROC-AUC and PR-AUC.
+3. Compare recall and specificity.
+4. Inspect calibration if probabilities are shown.
+5. Consider interpretability and inference cost.
+6. Evaluate on the untouched test set.
+7. Register the final model.
+
+The “best” model should not simply mean the model with the highest accuracy.
+
+---
+
+28. Explainable AI Architecture
+
+Model
+  │
+  ▼
+Prediction
+  │
+  ▼
+Explanation Engine
+  │
+  ├── SHAP
+  ├── Feature Importance
+  └── Permutation Importance
+  │
+  ▼
+Feature Contributions
+  │
+  ▼
+Human-Readable Summary
+
+---
+
+29. SHAP Specification
+
+SHAP should be considered the primary explainability framework.
+
+The system should provide:
+
+Local Explanation
+
+For one screening:
+
+Glucose      +0.31
+BMI          +0.18
+Age          +0.12
+
+Global Explanation
+
+Across the dataset:
+
+Feature importance ranking
+SHAP summary plot
+
+---
+
+30. Explanation Data Model
+
+Each explanation should contain:
+
+{
+  "method": "SHAP",
+  "base_value": 0.0,
+  "features": [
+    {
+      "name": "glucose",
+      "value": 135,
+      "contribution": 0.31,
+      "rank": 1
+    }
+  ]
+}
+
+The actual SHAP values depend on the selected model and explainer.
+
+---
+
+31. Explanation Rules
+
+The UI wording must avoid causal claims.
+
+Correct
+
+«“This feature had a strong influence on the model output.”»
+
+Incorrect
+
+«“This feature caused the disease.”»
+
+The explanation describes model behavior, not biological causation.
+
+---
+
+32. Global Feature Analysis
+
+The model analytics system should provide:
+
+- top features
+- mean absolute SHAP values
+- permutation importance
+- feature distributions
+
+Example:
+
+Feature                Importance
+
+Glucose                 ██████████
+BMI                     ███████
+Age                     █████
+Blood Pressure          ████
+
+---
+
+33. Quantum ML Architecture
+
+Quantum ML is a secondary experimental branch.
+
+Dataset
+   ↓
+Classical Preprocessing
+   ↓
+Feature Selection
+   ↓
+Dimensionality Reduction
+   ↓
+4–8 Features
+   ↓
+Quantum Feature Map
+   ↓
+Quantum Kernel
+   ↓
+Classical SVM / QSVC
+   ↓
+Evaluation
+
+---
+
+34. Quantum Feature Requirements
+
+The quantum input dimension should be deliberately controlled.
+
+Example:
+
+Raw features
+      ↓
+Feature selection
+      ↓
+PCA / dimensionality reduction
+      ↓
+4–8 features
+
+The exact dimensionality should depend on the chosen feature map and computational budget.
+
+---
+
+35. Quantum Feature Map
+
+Candidate options may include:
+
+- ZZ Feature Map
+- Pauli-based feature maps
+- other suitable encoding circuits
+
+The experiment configuration should record:
+
+feature map type
+number of qubits
+repetitions
+encoding strategy
+backend
+
+---
+
+36. Quantum Kernel
+
+The system computes:
+
+K(xᵢ, xⱼ)
+
+for pairs of samples to generate a kernel matrix.
+
+Conceptually:
+
+Sample A ─┐
+Sample B ─┼──► Quantum Kernel ──► Kernel Matrix
+Sample C ─┘
+
+---
+
+37. Quantum Classifier
+
+Recommended initial approach:
+
+Quantum Kernel + Classical SVM
+
+or a compatible QSVC implementation.
+
+This gives:
+
+Quantum component
+       +
+Classical classifier
+
+rather than forcing all classification logic into a variational quantum circuit.
+
+---
+
+38. Quantum Benchmark Rules
+
+The benchmark must be fair.
+
+Compare:
+
+Same dataset
+Same target
+Comparable preprocessing
+Comparable train/test methodology
+Same primary evaluation metrics
+
+Record:
+
+- accuracy
+- precision
+- recall
+- specificity
+- F1
+- ROC-AUC
+- runtime where useful
+
+---
+
+39. Quantum Benchmark Interpretation
+
+The application must support all outcomes.
+
+Outcome A
+
+Quantum performs better.
+
+Outcome B
+
+Quantum performs similarly.
+
+Outcome C
+
+Quantum performs worse.
+
+All three are valid research outcomes.
+
+The UI should never imply that quantum ML is superior before experimentation.
+
+---
+
+40. AI Model Registry
+
+Every deployable model must be registered with:
+
+Disease
+Model Name
+Algorithm
+Version
+Dataset
+Feature list
+Preprocessor
+Training date
+Metrics
+Status
+Artifact location
+
+Example:
+
+{
+  "disease": "diabetes",
+  "algorithm": "RandomForestClassifier",
+  "version": "1.0",
+  "status": "production"
+}
+
+---
+
+41. Model Version Lifecycle
+
+Experimental
+    ↓
+Validated
+    ↓
+Staging
+    ↓
+Production
+    ↓
+Archived
+
+A production model should never be overwritten silently.
+
+---
+
+42. AI Artifact Structure
+
+Recommended:
+
+ml/
+├── diabetes/
+│   ├── training/
+│   ├── preprocessing/
+│   ├── evaluation/
+│   ├── explainability/
+│   └── models/
+│
+├── cardiovascular/
+│   ├── training/
+│   ├── preprocessing/
+│   ├── evaluation/
+│   ├── explainability/
+│   └── models/
+│
+└── quantum/
+    ├── feature_maps/
+    ├── kernels/
+    ├── experiments/
+    └── evaluation/
+
+---
+
+43. Model Artifact Requirements
+
+For every production model:
+
+model.joblib
+preprocessor.joblib
+feature_schema.json
+metadata.json
+metrics.json
+
+The model and preprocessor must remain version-compatible.
+
+---
+
+44. Inference Pipeline
+
+Production inference:
+
+API Request
+    ↓
+Schema Validation
+    ↓
+Feature Ordering
+    ↓
+Saved Preprocessor
+    ↓
+Saved Production Model
+    ↓
+Probability
+    ↓
+Threshold
+    ↓
+Prediction
+    ↓
+SHAP / Explanation
+    ↓
+Response
+
+No training should occur during inference.
+
+---
+
+45. Inference Consistency
+
+For a given model version:
+
+same input
++
+same preprocessing
++
+same model
+
+should produce reproducible output, subject to any explicitly nondeterministic implementation details.
+
+---
+
+46. AI Response Specification
+
+The AI layer should return:
+
+disease
+prediction
+probability
+risk_category
+model_name
+model_version
+top_features
+explanation_method
+metrics
+
+Example:
+
+{
+  "disease": "cardiovascular",
+  "prediction": 1,
+  "probability": 0.68,
+  "risk_category": "higher",
+  "model_name": "XGBoost",
+  "model_version": "cvd_xgb_v1.0"
+}
+
+---
+
+47. Risk Classification Layer
+
+The raw model probability should be separated from UI categorization.
+
+Model Output
+     ↓
+Probability
+     ↓
+Threshold / Policy
+     ↓
+Risk Category
+
+This separation allows threshold methodology to be changed without retraining the model.
+
+---
+
+48. Model Monitoring
+
+For a prototype, basic monitoring is sufficient.
+
+Track:
+
+- inference failures
+- inference latency
+- model version
+- input validation failures
+- API errors
+
+For future deployment, monitor:
+
+- feature drift
+- prediction drift
+- calibration drift
+- subgroup performance
+- missing-data patterns
+
+---
+
+49. Bias and Fairness Analysis
+
+Where the dataset contains suitable demographic variables, evaluate:
+
+- sensitivity by subgroup
+- specificity by subgroup
+- precision by subgroup
+- false-negative rate
+- false-positive rate
+
+Example:
+
+Overall Recall
+     vs
+Subgroup Recall
+
+A strong aggregate score does not automatically imply equal performance across populations.
+
+---
+
+50. Uncertainty and Limitations
+
+The application should explicitly acknowledge:
+
+- training dataset limitations
+- sample size limitations
+- distribution shift
+- possible measurement errors
+- missing variables
+- model uncertainty
+- lack of external clinical validation
+
+The system should not claim general clinical validity from benchmark performance alone.
+
+---
+
+51. Data Privacy in the ML Layer
+
+The ML system should follow data minimization.
+
+Do not include unnecessary identifiers in:
+
+- model input
+- training data
+- logs
+- experiment artifacts
+
+For SIH demonstration, controlled or anonymized data is preferable.
+
+---
+
+52. AI Experiment Tracking
+
+Every experiment should record:
+
+Experiment ID
+Disease
+Dataset version
+Preprocessing
+Features
+Model
+Hyperparameters
+Random seed
+Cross-validation method
+Metrics
+Runtime
+Timestamp
+
+Example:
+
+{
+  "experiment_id": "EXP-024",
+  "disease": "diabetes",
+  "model": "RandomForest",
+  "random_seed": 42,
+  "cv": "StratifiedKFold-5"
+}
+
+---
+
+53. Reproducibility
+
+A researcher should be able to reconstruct an experiment from:
+
+Dataset version
++
+Code version
++
+Environment
++
+Parameters
++
+Random seed
+
+Use:
+
+- "requirements.txt"
+- optional Docker environment
+- Git commit references
+- experiment metadata
+
+---
+
+54. ML Testing
+
+The ML subsystem should include tests for:
+
+Data
+
+- expected columns
+- expected data types
+- target availability
+
+Preprocessing
+
+- transformation consistency
+- missing-value behavior
+
+Model
+
+- model loads successfully
+- feature count matches
+- prediction shape is correct
+
+Explanation
+
+- explanation generated
+- feature ordering matches
+- top contributors returned
+
+---
+
+55. Model Sanity Checks
+
+Before deployment:
+
+✓ Model loads
+✓ Preprocessor loads
+✓ Feature schema matches
+✓ Probability is between 0 and 1
+✓ Prediction is valid
+✓ Explanation is generated
+✓ Model version exists
+✓ Metrics are available
+
+---
+
+56. AI API Separation
+
+Keep training and inference separate.
+
+TRAINING ENVIRONMENT
+        │
+        ▼
+   Model Registry
+        │
+        ▼
+PRODUCTION API
+        │
+        ▼
+    Inference
+
+A user prediction must never trigger model training.
+
+---
+
+57. Recommended AI/ML Technology Stack
+
+Function| Technology
+Language| Python
+Data Processing| Pandas
+Numerical Computing| NumPy
+Classical ML| scikit-learn
+Gradient Boosting| XGBoost
+Explainability| SHAP
+Visualization/Research| Matplotlib / Plotly
+Experimentation| Jupyter
+Experiment Tracking| MLflow optional
+Model Serialization| Joblib
+Quantum ML| Qiskit or PennyLane
+API| FastAPI
+
+Choose one primary quantum framework for the implementation to avoid unnecessary complexity.
+
+---
+
+58. Recommended AI/ML Folder Structure
+
+ml/
+│
+├── datasets/
+│
+├── common/
+│   ├── preprocessing.py
+│   ├── evaluation.py
+│   ├── metrics.py
+│   └── utils.py
+│
+├── diabetes/
+│   ├── config.py
+│   ├── preprocessing.py
+│   ├── train.py
+│   ├── evaluate.py
+│   ├── predict.py
+│   ├── explain.py
+│   └── models/
+│
+├── cardiovascular/
+│   ├── config.py
+│   ├── preprocessing.py
+│   ├── train.py
+│   ├── evaluate.py
+│   ├── predict.py
+│   ├── explain.py
+│   └── models/
+│
+└── quantum/
+    ├── preprocessing.py
+    ├── feature_map.py
+    ├── kernel.py
+    ├── train.py
+    ├── evaluate.py
+    └── experiments/
+
+---
+
+59. End-to-End Diabetes ML Flow
+
+Diabetes Dataset
+       ↓
+EDA
+       ↓
+Data Cleaning
+       ↓
+Stratified Split
+       ↓
+Preprocessing
+       ↓
+Feature Selection
+       ↓
+┌───────────────────────────┐
+│ Logistic Regression       │
+│ Decision Tree             │
+│ Random Forest             │
+│ SVM                       │
+│ XGBoost                   │
+└──────────────┬────────────┘
+               ↓
+        Cross Validation
+               ↓
+       Hyperparameter Tuning
+               ↓
+          Test Evaluation
+               ↓
+         Model Selection
+               ↓
+        SHAP Explanation
+               ↓
+         Model Registry
+               ↓
+            API
+
+---
+
+60. End-to-End CVD ML Flow
+
+CVD Dataset
+       ↓
+EDA
+       ↓
+Cleaning
+       ↓
+Encoding
+       ↓
+Stratified Split
+       ↓
+Preprocessing
+       ↓
+Feature Selection
+       ↓
+Classical ML Benchmark
+       ↓
+Hyperparameter Tuning
+       ↓
+Final Evaluation
+       ↓
+SHAP Explanation
+       ↓
+Model Registry
+       ↓
+API
+
+---
+
+61. End-to-End Quantum Flow
+
+Dataset
+   ↓
+Training-only preprocessing
+   ↓
+Feature Selection
+   ↓
+Dimensionality Reduction
+   ↓
+4–8 Features
+   ↓
+Quantum Encoding
+   ↓
+Quantum Kernel
+   ↓
+SVM / QSVC
+   ↓
+Evaluation
+   ↓
+Classical Comparison
+   ↓
+Benchmark Dashboard
+
+---
+
+62. AI/ML Dashboard Requirements
+
+The dashboard should expose:
+
+Dataset
+
+- sample count
+- feature count
+- class distribution
+
+Model
+
+- selected model
+- model version
+- metrics
+
+Explainability
+
+- top features
+- SHAP summary
+
+Benchmark
+
+- classical models
+- quantum model
+- metric comparison
+
+---
+
+63. Production Model Requirements
+
+A model can move to production only if:
+
+✓ Evaluation completed
+✓ Leakage checks completed
+✓ Metrics recorded
+✓ Model artifact saved
+✓ Preprocessor saved
+✓ Feature schema saved
+✓ Explanation tested
+✓ Version assigned
+✓ Limitations documented
+
+---
+
+64. What the AI Must Never Do
+
+The AI system must not:
+
+- fabricate predictions
+- fabricate metrics
+- fabricate explanations
+- claim diagnostic certainty
+- generate prescriptions
+- recommend medication dosages
+- hide model limitations
+- silently change models
+- retrain itself from individual user inputs
+
+---
+
+65. Final AI/ML Architecture
+
+                        DATASETS
+                           │
+                           ▼
+                    DATA QUALITY LAYER
+                           │
+                           ▼
+                           EDA
+                           │
+                           ▼
+                  PREPROCESSING PIPELINE
+                           │
+                           ▼
+                    FEATURE SELECTION
+                           │
+              ┌────────────┴─────────────┐
+              │                          │
+              ▼                          ▼
+       CLASSICAL ML                QUANTUM BRANCH
+              │                          │
+     ┌────────┼────────┐                 ▼
+     │        │        │         Dimensionality
+     ▼        ▼        ▼            Reduction
+    LR        RF      XGBoost             │
+     │        │        │                  ▼
+     └────────┼────────┘           Quantum Feature Map
+              │                          │
+              │                          ▼
+              │                    Quantum Kernel
+              │                          │
+              │                          ▼
+              │                     Classical SVM
+              │                          │
+              └──────────────┬───────────┘
+                             ▼
+                       EVALUATION ENGINE
+                             │
+              ┌──────────────┼──────────────┐
+              ▼              ▼              ▼
+          Metrics       Calibration    Fairness
+              │              │              │
+              └──────────────┼──────────────┘
+                             ▼
+                     MODEL SELECTION
+                             │
+                             ▼
+                      MODEL REGISTRY
+                             │
+                             ▼
+                       EXPLAINABILITY
+                             │
+                         SHAP / FI
+                             │
+                             ▼
+                      INFERENCE API
+                             │
+                             ▼
+                         FRONTEND
+                             │
+                 ┌───────────┼───────────┐
+                 ▼           ▼           ▼
+               Risk        Why?       Evidence
+
+66. Final AI/ML Principle
+
+The AI architecture should be built around:
+
+«Predict → Explain → Evaluate → Compare → Communicate Responsibly»
+
+rather than:
+
+«Train → Get Accuracy → Show Prediction»
+
+That distinction is central to Diagnotech's technical credibility.
+
+---
+
+67. SIH MVP AI/ML Checklist
+
+Data
+
+- [ ] Final diabetes dataset
+- [ ] Final CVD dataset
+- [ ] Dataset documentation
+- [ ] EDA
+- [ ] Class-distribution analysis
+- [ ] Leakage checks
+
+Classical ML
+
+- [ ] Logistic Regression
+- [ ] Decision Tree
+- [ ] Random Forest
+- [ ] SVM
+- [ ] XGBoost/Gradient Boosting
+- [ ] Cross-validation
+- [ ] Hyperparameter tuning
+
+Evaluation
+
+- [ ] Accuracy
+- [ ] Precision
+- [ ] Recall
+- [ ] Specificity
+- [ ] F1
+- [ ] ROC-AUC
+- [ ] PR-AUC where useful
+- [ ] Confusion Matrix
+- [ ] ROC Curve
+
+Explainability
+
+- [ ] SHAP
+- [ ] Local explanation
+- [ ] Global feature importance
+- [ ] Top contributors
+
+Quantum
+
+- [ ] Feature reduction
+- [ ] Quantum feature map
+- [ ] Quantum kernel
+- [ ] Classical SVM/QSVC
+- [ ] Classical vs quantum benchmark
+
+Deployment
+
+- [ ] Saved model
+- [ ] Saved preprocessor
+- [ ] Feature schema
+- [ ] Model metadata
+- [ ] Versioning
+- [ ] Inference test
+- [ ] API integration
+
+The final AI layer should therefore be modular, reproducible, explainable, benchmarkable, and deployable, with the classical models forming the production path and the quantum-kernel approach serving as the experimental innovation/benchmarking path.

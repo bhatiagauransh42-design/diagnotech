@@ -1,0 +1,1684 @@
+Diagnotech — Optimized Testing Strategy
+
+1. Testing Objective
+
+The objective of testing Diagnotech is not simply to verify that the website works.
+
+The testing strategy must establish that:
+
+«The system is functionally correct, the ML pipeline is scientifically valid, the API is secure, sensitive data is handled appropriately, explanations are consistent, and the deployed result matches the evaluated model.»
+
+The testing strategy therefore covers six areas:
+
+Functional Testing
+      +
+ML Validation
+      +
+API / Integration Testing
+      +
+Security & Privacy Testing
+      +
+UI/UX Testing
+      +
+Performance & Deployment Testing
+
+For the SIH prototype, testing effort should be risk-based, not evenly distributed across every component.
+
+---
+
+2. Testing Philosophy
+
+Diagnotech should follow four principles.
+
+2.1 Test Critical Paths First
+
+The most important path is:
+
+Input
+ ↓
+Validation
+ ↓
+Preprocessing
+ ↓
+Model
+ ↓
+Prediction
+ ↓
+Explanation
+ ↓
+Response
+ ↓
+UI
+
+If this path fails, the product fails.
+
+---
+
+2.2 Test the Model Separately From the UI
+
+A beautiful UI cannot compensate for an invalid ML pipeline.
+
+Therefore:
+
+ML correctness ≠ UI correctness
+
+Both must be tested independently.
+
+---
+
+2.3 Automate Repeatable Tests
+
+Automate:
+
+- API tests
+- validation tests
+- preprocessing tests
+- model loading tests
+- prediction-shape tests
+- regression tests
+
+Perform manually:
+
+- visual UX checks
+- accessibility review
+- SIH demo rehearsal
+- final end-to-end workflow
+
+---
+
+2.4 Never Use Test Data to Improve the Model
+
+The test set must remain isolated.
+
+Training
+   ↓
+Validation
+   ↓
+Model Selection
+   ↓
+FINAL TEST
+
+No repeated tuning against the final test results.
+
+---
+
+3. Testing Pyramid
+
+Use:
+
+                    ┌───────────┐
+                    │   E2E     │
+                    │  Testing  │
+                    └─────┬─────┘
+                  ┌──────┴──────┐
+                  │ Integration │
+                  └──────┬──────┘
+             ┌───────────┴───────────┐
+             │      Unit Tests       │
+             └───────────────────────┘
+
+The majority of tests should be lower-level and automated.
+
+Recommended target for the application layer:
+
+- many unit tests
+- moderate integration tests
+- a small number of critical E2E tests
+
+---
+
+4. Risk-Based Test Priorities
+
+Area| Risk| Priority
+ML preprocessing| Very High| P0
+Prediction correctness| Very High| P0
+Data leakage| Very High| P0
+API input validation| High| P0
+Model loading/versioning| High| P0
+Explainability| High| P0
+Privacy/security| High| P0
+Frontend prediction flow| High| P0
+Analytics| Medium| P1
+Quantum benchmark| Medium| P1
+Authentication| Medium/High| P1
+Screening history| Low for MVP| P2
+Advanced admin features| Low for MVP| P2
+
+P0 means must pass before demonstration/release.
+
+---
+
+5. Test Environments
+
+Use three environments:
+
+Development
+    ↓
+Staging / Demo
+    ↓
+Production
+
+Development
+
+Used for:
+
+- unit testing
+- ML experimentation
+- API development
+
+Staging
+
+Used for:
+
+- complete integration
+- frontend/backend testing
+- deployment testing
+- security testing
+
+Production
+
+Only tested with controlled, non-sensitive test data.
+
+---
+
+6. Test Data Strategy
+
+Maintain separate datasets for different purposes.
+
+Training Data
+      ≠
+Validation Data
+      ≠
+Final Test Data
+      ≠
+API Test Fixtures
+      ≠
+Demo Data
+
+API Test Fixtures
+
+Create known inputs for:
+
+- normal values
+- boundary values
+- invalid values
+- missing values
+
+Demo Data
+
+Create controlled values specifically for the SIH presentation.
+
+Label them as demonstration data.
+
+---
+
+7. Automated Testing Stack
+
+Recommended:
+
+Backend
+
+pytest
+
+API
+
+FastAPI TestClient / httpx
+
+Frontend
+
+Vitest + React Testing Library
+
+E2E
+
+Playwright
+
+Security
+
+OWASP ZAP or equivalent automated security scanner
+
+Static checks
+
+- Ruff
+- mypy where useful
+- ESLint
+- TypeScript compiler if TypeScript is used
+
+ML
+
+- pytest
+- scikit-learn validation utilities
+- custom regression tests
+
+---
+
+8. Unit Testing
+
+Unit tests validate small components independently.
+
+Backend
+
+Test:
+
+- Pydantic schemas
+- validation functions
+- preprocessing utilities
+- risk classification
+- response formatting
+- model metadata loading
+
+Example:
+
+Input:
+glucose = "abc"
+
+Expected:
+ValidationError
+
+---
+
+9. Input Validation Tests
+
+Test every important field.
+
+Valid Input
+
+glucose = 135
+
+Expected:
+
+accepted
+
+Invalid Type
+
+glucose = "hello"
+
+Expected:
+
+rejected
+
+Missing Value
+
+glucose = null
+
+Expected:
+
+validation error
+
+Boundary Values
+
+Test:
+
+minimum
+maximum
+slightly below minimum
+slightly above maximum
+
+Use documented schema/domain sanity bounds, not arbitrary clinical claims.
+
+---
+
+10. ML Preprocessing Tests
+
+This is a P0 category.
+
+Test:
+
+Feature order
+
+Input features must reach the model in the expected order.
+
+Scaling
+
+Check that the same fitted scaler/preprocessor is used during inference.
+
+Encoding
+
+Check that category mappings remain consistent.
+
+Missing-value handling
+
+Verify deterministic behavior.
+
+Output shape
+
+Input:
+
+1 sample
+
+Expected:
+
+1 prediction
+
+---
+
+11. Train/Inference Consistency Test
+
+Create a regression test:
+
+Known Input
+    ↓
+Saved Preprocessor
+    ↓
+Saved Model
+    ↓
+Expected Output
+
+The deployed API must produce the same result as the offline inference pipeline for the same model version and input.
+
+This is one of the highest-value tests in the project.
+
+---
+
+12. Model Loading Tests
+
+At application startup:
+
+Load Model
+Load Preprocessor
+Load Feature Schema
+Load Metadata
+
+Test that:
+
+- files exist
+- files are readable
+- feature count matches
+- model metadata matches
+- model version is valid
+
+If any P0 component fails, startup should fail clearly rather than silently deploying a broken model.
+
+---
+
+13. Prediction Tests
+
+For every disease:
+
+Known Input
+ ↓
+Prediction
+ ↓
+Probability
+ ↓
+Risk Category
+
+Verify:
+
+- prediction is valid
+- probability lies within "[0, 1]"
+- risk category is valid
+- model version is returned
+- disease name is correct
+
+---
+
+14. Prediction Regression Tests
+
+Once a model is approved, create a small fixed set of inference cases.
+
+Example:
+
+Case A → expected class/probability range
+Case B → expected class/probability range
+Case C → expected class/probability range
+
+After code changes, rerun them.
+
+This helps detect accidental changes to preprocessing or model loading.
+
+Don't require exact floating-point equality when tiny numerical differences are expected; use suitable tolerances.
+
+---
+
+15. ML Scientific Validation
+
+This must be separated from normal software testing.
+
+Validate:
+
+Dataset
+
+- class distribution
+- duplicates
+- missingness
+- feature types
+
+Evaluation
+
+- stratified splitting
+- cross-validation
+- test isolation
+- no leakage
+
+Metrics
+
+- accuracy
+- precision
+- recall
+- specificity
+- F1
+- ROC-AUC
+- PR-AUC where appropriate
+
+---
+
+16. Data Leakage Tests
+
+Explicitly test for:
+
+Duplicate leakage
+
+Check whether duplicate/similar samples cross training/test boundaries.
+
+Preprocessing leakage
+
+Verify that scalers/imputers are fitted only on training data.
+
+Feature leakage
+
+Check for variables derived from the target or post-outcome information.
+
+Test-set leakage
+
+Confirm that final test data does not influence:
+
+- feature selection
+- hyperparameter tuning
+- threshold selection
+
+This is a release blocker if discovered.
+
+---
+
+17. Cross-Validation Stability
+
+For each candidate model, capture:
+
+Mean
+Standard Deviation
+
+Example:
+
+ROC-AUC:
+0.84 ± 0.03
+
+Test for:
+
+- unusually high variance
+- unstable folds
+- major differences between validation and final test
+
+This helps prevent choosing a model because of one lucky split.
+
+---
+
+18. Class Imbalance Testing
+
+Test model behavior when classes are imbalanced.
+
+Inspect:
+
+- recall
+- specificity
+- precision
+- PR-AUC
+- confusion matrix
+
+Do not accept:
+
+99% accuracy
+
+without checking whether the model simply predicts the majority class.
+
+---
+
+19. Probability/Threshold Testing
+
+Test several threshold values during model development.
+
+For example:
+
+0.30
+0.40
+0.50
+0.60
+0.70
+
+Measure changes in:
+
+- sensitivity
+- specificity
+- precision
+- F1
+
+The final threshold must be recorded as part of model metadata.
+
+---
+
+20. Calibration Testing
+
+Where probability is presented to the user, test whether the output is reasonably calibrated.
+
+Evaluate:
+
+- calibration curve
+- Brier score where appropriate
+
+The UI should avoid presenting an unvalidated model score as if it were a clinically precise probability.
+
+---
+
+21. Explainability Testing
+
+Test that every successful prediction produces an explanation.
+
+Pipeline:
+
+Prediction
+ ↓
+SHAP
+ ↓
+Feature Contributions
+
+Verify:
+
+- explanation is generated
+- correct number of features returned
+- feature names match model features
+- ranking works
+- values correspond to current input
+- no unrelated user's data appears
+
+---
+
+22. Explanation Consistency Tests
+
+For a fixed model/input:
+
+same input
++
+same model version
+
+should produce consistent explanation output within expected numerical tolerance.
+
+Also test:
+
+change one input
+       ↓
+explanation changes appropriately
+
+This is a sanity check, not proof of causality.
+
+---
+
+23. Explainability Regression Testing
+
+Store a few known explanation examples.
+
+After changing:
+
+- SHAP version
+- model
+- preprocessing
+- feature order
+
+rerun them.
+
+Any major change should be reviewed before release.
+
+---
+
+24. API Unit & Integration Testing
+
+Test:
+
+POST /api/v1/predict/diabetes
+POST /api/v1/predict/cardiovascular
+GET  /api/v1/health
+GET  /api/v1/models/*
+GET  /api/v1/analytics/*
+
+For each endpoint, test:
+
+- valid request
+- missing field
+- wrong type
+- invalid values
+- malformed JSON
+- unexpected field
+- unavailable model
+- internal failure
+
+---
+
+25. API Contract Testing
+
+Ensure the backend always returns the expected schema.
+
+For prediction:
+
+disease
+prediction
+probability
+risk_category
+model
+explanation
+metrics
+disclaimer
+
+A frontend should not break because one field suddenly changes from:
+
+probability
+
+to:
+
+risk_score
+
+without versioning.
+
+---
+
+26. API Negative Testing
+
+Try deliberately invalid requests.
+
+Examples:
+
+Empty JSON
+Null body
+Extra fields
+Wrong data types
+Huge numbers
+Negative values
+Very long strings
+Malformed arrays
+Unknown disease
+Unknown model
+Invalid request ID
+
+The API should reject invalid input safely.
+
+---
+
+27. API Security Testing
+
+Test:
+
+Authentication
+
+- missing token
+- expired token
+- invalid token
+
+Authorization
+
+- user accessing another user's record
+- user accessing admin endpoint
+- researcher accessing restricted endpoint
+
+Rate limiting
+
+Repeated requests should eventually be throttled.
+
+CORS
+
+Untrusted origins should not receive sensitive API access.
+
+---
+
+28. Object-Level Authorization Testing
+
+If screening history exists:
+
+User A
+ ↓
+Screening A
+
+User B
+ ↓
+attempt to request Screening A
+
+Expected:
+
+403/404
+
+depending on the API design.
+
+The backend must enforce this.
+
+---
+
+29. Injection Testing
+
+Test API and database handling against:
+
+- SQL injection payloads
+- XSS strings
+- command-like strings
+- malformed serialized input
+
+Expected behavior:
+
+Input rejected or safely treated as data
+
+No execution.
+
+---
+
+30. Rate-Limit Testing
+
+Example:
+
+100 requests rapidly
+
+Expected:
+
+Normal requests
+     ↓
+Rate-limit threshold
+     ↓
+429 Too Many Requests
+
+The actual threshold should be configured according to deployment capacity.
+
+---
+
+31. Sensitive-Data Logging Test
+
+Intentionally send a test request containing recognizable dummy health values.
+
+Inspect logs.
+
+Expected:
+
+No complete request body
+No unnecessary health information
+No passwords
+No tokens
+
+This is an important privacy test.
+
+---
+
+32. Secret Exposure Test
+
+Scan the repository for:
+
+- API keys
+- passwords
+- database URLs
+- JWT secrets
+- private keys
+
+Use automated secret scanning where possible.
+
+A discovered real credential is a release blocker.
+
+---
+
+33. Model Artifact Security Testing
+
+Verify:
+
+Model exists
+ ↓
+Hash matches
+ ↓
+Expected version
+ ↓
+Trusted storage
+ ↓
+Load
+
+Test what happens when the model file is:
+
+- missing
+- corrupted
+- replaced
+- wrong version
+
+The API must fail safely.
+
+---
+
+34. Database Security Testing
+
+Test:
+
+- application permissions
+- unauthorized direct access
+- SQL injection resistance
+- sensitive-field access
+- backup access restrictions
+
+The application should not use an overly privileged database account.
+
+---
+
+35. Privacy Testing
+
+Verify:
+
+Does the system collect unnecessary personal data?
+
+Check:
+
+- forms
+- API requests
+- database
+- logs
+- analytics
+- backups
+- generated reports
+
+The preferred result is:
+
+«Only required information is processed.»
+
+---
+
+36. Data Retention Testing
+
+If screening history exists:
+
+Create record
+ ↓
+Retention period
+ ↓
+Deletion process
+ ↓
+Verify removal
+
+Also check whether related:
+
+- caches
+- files
+- reports
+
+still contain the information.
+
+---
+
+37. User Data Isolation
+
+Test:
+
+User A → data A
+User B → data B
+
+Expected:
+
+A cannot retrieve B
+B cannot retrieve A
+
+This is P0 if persistent user records are implemented.
+
+---
+
+38. Frontend Unit Testing
+
+Test components such as:
+
+InputField
+Button
+RiskGauge
+MetricCard
+FeatureContributionChart
+RiskBadge
+Disclaimer
+
+Verify:
+
+- rendering
+- properties
+- error states
+- loading states
+- accessibility attributes
+
+---
+
+39. Frontend Form Testing
+
+For both Diabetes and CVD forms:
+
+Valid input → submit
+Missing input → error
+Invalid input → error
+Boundary input → accepted/rejected appropriately
+Reset → clears form
+
+---
+
+40. Frontend API Integration Testing
+
+Mock API responses.
+
+Test:
+
+Success
+
+API → prediction
+
+Validation error
+
+API → 422
+
+Server error
+
+API → 500/503
+
+Timeout
+
+API → no response
+
+The UI should display an understandable state for each.
+
+---
+
+41. End-to-End Testing
+
+Use Playwright or equivalent.
+
+Only automate the critical user journeys.
+
+E2E-01 Diabetes
+
+Home
+ ↓
+Select Diabetes
+ ↓
+Enter Data
+ ↓
+Analyze
+ ↓
+Result
+ ↓
+Explanation
+ ↓
+Detailed Analysis
+
+E2E-02 CVD
+
+Same flow for cardiovascular disease.
+
+---
+
+42. E2E Error Flow
+
+Test:
+
+Form
+ ↓
+Invalid Input
+ ↓
+Validation Error
+ ↓
+Correct Input
+ ↓
+Successful Prediction
+
+---
+
+43. E2E Backend Failure Flow
+
+Simulate API failure:
+
+Submit
+ ↓
+API Failure
+ ↓
+Friendly Error
+ ↓
+Retry
+ ↓
+Success
+
+---
+
+44. UI/UX Testing
+
+Manual visual testing should check:
+
+- hierarchy
+- spacing
+- readability
+- consistency
+- mobile layout
+- chart readability
+- risk communication
+- disclaimer visibility
+
+The result screen is the highest priority.
+
+---
+
+45. Responsive Testing
+
+Test at least:
+
+Mobile
+Tablet
+Laptop
+Large Desktop
+
+Critical screens:
+
+- landing
+- disease selection
+- forms
+- results
+- analytics
+
+---
+
+46. Accessibility Testing
+
+Check:
+
+- keyboard navigation
+- focus indicators
+- form labels
+- error messaging
+- contrast
+- chart descriptions
+- button names
+- screen-reader behavior
+
+Use automated tools such as Lighthouse/axe as a first pass, followed by manual verification.
+
+---
+
+47. Browser Testing
+
+For SIH, prioritize:
+
+Desktop
+
+- Chrome
+- Edge
+
+Mobile
+
+- Chrome Android
+- Safari iOS if iOS support is required
+
+No need to exhaustively test every browser for the prototype.
+
+---
+
+48. Performance Testing
+
+Test:
+
+Frontend
+
+- initial page load
+- chart rendering
+- large analytics pages
+
+Backend
+
+- prediction latency
+- concurrent requests
+- database response
+
+Model
+
+- inference latency
+- SHAP explanation latency
+
+Measure separately:
+
+Prediction only
+Prediction + explanation
+
+This helps identify whether explainability is the slowest part.
+
+---
+
+49. Load Testing
+
+For an SIH prototype, modest load testing is sufficient.
+
+Example scenario:
+
+10 concurrent users
+20 concurrent prediction requests
+
+Measure:
+
+- response time
+- error rate
+- CPU
+- memory
+
+You don't need enterprise-scale load testing unless deploying beyond the hackathon.
+
+---
+
+50. Failure Testing
+
+Test system behavior when:
+
+Model missing
+Database unavailable
+API unavailable
+Invalid model artifact
+SHAP failure
+Network timeout
+Frontend disconnected
+
+Expected behavior:
+
+- graceful error
+- no data leak
+- no stack trace
+- useful retry path
+- service health remains visible
+
+---
+
+51. Quantum ML Testing
+
+The quantum component requires a separate testing strategy.
+
+Test:
+
+Feature reduction
+
+Verify:
+
+N features
+ ↓
+Expected reduced dimension
+
+Quantum feature map
+
+Ensure:
+
+feature count == qubit-compatible input dimension
+
+Kernel matrix
+
+Check:
+
+- expected dimensions
+- numerical validity
+- symmetry where mathematically expected
+
+Classifier
+
+Verify:
+
+- training completes
+- predictions are valid
+- evaluation metrics are generated
+
+---
+
+52. Quantum Reproducibility
+
+Record:
+
+Dataset
+Feature selection
+PCA configuration
+Feature map
+Qubits
+Circuit repetitions
+Backend
+Random seed where applicable
+Classifier
+
+Then rerun the experiment.
+
+Results should be reproducible within the expected behavior of the selected simulator/hardware configuration.
+
+---
+
+53. Classical vs Quantum Benchmark Test
+
+Both branches must use a comparable evaluation methodology.
+
+Verify:
+
+Same target
+Comparable data split
+Same core metrics
+Documented preprocessing
+
+The benchmark report should make clear whether the comparison is truly like-for-like.
+
+---
+
+54. Security Regression Testing
+
+Whenever authentication, API routes, models, or database schemas change, rerun:
+
+Auth tests
+Authorization tests
+Input validation
+Rate limiting
+Secret scanning
+Sensitive-log tests
+
+Security tests should not be run only once.
+
+---
+
+55. ML Regression Testing
+
+Whenever these change:
+
+Model
+Preprocessor
+Feature list
+Dataset version
+Threshold
+SHAP implementation
+
+rerun:
+
+Model loading
+Prediction fixtures
+Explanation fixtures
+Metric validation
+
+---
+
+56. Continuous Integration Pipeline
+
+Recommended GitHub workflow:
+
+Git Push
+   ↓
+Lint
+   ↓
+Type Check
+   ↓
+Unit Tests
+   ↓
+API Tests
+   ↓
+ML Regression Tests
+   ↓
+Frontend Build
+   ↓
+Security Scan
+   ↓
+Deploy to Staging
+
+Only the staging environment should proceed to full E2E testing.
+
+---
+
+57. Release Pipeline
+
+Developer
+    ↓
+Pull Request
+    ↓
+Automated Tests
+    ↓
+Code Review
+    ↓
+ML Validation
+    ↓
+Security Scan
+    ↓
+Staging
+    ↓
+E2E Test
+    ↓
+Demo/Release Approval
+    ↓
+Production
+
+---
+
+58. Quality Gates
+
+The following should be release blockers:
+
+P0 failures
+
+- data leakage
+- incorrect feature ordering
+- broken preprocessing
+- model cannot load
+- incorrect prediction API
+- probability outside valid range
+- unauthorized data access
+- exposed credentials
+- major privacy violation
+- critical security vulnerability
+- broken Diabetes/CVD prediction workflow
+
+---
+
+59. P1 Failures
+
+Should normally be fixed before release:
+
+- broken analytics chart
+- explanation formatting issue
+- mobile layout issue
+- non-critical API error
+- moderate performance issue
+- secondary browser issue
+
+---
+
+60. P2 Issues
+
+Can be deferred for SIH:
+
+- advanced dashboard polish
+- screening-history edge cases
+- rare browser issues
+- non-critical animation bugs
+- advanced admin features
+
+---
+
+61. Optimized Test Matrix
+
+Test Category| Automated| Manual| Priority
+Input validation| ✅| | P0
+ML preprocessing| ✅| | P0
+Model inference| ✅| | P0
+Data leakage| ✅/Manual| ✅| P0
+API| ✅| | P0
+Explainability| ✅| ✅| P0
+Security| ✅/Manual| ✅| P0
+Privacy| ✅/Manual| ✅| P0
+Frontend components| ✅| | P1
+E2E critical paths| ✅| | P0
+Responsive UI| | ✅| P1
+Accessibility| ✅| ✅| P1
+Analytics| ✅| ✅| P1
+Quantum benchmark| ✅| ✅| P1
+Load testing| ✅| | P1
+Advanced features| | ✅| P2
+
+---
+
+62. Recommended Automated Test Count
+
+Don't chase an arbitrary huge number of tests.
+
+For an SIH MVP, target roughly:
+
+Backend unit/API tests       40–60
+ML regression tests          15–25
+Frontend component tests     20–30
+Critical E2E tests            5–8
+Security tests/scans         Automated
+
+Quality matters more than test count.
+
+---
+
+63. Critical Test Cases
+
+These must pass.
+
+TC-01
+
+Valid diabetes input produces a valid response.
+
+TC-02
+
+Valid CVD input produces a valid response.
+
+TC-03
+
+Missing required field is rejected.
+
+TC-04
+
+Wrong data type is rejected.
+
+TC-05
+
+Saved preprocessing matches training pipeline.
+
+TC-06
+
+Production model version is correct.
+
+TC-07
+
+Prediction probability is valid.
+
+TC-08
+
+Explanation matches the selected model/input.
+
+TC-09
+
+Final test data is never used during training/tuning.
+
+TC-10
+
+Unauthorized resource access is blocked.
+
+TC-11
+
+Health information does not appear unnecessarily in logs.
+
+TC-12
+
+Model tampering/missing artifact causes safe failure.
+
+TC-13
+
+React correctly renders successful prediction.
+
+TC-14
+
+React gracefully handles API failure.
+
+TC-15
+
+Mobile result page remains usable.
+
+---
+
+64. SIH Smoke Test
+
+Immediately before the presentation, run this 5-minute smoke test:
+
+1. Open application
+        ↓
+2. Select Diabetes
+        ↓
+3. Submit known demo data
+        ↓
+4. Verify prediction
+        ↓
+5. Verify explanation
+        ↓
+6. Open analytics
+        ↓
+7. Open model comparison
+        ↓
+8. Open quantum benchmark
+        ↓
+9. Return to home
+        ↓
+10. Repeat CVD flow
+
+If all ten steps work, the core demo is healthy.
+
+---
+
+65. Final Pre-Demo Checklist
+
+APPLICATION
+□ Frontend loads
+□ Backend healthy
+□ API reachable
+□ Database connected
+
+DIABETES
+□ Form works
+□ Validation works
+□ Prediction works
+□ Explanation works
+
+CVD
+□ Form works
+□ Validation works
+□ Prediction works
+□ Explanation works
+
+ANALYTICS
+□ Metrics loaded
+□ Charts loaded
+□ Model comparison works
+□ Quantum benchmark works
+
+SECURITY
+□ No secrets exposed
+□ Admin routes protected
+□ CORS correct
+□ Logs contain no unnecessary health data
+
+DEPLOYMENT
+□ HTTPS works
+□ Production models load
+□ Environment variables configured
+□ Error handling works
+
+DEMO
+□ Demo inputs ready
+□ Backup screenshots ready
+□ Backup local build ready
+□ Known-good model artifacts backed up
+
+---
+
+66. Optimized Team Testing Strategy
+
+If the team has multiple members, parallelize testing.
+
+             TESTING LEAD
+                  │
+      ┌───────────┼────────────┐
+      ▼           ▼            ▼
+     ML          API          UI
+     │            │            │
+     ▼            ▼            ▼
+ Leakage       Security    Responsive
+ Metrics       Validation  Accessibility
+ SHAP          Integration E2E
+
+One person should own the final release checklist so that defects do not fall between team members.
+
+---
+
+67. Recommended Test Automation Priority
+
+If development time is extremely limited, implement in this order:
+
+1. ML preprocessing + prediction tests
+2. API validation tests
+3. Data leakage checks
+4. Critical Diabetes/CVD E2E tests
+5. Security/auth tests
+6. SHAP regression tests
+7. Frontend component tests
+8. Responsive/accessibility checks
+9. Performance tests
+10. Quantum regression tests
+
+This ordering gives the highest protection per unit of development time.
+
+---
+
+68. Definition of Done
+
+A feature is Done only when:
+
+Code complete
+    +
+Unit tests pass
+    +
+Integration tests pass
+    +
+Relevant ML tests pass
+    +
+Security/privacy checks pass
+    +
+UI state tested
+    +
+Documentation updated
+
+For a model:
+
+Training complete
+    +
+Leakage checks pass
+    +
+Cross-validation complete
+    +
+Final test evaluation complete
+    +
+Explainability validated
+    +
+Artifact/version registered
+    +
+Inference regression test passes
+
+---
+
+69. Final Testing Architecture
+
+                         DIAGNOTECH
+                             │
+                             ▼
+                     TEST STRATEGY
+                             │
+       ┌─────────────────────┼──────────────────────┐
+       │                     │                      │
+       ▼                     ▼                      ▼
+   SOFTWARE               AI/ML                 SECURITY
+   TESTING                TESTING               & PRIVACY
+       │                     │                      │
+       ├── Unit              ├── Data Quality      ├── Auth
+       ├── API               ├── Leakage           ├── Access
+       ├── Integration       ├── Preprocessing     ├── API Security
+       ├── Frontend          ├── Inference          ├── Privacy
+       └── E2E               ├── Explainability    └── Secrets
+                             └── Quantum
+       │                     │                      │
+       └───────────────┬─────┴──────────────────────┘
+                       ▼
+                QUALITY GATES
+                       │
+             ┌─────────┴─────────┐
+             ▼                   ▼
+         PASS                  FAIL
+             │                   │
+             ▼                   ▼
+       STAGING / DEMO       Fix & Retest
+             │
+             ▼
+         PRODUCTION
+
+---
+
+70. Final Testing Principle
+
+The most important test in Diagnotech is not:
+
+«“Does the button work?”»
+
+It is:
+
+«“Does the exact data submitted by the user pass through the exact intended preprocessing pipeline into the exact approved model, produce a valid result, generate a consistent explanation, protect the user's data, and reach the UI without being misleading?”»
+
+That single end-to-end principle should drive the entire testing strategy.
+
+For the SIH MVP, the optimal approach is therefore P0-first: aggressively test the ML pipeline, leakage, prediction correctness, API validation, explainability, security/privacy, and two critical disease workflows, while keeping lower-value polish and advanced features behind those quality gates.

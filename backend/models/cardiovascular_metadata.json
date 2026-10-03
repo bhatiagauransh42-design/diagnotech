@@ -1,0 +1,43 @@
+{
+  "disease": "cardiovascular",
+  "model_name": "Quantum Support Vector Classifier (QSVC)",
+  "model_version": "QKSVM-CVD-v1",
+  "algorithm": "Quantum Kernel + Classical SVM",
+  "quantum_feature_map": "ZZFeatureMap (Second-Order Pauli Expansion with Phase Entanglement)",
+  "qubits": 6,
+  "dataset": "CDC BRFSS Cardiovascular Health Indicators (15,000 genuine records)",
+  "dataset_version": "CDC-BRFSS-2021-v1",
+  "preprocessing_version": "std_selectkbest_pca6_minmaxpi_v1",
+  "training_samples": 800,
+  "test_samples": 600,
+  "feature_count": 17,
+  "features": [
+    "HighBP",
+    "HighChol",
+    "CholCheck",
+    "BMI",
+    "Smoker",
+    "Stroke",
+    "Diabetes_binary",
+    "PhysActivity",
+    "Fruits",
+    "Veggies",
+    "HvyAlcoholConsump",
+    "GenHlth",
+    "MentHlth",
+    "PhysHlth",
+    "DiffWalk",
+    "Sex",
+    "Age"
+  ],
+  "quantum_features": 6,
+  "metrics": {
+    "accuracy": 0.735,
+    "precision": 0.5788,
+    "recall": 0.7822,
+    "specificity": 0.7111,
+    "f1": 0.6653,
+    "roc_auc": 0.8243
+  },
+  "training_date": "2026-09-13T17:30:54.622638Z"
+}

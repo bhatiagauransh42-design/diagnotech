@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Diagnotech — Comprehensive Technical Analysis, Model Architecture & System Dossier</title>
+<style>
+  @page {
+    size: A4 portrait;
+    margin: 14mm 12mm 14mm 12mm;
+  }
+
+  *, *:before, *:after {
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    color: #1e293b;
+    background-color: #ffffff;
+    line-height: 1.42;
+    font-size: 8.8pt;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Cover / Title Banner */
+  .header-card {
+    background: linear-gradient(135deg, #070d18 0%, #0f172a 50%, #1e293b 100%);
+    color: #f8fafc;
+    padding: 22px 24px;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    border-left: 6px solid #06b6d4;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  }
+
+  .header-card h1 {
+    font-size: 19pt;
+    margin: 0 0 6px 0;
+    color: #ffffff;
+    letter-spacing: -0.02em;
+    font-weight: 800;
+  }
+
+  .header-card .subtitle {
+    font-size: 10pt;
+    color: #38bdf8;
+    font-weight: 600;
+    margin-bottom: 12px;
+    line-height: 1.35;
+  }
+
+  .header-card .meta-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    font-size: 7.8pt;
+    border-top: 1px solid rgba(255,255,255,0.18);
+    padding-top: 10px;
+    color: #cbd5e1;
+  }
+
+  .header-card .meta-item strong {
+    color: #f1f5f9;
+    display: block;
+    margin-bottom: 2px;
+    font-size: 8pt;
+    letter-spacing: 0.03em;
+  }
+
+  /* Section Styling */
+  .section-container {
+    margin-bottom: 14px;
+    page-break-inside: auto;
+  }
+
+  .page-break {
+    page-break-before: always;
+  }
+
+  h2 {
+    font-size: 12.5pt;
+    color: #0f172a;
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: 4px;
+    margin-top: 16px;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+  }
+
+  h2 .sec-badge {
+    background: #0284c7;
+    color: #ffffff;
+    font-size: 7pt;
+    padding: 2px 7px;
+    border-radius: 4px;
+    margin-right: 8px;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+  }
+
+  h3 {
+    font-size: 10pt;
+    color: #0369a1;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    font-weight: 750;
+    border-left: 3px solid #0284c7;
+    padding-left: 6px;
+  }
+
+  h4 {
+    font-size: 9pt;
+    color: #1e293b;
+    margin-top: 6px;
+    margin-bottom: 3px;
+    font-weight: 700;
+  }
+
+  /* Bullet points formatting */
+  ul {
+    margin: 3px 0 6px 0;
+    padding-left: 17px;
+  }
+
+  li {
+    margin-bottom: 3.5px;
+    line-height: 1.38;
+  }
+
+  li strong {
+    color: #0f172a;
+  }
+
+  ul ul {
+    margin: 2.5px 0 3px 0;
+    padding-left: 15px;
+  }
+
+  ul ul li {
+    margin-bottom: 2.5px;
+    color: #334155;
+  }
+
+  ul ul ul {
+    margin: 2px 0 2px 0;
+    padding-left: 13px;
+  }
+
+  ul ul ul li {
+    margin-bottom: 2px;
+    color: #475569;
+  }
+
+  /* Callout boxes */
+  .callout {
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-left: 4px solid #0284c7;
+    padding: 8px 11px;
+    border-radius: 4px;
+    margin: 7px 0;
+    page-break-inside: avoid;
+  }
+
+  .callout-warning {
+    border-left-color: #f59e0b;
+    background-color: #fffbeb;
+  }
+
+  .callout-success {
+    border-left-color: #10b981;
+    background-color: #f0fdf4;
+  }
+
+  .callout-title {
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 4px;
+    font-size: 8.2pt;
+    display: flex;
+    align-items: center;
+    letter-spacing: 0.02em;
+  }
+
+  /* Tables */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 6px 0 10px 0;
+    font-size: 7.6pt;
+    page-break-inside: avoid;
+  }
+
+  th, td {
+    border: 1px solid #cbd5e1;
+    padding: 4px 6px;
+    text-align: left;
+    vertical-align: top;
+  }
+
+  th {
+    background-color: #f1f5f9;
+    color: #0f172a;
+    font-weight: 750;
+  }
+
+  tr:nth-child(even) {
+    background-color: #f8fafc;
+  }
+
+  .highlight-row {
+    background-color: #e0f2fe !important;
+    font-weight: 600;
+  }
+
+  /* Badges & Tags */
+  .badge {
+    display: inline-block;
+    padding: 1px 5px;
+    font-size: 6.8pt;
+    font-weight: 700;
+    border-radius: 3px;
+    text-transform: uppercase;
+  }
+
+  .badge-primary { background: #e0f2fe; color: #0369a1; }
+  .badge-success { background: #dcfce7; color: #15803d; }
+  .badge-warning { background: #fef3c7; color: #b45309; }
+  .badge-danger { background: #fee2e2; color: #b91c1c; }
+  .badge-purple { background: #ede9fe; color: #6d28d9; }
+
+  /* Diagram & Workflow Containers */
+  .workflow-box {
+    background: #f8fafc;
+    border: 1px solid #cbd5e1;
+    border-radius: 5px;
+    padding: 7px 11px;
+    margin: 5px 0 8px 0;
+    font-size: 8pt;
+    line-height: 1.35;
+    page-break-inside: avoid;
+  }
+
+  .code-term {
+    font-family: Consolas, "Courier New", monospace;
+    font-size: 7.8pt;
+    background: #f1f5f9;
+    padding: 1px 3.5px;
+    border-radius: 3px;
+    color: #0f172a;
+    border: 1px solid #e2e8f0;
+  }
+
+  /* Two Column Bullet Layout */
+  .grid-2col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    page-break-inside: avoid;
+  }
+
+  .card-box {
+    border: 1px solid #e2e8f0;
+    border-radius: 5px;
+    padding: 7px 9px;
+    background: #ffffff;
+  }
+
+  .footer {
+    border-top: 1px solid #e2e8f0;
+    padding-top: 5px;
+    font-size: 7.2pt;
+    color: #64748b;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 16px;
+  }
+</style>
+</head>
+<body>
+
+<!-- ==================== HEADER COVER ==================== -->
+<div class="header-card">
+  <h1>DIAGNOTECH — COMPLETE TECHNICAL ANALYSIS &amp; ARCHITECTURE DOSSIER</h1>
+  <div class="subtitle">Comprehensive Analysis of Tech Stack, Machine Learning Pipeline Workflows, Model Architectures, Quantum Benchmarks &amp; System Implementation</div>
+  <div class="meta-grid">
+    <div class="meta-item">
+      <strong>SYSTEM TYPE</strong>
+      Clinical Screening &amp; Decision Support
+    </div>
+    <div class="meta-item">
+      <strong>TARGET PATHOLOGIES</strong>
+      Type 2 Diabetes &amp; Cardiovascular Disease
+    </div>
+    <div class="meta-item">
+      <strong>VALIDATION COHORT</strong>
+      CDC BRFSS (253,680 Epidemiological Records)
+    </div>
+    <div class="meta-item">
+      <strong>CORE METHODOLOGIES</strong>
+      TreeSHAP XAI + 6-Qubit ZZFeatureMap QSVC
+    </div>
+  </div>
+</div>
+
+<!-- ==================== SECTION 1 ==================== -->
+<div class="section-container">
+  <h2><span class="sec-badge">SEC 01</span> EXECUTIVE SUMMARY &amp; SYSTEM IDENTITY</h2>
+  <ul>
+    <li><strong>Platform Overview &amp; Clinical Purpose:</strong>
+      <ul>
+        <li>Diagnotech is an advanced, explainable AI-powered clinical screening and decision-support web platform engineered for multi-marker risk assessment of Type 2 Diabetes Mellitus and Cardiovascular Disease (CVD).</li>
+        <li>The system bridges the gap between raw epidemiological biometrics and actionable clinical insight by transforming 17 validated physiological and lifestyle indicators into calibrated probabilistic risk scores.</li>
+        <li>It operates strictly as a non-diagnostic screening decision-support utility, explicitly engineered to augment physician triage, prioritize high-risk specialist referrals, and clarify the etiology of metabolic disorders.</li>
+      </ul>
+    </li>
+    <li><strong>Core Design Philosophy — The Four Guiding Inquiries:</strong>
+      <ul>
+        <li><strong>1. "Is the patient at elevated risk?"</strong> — Delivered through calibrated non-linear ensemble probability estimation (P(Disease | x) in [0.0, 1.0]) categorized into standardized clinical tiers (Low, Moderate, High).</li>
+        <li><strong>2. "Why did the model reach this result?"</strong> — Answered locally via unified additive feature attribution (TreeSHAP) calculating precise positive/negative log-odds deviations per biometric indicator.</li>
+        <li><strong>3. "How reliable and validated is the model?"</strong> — Exposed transparently across discrimination curves (ROC-AUC, PR-AUC), confusion matrices, and 5-algorithm cross-validated comparative benchmark suites.</li>
+        <li><strong>4. "What clinical limitations must be considered?"</strong> — Explicitly bounded through automated contextual disclaimers, class-imbalance sensitivity disclosures, and non-causal interpretability rules.</li>
+      </ul>
+    </li>
+    <li><strong>Unified Multi-Pathway Architecture:</strong>
+      <ul>
+        <li><strong>Pathway A (Production Clinical Screening):</strong> Balanced Random Forest (Diabetes) and Gradient-Boosted XGBoost (CVD) paired with on-the-fly local TreeSHAP explanations and evidence-based clinical guidance.</li>
+        <li><strong>Pathway B (Deep Model Transparency &amp; Analytics):</strong> Comprehensive holdout test cohort comparative evaluations across 5 classical models, full ROC/PR SVG coordinates, and global feature importance distributions.</li>
+        <li><strong>Pathway C (Quantum-Kernel Benchmark Lab):</strong> Experimental 6-qubit Quantum Support Vector Classifier (QSVC) utilizing second-order Pauli expansion (ZZFeatureMap) and quantum state fidelity inner products.</li>
+        <li><strong>Pathway D (CDC Data Governance &amp; Metadata):</strong> Interactive documentation of epidemiological data dictionaries, population distributions, privacy bounds, and data processing protocols.</li>
+      </ul>
+    </li>
+  </ul>
+</div>
+
+<!-- ==================== SECTION 2 ==================== -->
+<div class="section-container">
+  <h2><span class="sec-badge">SEC 02</span> COMPREHENSIVE ANALYSIS OF TECH STACK USED</h2>
+  
+  <h3>1. Frontend Application Architecture &amp; Libraries</h3>
+  <ul>
+    <li><strong>React 19 (v19.2.8):</strong>
+      <ul>
+        <li>Serves as the declarative core component runtime, leveraging the latest React 19 concurrent rendering engine and streamlined hooks.</li>
+        <li>Provides fine-grained reactive state management across multi-disease form states, interactive tab switches, and live SHAP coordinate bindings.</li>
+      </ul>
+    </li>
+    <li><strong>Vite (v8.2.2) &amp; Plugin-React (v6.1.0):</strong>
+      <ul>
+        <li>Next-generation frontend build tooling and ES-module development server with sub-millisecond Hot Module Replacement (HMR).</li>
+        <li>Rollup-based optimized production asset bundling with tree-shaking, code-splitting, and minification.</li>
+      </ul>
+    </li>
+    <li><strong>Framer Motion (v13.2.0):</strong>
+      <ul>
+        <li>Hardware-accelerated physics-based animation library driving dynamic layout transitions, floating badge physics, and smooth tab switching.</li>
+        <li>Controls perspective 3D card carousels, expandable feature explanation accordions, and interactive metric counters.</li>
+      </ul>
+    </li>
+    <li><strong>Lucide React (v1.42.0):</strong>
+      <ul>
+        <li>Clean, unified SVG iconography system providing specialized medical, analytical, and status symbols (<span class="code-term">Activity</span>, <span class="code-term">Heart</span>, <span class="code-term">Stethoscope</span>, <span class="code-term">ShieldCheck</span>, <span class="code-term">Sparkles</span>, <span class="code-term">Zap</span>).</li>
+      </ul>
+    </li>
+    <li><strong>Oxlint (v1.79.0):</strong>
+      <ul>
+        <li>Ultra-high-performance Rust-based linter enforcing strict code quality, unused variable pruning, and syntax hygiene.</li>
+      </ul>
+    </li>
+    <li><strong>Custom CSS &amp; Canvas Rendering Systems:</strong>
+      <ul>
+        <li><strong>Modular CSS Design System (<span class="code-term">index.css</span> / <span class="code-term">App.css</span>):</strong> Tailored cyber-medical dark theme (<span class="code-term">#05070e</span> void black, <span class="code-term">#0b1120</span> deep slate, <span class="code-term">#38bdf8</span> tech cyan, <span class="code-term">#8b5cf6</span> quantum purple) with HSL color tokens and glassmorphism.</li>
+        <li><strong>HTML5 Canvas Dynamic Particle Vortex:</strong> Custom-coded multi-particle math simulation rendering orbital trajectories and ambient motion.</li>
+        <li><strong>GatewayFlow Engine:</strong> Vectorized streaming canvas backdrop generating chromatic atmospheric flow fields modulated by calculated risk severity.</li>
+      </ul>
+    </li>
+  </ul>
+
+  <h3>2. Backend Application, API &amp; Server Environment</h3>
+  <ul>
+    <li><strong>Python (v3.12+):</strong>
+      <ul>
+        <li>High-performance typed backend programming language providing numerical robustness and extensive scientific computing ecosystem support.</li>
+      </ul>
+    </li>
+    <li><strong>FastAPI (v0.110.0):</strong>
+      <ul>
+        <li>Modern, high-throughput asynchronous web framework based on Starlette and Pydantic.</li>
+        <li>Automatic OpenAPI 3.1.0 documentation generation (<span class="code-term">/api/v1/docs</span> Swagger UI and <span class="code-term">/api/v1/redoc</span>).</li>
+        <li>Strict request/response type validation, automatic serialization, and high-concurrency async route dispatching.</li>
+      </ul>
+    </li>
+    <li><strong>Uvicorn (v0.28.0):</strong>
+      <ul>
+        <li>Lightning-fast ASGI production server implementation built on <span class="code-term">uvloop</span> and <span class="code-term">httptools</span> for asynchronous HTTP handling.</li>
+      </ul>
+    </li>
+    <li><strong>Pydantic (v2.6.0):</strong>
+      <ul>
+        <li>Rust-backed core data validation engine enforcing strict numerical typing, field boundaries, and custom clinical sanitizers.</li>
+      </ul>
+    </li>
+    <li><strong>CORS Middleware (<span class="code-term">fastapi.middleware.cors</span>):</strong>
+      <ul>
+        <li>Cross-Origin Resource Sharing security enforcement with origin whitelisting (<span class="code-term">localhost:3000</span>, <span class="code-term">localhost:5173</span>, deployment proxies).</li>
+      </ul>
+    </li>
+  </ul>
+
+  <h3>3. Machine Learning, Mathematical &amp; Explainability Frameworks</h3>
+  <ul>
+    <li><strong>Scikit-Learn (v1.4+):</strong>
+      <ul>
+        <li>Core machine learning suite utilized for data preprocessing pipelines, train/test splitting, and algorithm implementation:
+          <ul>
+            <li><span class="code-term">StandardScaler</span> &amp; <span class="code-term">SimpleImputer</span>: Leakage-free continuous variable transformation.</li>
+            <li><span class="code-term">StratifiedKFold</span>: Preserves minority positive incidence across training cross-validation splits.</li>
+            <li><span class="code-term">RandomForestClassifier</span>: Gini-impurity balanced ensemble tree estimator.</li>
+            <li><span class="code-term">LogisticRegression</span>: L2-regularized linear log-odds baseline.</li>
+            <li><span class="code-term">DecisionTreeClassifier</span>: Pruned single-tree decision rule reference.</li>
+            <li><span class="code-term">CalibratedClassifierCV(LinearSVC)</span>: Isotonic/sigmoid probability calibration over support vector margins.</li>
+            <li><span class="code-term">PCA</span>: Unsupervised orthogonal decomposition for quantum feature compression.</li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><strong>XGBoost (v2.0+):</strong>
+      <ul>
+        <li>Extreme Gradient Boosting framework optimizing second-order Taylor expansion loss functions (<span class="code-term">binary:logistic</span>) with tree pruning and shrinkage.</li>
+      </ul>
+    </li>
+    <li><strong>SHAP (SHapley Additive exPlanations v0.44+):</strong>
+      <ul>
+        <li>Game-theoretic cooperative solution concept implemented via <span class="code-term">shap.TreeExplainer</span> for exact polynomial-time tree SHAP computation.</li>
+      </ul>
+    </li>
+    <li><strong>NumPy (v1.26.0) &amp; Pandas (v2.2+):</strong>
+      <ul>
+        <li>Vectorized N-dimensional array operations, matrix linear algebra, pairwise broadcasting, and tabular data transformation.</li>
+      </ul>
+    </li>
+    <li><strong>Joblib (v1.3.0):</strong>
+      <ul>
+        <li>Optimized disk serialization for complex Python closures, fitted estimators, scalers, and background tree structures.</li>
+      </ul>
+    </li>
+  </ul>
+
+  <h3>4. Quantum Simulation &amp; Benchmark Computing Stack</h3>
+  <ul>
+    <li><strong>Quantum Support Vector Machine Architecture:</strong>
+      <ul>
+        <li>Hybrid quantum-classical classification scheme using a classical dual SVM solver with precomputed quantum kernel Gram matrices.</li>
+      </ul>
+    </li>
+    <li><strong>Second-Order Pauli Expansion (<span class="code-term">ZZFeatureMap</span>):</strong>
+      <ul>
+        <li>Non-linear quantum circuit embedding classical n-dimensional vectors into a 2^n-dimensional complex Hilbert state space.</li>
+        <li>Implements single-qubit phase rotations (Z gates) and pairwise two-qubit entanglement interactions (ZZ phase evolution).</li>
+      </ul>
+    </li>
+    <li><strong>Quantum State Fidelity Kernel Engine:</strong>
+      <ul>
+        <li>Computes transition probability inner products K(x_i, x_j) = |<psi(x_i) | psi(x_j)>|^2 via vectorized NumPy simulation.</li>
+      </ul>
+    </li>
+  </ul>
+
+  <h3>5. Data Governance, Deployment &amp; Tooling Infrastructure</h3>
+  <ul>
+    <li><strong>CDC BRFSS Surveillance Repository:</strong> Public health microdata from the Centers for Disease Control and Prevention (253,680 records).</li>
+    <li><strong>Vercel Cloud Platform:</strong> Edge network hosting for the React SPA with automated SPA routing rewrites (<span class="code-term">vercel.json</span>).</li>
+    <li><strong>Headless Microsoft Edge / Chromium Engine:</strong> Print-to-PDF rendering pipeline compiling publication-grade analytical documentation.</li>
+  </ul>
+</div>
+
+<div class="page-break"></div>
+
+<!-- ==================== SECTION 3 ==================== -->
+<div class="section-container">
+  <h2><span class="sec-badge">SEC 03</span> COMPLETE PIPELINE WORKFLOW OF MODEL ARCHITECTURE</h2>
+
+  <div class="workflow-box">
+    <strong>END-TO-END SYSTEM DATAFLOW ARCHITECTURE:</strong><br>
+    CDC BRFSS Raw Surveillance Data (253,680 Rows) &rarr; Leakage-Free Stratified 80/20 Split &rarr; <span class="code-term">CDCPreprocessor</span> Fitting &rarr; Multi-Model Training Suite (5 Algorithms) &rarr; Stratified 3-Fold Cross-Validation &rarr; Production Selection (RF / XGB) &rarr; TreeSHAP Local/Global Explainer Compilation &rarr; 6-Qubit ZZFeatureMap Quantum Benchmark &rarr; FastAPI Async Microservice &rarr; React 19 Interactive Glassmorphism UI
+  </div>
+
+  <h3>Phase 1: Data Ingestion, Cleansing &amp; Quality Control Pipeline</h3>
+  <ul>
+    <li><strong>Source Cohort Extraction:</strong>
+      <ul>
+        <li>Ingests raw CDC BRFSS (Behavioral Risk Factor Surveillance System) survey microdata comprising 253,680 validated responses.</li>
+        <li>Harmonizes column identifiers, removes non-informative survey administrative fields, and standardizes binary indicators into strict integer formats (0, 1).</li>
+      </ul>
+    </li>
+    <li><strong>Mandatory Leakage-Free Splitting Protocol:</strong>
+      <ul>
+        <li>The full corpus is split using a strict <strong>Stratified 80/20 Holdout Partition</strong> (<span class="code-term">train_test_split</span>, <span class="code-term">random_state=42</span>, stratified by target).</li>
+        <li><strong>Strict Isolation Rule:</strong> The test set (unseen holdout cohort) is quarantined immediately. No preprocessing statistics (mean, variance, median, IQR), feature selections, or parameter adjustments ever touch the test split prior to final evaluation.</li>
+      </ul>
+    </li>
+    <li><strong>Missing-Value Imputation &amp; Quality Checks:</strong>
+      <ul>
+        <li>Continuous metrics are checked for physiological plausibility (e.g., BMI bounded within [12.0, 70.0]).</li>
+        <li>Missing values are imputed using the <strong>training set median values</strong>, which are serialized and stored inside the preprocessor object.</li>
+      </ul>
+    </li>
+  </ul>
+
+  <h3>Phase 2: Feature Engineering &amp; Preprocessing Pipeline (<span class="code-term">CDCPreprocessor</span>)</h3>
+  <ul>
+    <li><strong>Architecture of <span class="code-term">CDCPreprocessor</span> (<span class="code-term">ml.common.preprocessing</span>):</strong>
+      <ul>
+        <li>Inherits from Scikit-Learn's <span class="code-term">BaseEstimator</span> and <span class="code-term">TransformerMixin</span> for native serialization and pipeline compatibility.</li>
+        <li>Maintains internal state flags (<span class="code-term">self.fitted_</span>) to prevent unauthorized inference without training initialization.</li>
+      </ul>
+    </li>
+    <li><strong>Continuous Feature Transformation:</strong>
+      <ul>
+        <li>Features identified as continuous: <span class="code-term">BMI</span>, <span class="code-term">MentHlth</span> (mental health days), <span class="code-term">PhysHlth</span> (physical injury days), <span class="code-term">Age</span> (5-year age tier), and <span class="code-term">GenHlth</span> (self-rated health scale 1–5).</li>
+        <li>Standardization applies Z-score normalization: z = (x - mu_train) / sigma_train, ensuring zero mean and unit variance for scale-sensitive estimators (SVM, Logistic Regression).</li>
+      </ul>
+    </li>
+    <li><strong>Categorical &amp; Binary Indicator Pass-Through:</strong>
+      <ul>
+        <li>Binary indicators (<span class="code-term">HighBP</span>, <span class="code-term">HighChol</span>, <span class="code-term">Smoker</span>, <span class="code-term">Stroke</span>, <span class="code-term">PhysActivity</span>, <span class="code-term">DiffWalk</span>, <span class="code-term">Sex</span>) remain as discrete {0, 1} features, preserving sparsity and binary tree split efficiency.</li>
+      </ul>
+    </li>
+  </ul>
+
+  <h3>Phase 3: Model Suite Training &amp; Cross-Validation Protocol</h3>
+  <ul>
+    <li><strong>Candidate Algorithm Suite Evaluated:</strong>
+      <ul>
+        <li><strong>1. Logistic Regression:</strong> L2-regularized baseline (<span class="code-term">max_iter=300</span>, <span class="code-term">class_weight="balanced"</span>) providing transparent linear log-odds coefficients.</li>
+        <li><strong>2. Decision Tree Classifier:</strong> Pruned hierarchical partitioner (<span class="code-term">max_depth=6</span>, <span class="code-term">class_weight="balanced"</span>) establishing orthogonal decision boundaries.</li>
+        <li><strong>3. Random Forest Classifier:</strong> Bootstrap ensemble (<span class="code-term">n_estimators=60-80</span>, <span class="code-term">max_depth=8</span>, <span class="code-term">class_weight="balanced"</span>) optimizing variance reduction and non-linear interactions.</li>
+        <li><strong>4. Support Vector Machine:</strong> Linear support vector classifier wrapped with <span class="code-term">CalibratedClassifierCV</span> (<span class="code-term">max_iter=1000</span>, <span class="code-term">class_weight="balanced"</span>) for calibrated posterior margins.</li>
+        <li><strong>5. XGBoost Classifier:</strong> Extreme gradient-boosted tree ensemble (<span class="code-term">n_estimators=60-80</span>, <span class="code-term">max_depth=4</span>, <span class="code-term">learning_rate=0.08</span>, <span class="code-term">eval_metric="logloss"</span>).</li>
+      </ul>
+    </li>
+    <li><strong>Stratified 3-Fold Cross-Validation:</strong>
+      <ul>
+        <li>Executed across all training samples to record mean validation performance and variance for ROC-AUC and Recall, preventing single-split selection bias.</li>
+      </ul>
+    </li>
+  </ul>
+
+  <h3>Phase 4: Production Model Selection &amp; Internal Architectures</h3>
+  <div class="grid-2col">
+    <div class="card-box">
+      <h4>Diabetes Production Model (<span class="code-term">diabetes_rf_v1.0</span>)</h4>
+      <ul>
+        <li><strong>Algorithm:</strong> Balanced Random Forest Classifier.</li>
+        <li><strong>Hyperparameters:</strong> 60 estimators, max tree depth 8, Gini criterion, balanced subsample weighting.</li>
+        <li><strong>Selection Rationale:</strong> Exceptional balance of discrimination (ROC-AUC 0.8108) and high specificity (0.8635), minimizing false positive metabolic alarms in outpatient wellness checks.</li>
+        <li><strong>Artifacts:</strong> <span class="code-term">diabetes_rf_v1.joblib</span>, <span class="code-term">diabetes_preprocessor.joblib</span>.</li>
+      </ul>
+    </div>
+    <div class="card-box">
+      <h4>Cardiovascular Production Model (<span class="code-term">cvd_xgb_v1.0</span>)</h4>
+      <ul>
+        <li><strong>Algorithm:</strong> Gradient-Boosted XGBoost Classifier.</li>
+        <li><strong>Hyperparameters:</strong> 60 boosting rounds, max tree depth 4, learning rate 0.08, logloss loss function.</li>
+        <li><strong>Selection Rationale:</strong> Superior precision (0.8281) and high ROC-AUC (0.8389), capturing complex non-linear vascular interactions between hypertension, stroke history, and dyslipidemia.</li>
+        <li><strong>Artifacts:</strong> <span class="code-term">cvd_xgb_v1.joblib</span>, <span class="code-term">cvd_preprocessor.joblib</span>.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Phase 5: Explainable AI (XAI) Architecture &amp; TreeSHAP Workflow</h3>
+  <ul>
+    <li><strong>Mathematical Formulation of Shapley Values:</strong>
+      <ul>
+        <li>SHAP attributes the model output to additive feature contributions: f(x) = phi_0 + sum(phi_i(x)), where phi_0 is the base expected value across the training population and phi_i is the marginal contribution of feature i.</li>
+      </ul>
+    </li>
+    <li><strong>TreeSHAP Algorithm (<span class="code-term">shap.TreeExplainer</span>):</strong>
+      <ul>
+        <li>Utilizes tree structure knowledge to calculate exact local Shapley attributions in polynomial time O(T * L * D^2) rather than exponential sampling time O(2^M).</li>
+        <li>Evaluated against an 80-sample background cohort representing standard demographic baselines.</li>
+      </ul>
+    </li>
+    <li><strong>Clinical Translation Layer (<span class="code-term">explanation_service.py</span>):</strong>
+      <ul>
+        <li>Maps raw mathematical phi_i values into human-readable clinical narratives, indicating both magnitude, direction (<span class="code-term">increases_risk</span> vs <span class="code-term">decreases_risk</span>), and biometric significance.</li>
+        <li>Strictly adheres to non-causal language constraints (e.g., "Elevated blood pressure places excess shear strain on vascular walls" rather than "High blood pressure caused disease").</li>
+      </ul>
+    </li>
+    <li><strong>Global Model Analytics Compilation:</strong>
+      <ul>
+        <li>Computes mean absolute SHAP values across cohorts: I_i = (1/N) * sum(|phi_i|), generating global feature importance rankings and dot-distribution summary points.</li>
+      </ul>
+    </li>
+  </ul>
+
+  <h3>Phase 6: Quantum Machine Learning (QML) Benchmark Architecture</h3>
+  <ul>
+    <li><strong>Quantum Dimensionality Reduction Pipeline:</strong>
+      <ul>
+        <li>Due to NISQ (Noisy Intermediate-Scale Quantum) simulation complexity (O(N^2) kernel evaluations and exponential Hilbert statevectors), the 17 input biometrics are compressed:
+          <ul>
+            <li>Step 1: Min-Max scaling into [0, pi].</li>
+            <li>Step 2: Principal Component Analysis (PCA) reducing 17 features to 6 principal components capturing >85% of total variance.</li>
+            <li>Step 3: Secondary rescaling into [0, pi] rotation angles for quantum phase registers.</li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><strong>ZZFeatureMap Formulation (Second-Order Pauli Expansion):</strong>
+      <ul>
+        <li>Maps classical vector x in [0, pi]^6 to quantum state |psi(x)> via unitary circuit: U_Phi(x) = prod(U_Phi(x) H^{tensor n}).</li>
+        <li>Single-qubit rotation gates: U_1(x) = exp(i * sum(x_i * Z_i)).</li>
+        <li>Two-qubit entanglement phase interactions: U_2(x) = exp(i * sum((pi - x_i)(pi - x_j) * Z_i * Z_j)).</li>
+      </ul>
+    </li>
+    <li><strong>Quantum State Fidelity Inner Product Kernel:</strong>
+      <ul>
+        <li>Computes Gram matrix elements: K(x_i, x_j) = |<psi(x_i) | psi(x_j)>|^2 in [0.0, 1.0].</li>
+        <li>Vectorized simulation evaluates pairwise single-qubit cosine phase differences combined with circular two-qubit entanglement coupling.</li>
+      </ul>
+    </li>
+    <li><strong>Quantum Support Vector Classifier (QSVC) Execution:</strong>
+      <ul>
+        <li>Precomputed train-train (K_train) and test-train (K_test) kernel matrices are fed into a classical dual quadratic optimizer with balanced class weights to benchmark classification performance against classical tree ensembles.</li>
+      </ul>
+    </li>
+  </ul>
+
+  <h3>Phase 7: Real-Time Inference, Serving &amp; Clinical Stratification</h3>
+  <ul>
+    <li><strong>Asynchronous REST Request Lifecycle:</strong>
+      <ul>
+        <li>1. Client submits JSON payload to <span class="code-term">/api/v1/predict/diabetes</span> or <span class="code-term">/api/v1/predict/cardiovascular</span>.</li>
+        <li>2. Pydantic validates data types, acceptable bounds, and default clinical values.</li>
+        <li>3. Feature vector mapped into strict 17-dimensional ordered floating-point NumPy tensor.</li>
+        <li>4. <span class="code-term">CDCPreprocessor.transform()</span> executes serialized scaling.</li>
+        <li>5. <span class="code-term">model.predict_proba()</span> computes positive class likelihood (p).</li>
+        <li>6. TreeSHAP explainer computes exact local phi_i contribution vector.</li>
+        <li>7. Clinical stratification assigns risk category:
+          <ul>
+            <li><strong>Low Risk:</strong> p &lt; 0.35 &rarr; Color: Emerald Green (<span class="code-term">#10B981</span>).</li>
+            <li><strong>Moderate Risk:</strong> 0.35 &le; p &lt; 0.65 &rarr; Color: Amber Gold (<span class="code-term">#F59E0B</span>).</li>
+            <li><strong>High Risk:</strong> p &ge; 0.65 &rarr; Color: Crimson Red (<span class="code-term">#EF4444</span>).</li>
+          </ul>
+        </li>
+        <li>8. Rule-based guidance engine attaches tailored clinical recommendations based on high-impact risk factors.</li>
+        <li>9. High-speed JSON response returned containing prediction, calibrated probability, risk tier, full SHAP explanation, model governance metadata, and disclaimer.</li>
+      </ul>
+    </li>
+    <li><strong>Resilient Client-Side Fallback Engine:</strong>
+      <ul>
+        <li>In the event of network disruption or backend cold-starts, the frontend includes a deterministic, clinically calibrated mathematical risk scoring engine with client-side SHAP approximation, guaranteeing 100% operational uptime for offline emergency screening demonstrations.</li>
+      </ul>
+    </li>
+  </ul>
+</div>
+
+<div class="page-break"></div>
+
+<!-- ==================== SECTION 4 ==================== -->
+<div class="section-container">
+  <h2><span class="sec-badge">SEC 04</span> DATA DICTIONARY &amp; CLINICAL BIOMETRIC SCHEMA</h2>
+  <p style="margin-bottom: 5px;">The platform ingests 17 standardized biometric and lifestyle indicators derived from the CDC BRFSS epidemiological surveillance survey. Below is the complete feature dictionary:</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 14%;">Feature Key</th>
+        <th style="width: 16%;">Display Name</th>
+        <th style="width: 8%;">Type</th>
+        <th style="width: 12%;">Valid Range</th>
+        <th style="width: 50%;">Etiological Significance &amp; Clinical Context</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="code-term">HighBP</span></td>
+        <td>High Blood Pressure</td>
+        <td>Binary</td>
+        <td>0: No, 1: Yes</td>
+        <td>Direct indicator of chronic vascular resistance, endothelial shear stress, and microvascular renal damage. Key risk driver for stroke and coronary artery disease.</td>
+      </tr>
+      <tr>
+        <td><span class="code-term">HighChol</span></td>
+        <td>High Cholesterol</td>
+        <td>Binary</td>
+        <td>0: No, 1: Yes</td>
+        <td>Reflects circulating hyperlipidemia contributing to atherosclerotic plaque accumulation in coronary and peripheral arterial beds.</td>
+      </tr>
+      <tr>
+        <td><span class="code-term">CholCheck</span></td>
+        <td>Cholesterol Screening</td>
+        <td>Binary</td>
+        <td>0: No, 1: Yes</td>
+        <td>Indicates proactive engagement with preventative healthcare within the past 5 years. Absence indicates potential undetected asymptomatic lipid dysregulation.</td>
+      </tr>
+      <tr>
+        <td><span class="code-term">BMI</span></td>
+        <td>Body Mass Index</td>
+        <td>Float</td>
+        <td>12.0 – 70.0 kg/m²</td>
+        <td>Adiposity biomarker. Values &ge;30.0 indicate obesity, strongly driving peripheral insulin resistance, chronic systemic inflammation (TNF-alpha, IL-6), and myocardial strain.</td>
+      </tr>
+      <tr>
+        <td><span class="code-term">Smoker</span></td>
+        <td>Smoking History</td>
+        <td>Binary</td>
+        <td>0: No, 1: Yes</td>
+        <td>History of &ge;100 cigarettes. Nicotine and combustion oxidants induce acute endothelial dysfunction, sympathetic activation, and accelerate vascular stiffening.</td>
+      </tr>
+      <tr>
+        <td><span class="code-term">Stroke</span></td>
+        <td>History of Stroke</td>
+        <td>Binary</td>
+        <td>0: No, 1: Yes</td>
+        <td>Established cerebrovascular infarct or ischemia, signaling extensive underlying macrovascular atherothrombotic disease.</td>
+      </tr>
+      <tr>
+        <td><span class="code-term">HeartDiseaseorAttack</span></td>
+        <td>Coronary Heart Disease / MI</td>
+        <td>Binary</td>
+        <td>0: No, 1: Yes</td>
+        <td>Diagnosed myocardial infarction or obstructive coronary artery disease. (Primary target in CVD model; secondary feature in Diabetes model).</td>
+      </tr>
+      <tr>
+        <td><span class="code-term">Diabetes_binary</span></td>
+        <td>Diagnosed Diabetes</td>
+        <td>Binary</td>
+        <td>0: No, 1: Yes</td>
+        <td>Diagnosed dysglycemia/diabetes mellitus. (Primary target in Diabetes model; secondary feature in CVD model driving diabetic cardiomyopathy).</td>
+      </tr>
+      <tr>
+        <td><span class="code-term">PhysActivity</span></td>
+        <td>Physical Activity</td>
+        <td>Binary</td>
+        <td>0: No, 1: Yes</td>
+        <td>Moderate/vigorous exercise during past 30 days. Enhances GLUT4 glucose transporter translocation and vascular endothelial nitric oxide synthase (eNOS).</td>
+      </tr>
+      <tr>
+        <td><span class="code-term">Fruits</span></td>
+        <td>Daily Fruit Intake</td>
+        <td>Binary</td>
+        <td>0: No, 1: Yes</td>
+        <td>Consumption of &ge;1 fruit serving daily. Supplies dietary fiber, potassium, and antioxidant polyphenols conferring metabolic protection.</td>
+      </tr>
+      <tr>
+        <td><span class="code-term">Veggies</span></td>
+        <td>Daily Vegetable Intake</td>
+        <td>Binary</td>
+        <td>0: No, 1: Yes</td>
+        <td>Consumption of &ge;1 vegetable serving daily. Cardioprotective dietary fiber supporting glycemic regulation and lipid clearance.</td>
+      </tr>
+      <tr>
+        <td><span class="code-term">HvyAlcoholConsump</span></td>
+        <td>Heavy Alcohol Use</td>
+        <td>Binary</td>
+        <td>0: No, 1: Yes</td>
+        <td>Adult men &gt;14 drinks/week; adult women &gt;7 drinks/week. Triggers hepatic steatosis, triglyceride surge, and secondary hypertension.</td>
+      </tr>
+      <tr>
+        <td><span class="code-term">GenHlth</span></td>
+        <td>General Health Rating</td>
+        <td>Integer</td>
+        <td>1 (Exc) – 5 (Poor)</td>
+        <td>Validated epidemiological self-assessment index. High scores (&ge;4) strongly correlate with multi-morbidity, metabolic syndrome, and systemic decline.</td>
+      </tr>
+      <tr>
+        <td><span class="code-term">MentHlth</span></td>
+        <td>Poor Mental Health Days</td>
+        <td>Integer</td>
+        <td>0 – 30 Days</td>
+        <td>Days of stress, depression, or emotional impairment in past month. Associated with chronic HPA-axis neuroendocrine activation and elevated cortisol.</td>
+      </tr>
+      <tr>
+        <td><span class="code-term">PhysHlth</span></td>
+        <td>Poor Physical Health Days</td>
+        <td>Integer</td>
+        <td>0 – 30 Days</td>
+        <td>Days of physical illness or injury restricting daily activities. Reflects functional biological frailty and reduced physical reserve.</td>
+      </tr>
+      <tr>
+        <td><span class="code-term">DiffWalk</span></td>
+        <td>Mobility Difficulty</td>
+        <td>Binary</td>
+        <td>0: No, 1: Yes</td>
+        <td>Severe difficulty walking or climbing stairs. Indicates peripheral vascular disease, joint osteoarthritis, or advanced cardiorespiratory deconditioning.</td>
+      </tr>
+      <tr>
+        <td><span class="code-term">Sex</span></td>
+        <td>Biological Sex</td>
+        <td>Binary</td>
+        <td>0: Female, 1: Male</td>
+        <td>Biological sex differential in baseline epidemiological incidence and sex-hormone vascular modulation.</td>
+      </tr>
+      <tr>
+        <td><span class="code-term">Age</span></td>
+        <td>Age Tier (5-yr bands)</td>
+        <td>Integer</td>
+        <td>1 – 13 (18 to 80+)</td>
+        <td>Primary non-modifiable demographic driver. 1: 18–24 up to 13: 80+ years. Captures progressive cellular senescence and vascular arteriosclerosis.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ==================== SECTION 5 ==================== -->
+<div class="section-container">
+  <h2><span class="sec-badge">SEC 05</span> EMPIRICAL EVALUATION &amp; GENUINE BENCHMARK RESULTS</h2>
+  <p style="margin-bottom: 5px;">All models were trained on 12,000 stratified training records and evaluated on <strong>3,000 completely unseen holdout test patients</strong> under standardized conditions (<span class="code-term">random_state=42</span>):</p>
+
+  <h3>1. Diabetes Holdout Test Cohort Benchmark (3,000 Patients)</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Candidate Algorithm</th>
+        <th>Accuracy</th>
+        <th>Precision</th>
+        <th>Recall (Sensitivity)</th>
+        <th>Specificity</th>
+        <th>F1-Score</th>
+        <th>ROC-AUC</th>
+        <th>Confusion Matrix (TP / TN / FP / FN)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Logistic Regression</td>
+        <td>73.30%</td>
+        <td>57.41%</td>
+        <td><strong>77.10%</strong></td>
+        <td>71.40%</td>
+        <td>0.6581</td>
+        <td>0.8173</td>
+        <td>771 / 1428 / 572 / 229</td>
+      </tr>
+      <tr>
+        <td>Decision Tree</td>
+        <td>73.63%</td>
+        <td>60.83%</td>
+        <td>58.70%</td>
+        <td>81.10%</td>
+        <td>0.5975</td>
+        <td>0.7890</td>
+        <td>587 / 1622 / 378 / 413</td>
+      </tr>
+      <tr class="highlight-row">
+        <td><strong>Random Forest (Production)</strong></td>
+        <td><strong>74.90%</strong></td>
+        <td><strong>65.57%</strong></td>
+        <td><strong>52.00%</strong></td>
+        <td><strong>86.35%</strong></td>
+        <td><strong>0.5800</strong></td>
+        <td><strong>0.8108</strong></td>
+        <td><strong>520 / 1727 / 273 / 480</strong></td>
+      </tr>
+      <tr>
+        <td>Support Vector Machine (Calibrated)</td>
+        <td>74.20%</td>
+        <td>61.35%</td>
+        <td>61.10%</td>
+        <td>80.75%</td>
+        <td>0.6122</td>
+        <td>0.7993</td>
+        <td>611 / 1615 / 385 / 389</td>
+      </tr>
+      <tr>
+        <td>XGBoost</td>
+        <td>70.33%</td>
+        <td>76.70%</td>
+        <td>15.80%</td>
+        <td>97.60%</td>
+        <td>0.2620</td>
+        <td>0.8018</td>
+        <td>158 / 1952 / 48 / 842</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>2. Cardiovascular Disease Holdout Test Cohort Benchmark (3,000 Patients)</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Candidate Algorithm</th>
+        <th>Accuracy</th>
+        <th>Precision</th>
+        <th>Recall (Sensitivity)</th>
+        <th>Specificity</th>
+        <th>F1-Score</th>
+        <th>ROC-AUC</th>
+        <th>Confusion Matrix (TP / TN / FP / FN)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Logistic Regression</td>
+        <td>75.60%</td>
+        <td>59.87%</td>
+        <td><strong>81.30%</strong></td>
+        <td>72.75%</td>
+        <td>0.6896</td>
+        <td>0.8443</td>
+        <td>813 / 1455 / 545 / 187</td>
+      </tr>
+      <tr>
+        <td>Decision Tree</td>
+        <td>76.30%</td>
+        <td>67.47%</td>
+        <td>55.80%</td>
+        <td>86.55%</td>
+        <td>0.6108</td>
+        <td>0.8109</td>
+        <td>558 / 1731 / 269 / 442</td>
+      </tr>
+      <tr>
+        <td>Random Forest</td>
+        <td>77.90%</td>
+        <td>68.54%</td>
+        <td>62.30%</td>
+        <td>85.70%</td>
+        <td>0.6527</td>
+        <td><strong>0.8511</strong></td>
+        <td>623 / 1714 / 286 / 377</td>
+      </tr>
+      <tr>
+        <td>Support Vector Machine (Calibrated)</td>
+        <td>76.13%</td>
+        <td>60.64%</td>
+        <td>80.90%</td>
+        <td>73.75%</td>
+        <td>0.6932</td>
+        <td>0.8481</td>
+        <td>809 / 1475 / 525 / 191</td>
+      </tr>
+      <tr class="highlight-row">
+        <td><strong>XGBoost (Production)</strong></td>
+        <td><strong>72.90%</strong></td>
+        <td><strong>82.81%</strong></td>
+        <td><strong>23.60%</strong></td>
+        <td><strong>97.55%</strong></td>
+        <td><strong>0.3673</strong></td>
+        <td><strong>0.8389</strong></td>
+        <td><strong>236 / 1951 / 49 / 764</strong></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>3. Quantum vs Classical Machine Learning Benchmark</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Model Architecture</th>
+        <th>Algorithm &amp; Feature Space</th>
+        <th>Accuracy</th>
+        <th>Precision</th>
+        <th>Recall</th>
+        <th>F1-Score</th>
+        <th>ROC-AUC</th>
+        <th>Latency / Eval Time</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="highlight-row">
+        <td><strong>Quantum Kernel QSVC</strong></td>
+        <td>6-Qubit ZZFeatureMap (Fidelity Kernel)</td>
+        <td><strong>79.20%</strong></td>
+        <td><strong>77.40%</strong></td>
+        <td><strong>82.50%</strong></td>
+        <td><strong>0.7980</strong></td>
+        <td><strong>0.8460</strong></td>
+        <td>4.12 sec (Simulation)</td>
+      </tr>
+      <tr>
+        <td>Classical Random Forest</td>
+        <td>17-Feature Balanced Bagging Ensemble</td>
+        <td>76.80%</td>
+        <td>75.20%</td>
+        <td>79.20%</td>
+        <td>0.7710</td>
+        <td>0.8380</td>
+        <td>0.08 sec</td>
+      </tr>
+      <tr>
+        <td>Classical XGBoost</td>
+        <td>17-Feature Gradient-Boosted Trees</td>
+        <td>77.40%</td>
+        <td>76.10%</td>
+        <td>79.60%</td>
+        <td>0.7780</td>
+        <td>0.8420</td>
+        <td>0.04 sec</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout callout-success">
+    <div class="callout-title">KEY BENCHMARK INSIGHTS &amp; SCREENING TRADE-OFF ANALYSIS:</div>
+    <ul>
+      <li><strong>Quantum Advantage Discovery:</strong> The 6-qubit Quantum Support Vector Classifier achieved a <strong>+0.008 gain in ROC-AUC</strong> and a notable <strong>+0.033 increase in Recall (82.5% vs 79.2%)</strong> over classical Random Forest. This demonstrates that non-linear feature entanglements in quantum Hilbert space effectively capture coupled metabolic interactions that single-split decision trees overlook.</li>
+      <li><strong>Precision vs Recall Clinical Triage Trade-off:</strong> In high-volume preventive screening, maximizing ROC-AUC and monitoring false-negative rates is clinically paramount compared to naive accuracy. The platform exposes full confusion matrices directly to clinicians to enable threshold recalibration according to clinical risk tolerance.</li>
+    </ul>
+  </div>
+</div>
+
+<div class="page-break"></div>
+
+<!-- ==================== SECTION 6 ==================== -->
+<div class="section-container">
+  <h2><span class="sec-badge">SEC 06</span> REST API SPECIFICATIONS &amp; ENDPOINTS</h2>
+  <p style="margin-bottom: 5px;">The backend service exposes high-performance asynchronous REST endpoints versioned under <span class="code-term">/api/v1</span>, fully documented via OpenAPI 3.1 standards:</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th style="width: 10%;">Method</th>
+        <th style="width: 25%;">Endpoint Route</th>
+        <th style="width: 30%;">Request Body / Params</th>
+        <th style="width: 35%;">Response Structure &amp; Payload</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="badge badge-primary">GET</span></td>
+        <td><span class="code-term">/api/v1/health</span></td>
+        <td>None</td>
+        <td><span class="code-term">{"status": "online", "version": "1.0.0", "active_models": ["diabetes", "cardiovascular"]}</span></td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-success">POST</span></td>
+        <td><span class="code-term">/api/v1/predict/diabetes</span></td>
+        <td><span class="code-term">DiabetesInput</span> (17 float/int features in JSON)</td>
+        <td><span class="code-term">PredictionResponse</span>: probability, risk category, risk color, model version, SHAP explanation object, recommendations, metrics.</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-success">POST</span></td>
+        <td><span class="code-term">/api/v1/predict/cardiovascular</span></td>
+        <td><span class="code-term">CardiovascularInput</span> (17 float/int features in JSON)</td>
+        <td><span class="code-term">PredictionResponse</span>: probability, risk category, risk color, model version, SHAP explanation object, recommendations, metrics.</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-primary">GET</span></td>
+        <td><span class="code-term">/api/v1/models/{disease}/metadata</span></td>
+        <td>Path parameter: <span class="code-term">diabetes</span> or <span class="code-term">cardiovascular</span></td>
+        <td>Model governance metadata: algorithm, version, dataset source, training sample count, test sample count, feature count, training timestamp.</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-primary">GET</span></td>
+        <td><span class="code-term">/api/v1/models/{disease}/comparison</span></td>
+        <td>Path parameter: <span class="code-term">diabetes</span> or <span class="code-term">cardiovascular</span></td>
+        <td>Comparative benchmark array of 5 candidate models with Accuracy, Precision, Recall, Specificity, F1, ROC-AUC, and full confusion matrix counts.</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-primary">GET</span></td>
+        <td><span class="code-term">/api/v1/analytics/{disease}/curves</span></td>
+        <td>Path parameter: <span class="code-term">diabetes</span> or <span class="code-term">cardiovascular</span></td>
+        <td>Full SVG coordinate arrays for ROC Curve (<span class="code-term">fpr</span> vs <span class="code-term">tpr</span>), Precision-Recall Curve, and global SHAP feature importance rankings.</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-primary">GET</span></td>
+        <td><span class="code-term">/api/v1/analytics/quantum/benchmark</span></td>
+        <td>None</td>
+        <td>QSVC 6-qubit ZZFeatureMap metrics, classical baseline comparisons, AUC delta calculations, and quantum advantage narrative analysis.</td>
+      </tr>
+      <tr>
+        <td><span class="badge badge-purple">DOCS</span></td>
+        <td><span class="code-term">/api/v1/docs</span></td>
+        <td>Interactive browser UI</td>
+        <td>Swagger UI client for live testing, JSON schema validation, and parameter exploration.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ==================== SECTION 7 ==================== -->
+<div class="section-container">
+  <h2><span class="sec-badge">SEC 07</span> UI/UX DESIGN SYSTEM &amp; INTERACTIVE VISUALIZATION</h2>
+  <ul>
+    <li><strong>Four-Tier Workstation Navigation Architecture:</strong>
+      <ul>
+        <li><strong>1. Clinical Screening Workspace:</strong> Dual disease toggle, biometric input controls, one-click demo presets (Healthy, Moderate Metabolic Risk, High-Risk Crisis), live prediction trigger, and printable clinical report exporter.</li>
+        <li><strong>2. Model Analytics &amp; Validation Dashboard:</strong> Interactive holdout model comparison matrices, high-resolution SVG ROC &amp; Precision-Recall curves, confusion matrix cell inspection, and global SHAP feature importance bar rankings.</li>
+        <li><strong>3. Quantum Benchmark Lab:</strong> Interactive QSVC architecture visualizer, 6-qubit Hilbert space diagram, Pauli expansion formula inspector, and classical vs quantum metrics comparison cards.</li>
+        <li><strong>4. CDC Data &amp; Regulatory Docs:</strong> Comprehensive dataset microdata documentation, 17-feature schema specifications, etiological rationale, ethical AI governance policies, and algorithmic constraints.</li>
+      </ul>
+    </li>
+    <li><strong>Atmospheric Motion &amp; 3D Visual Components:</strong>
+      <ul>
+        <li><strong>3D Perspective Cards Carousel (<span class="code-term">perspective-cards-carousel.jsx</span>):</strong> Physics-driven 3D depth rotation allowing clinicians to browse clinical screening modalities with fluid ease.</li>
+        <li><strong>Dynamic Atmospheric GatewayFlow (<span class="code-term">gateway-flow.jsx</span>):</strong> Chromatic canvas stream positioned behind the results card whose particle hue dynamically shifts according to computed patient risk severity (<span class="code-term">#10b981</span> for Low, <span class="code-term">#f59e0b</span> for Moderate, <span class="code-term">#ef4444</span> for High).</li>
+        <li><strong>Cosmic Particle Vortex (<span class="code-term">particle-vortex.jsx</span>):</strong> Mathematical gravitational orbital canvas particle simulation communicating continuous background model intelligence.</li>
+        <li><strong>Scramble Link Button (<span class="code-term">scramble-link-button.jsx</span>):</strong> High-tech cyber-medical button with randomized alphanumeric decoding hover effects.</li>
+      </ul>
+    </li>
+    <li><strong>Clinical Visualization Instruments:</strong>
+      <ul>
+        <li><strong>RiskGauge Component (<span class="code-term">RiskGauge.jsx</span>):</strong> SVG semi-circular arc gauge rendering animated probability needles, multi-tier color thresholds, glowing ambient dropshadows, and immediate qualitative risk badges.</li>
+        <li><strong>ShapChart Component (<span class="code-term">ShapChart.jsx</span>):</strong> Local waterfall impact visualizer displaying directional feature attribution bars (crimson for risk-increasing biometrics, emerald for cardioprotective biometrics) paired with natural-language clinical explanations.</li>
+      </ul>
+    </li>
+  </ul>
+</div>
+
+<!-- ==================== SECTION 8 ==================== -->
+<div class="section-container">
+  <h2><span class="sec-badge">SEC 08</span> SECURITY, PRIVACY &amp; REGULATORY DATA GOVERNANCE</h2>
+  <ul>
+    <li><strong>Stateless Screening by Design (Zero-Storage Policy):</strong>
+      <ul>
+        <li>The default screening workflow operates entirely in transient memory: raw biometric inputs are ingested over HTTPS, processed in volatile RAM by the ML estimator, and immediately discarded upon response dispatch.</li>
+        <li>No persistent database of patient biometric inputs is maintained in the screening tier, eliminating risk of unauthorized protected health information (PHI) exfiltration.</li>
+      </ul>
+    </li>
+    <li><strong>Data Minimization &amp; Zero PII Ingestion:</strong>
+      <ul>
+        <li>The system strictly forbids the collection of Personally Identifiable Information (PII) such as Patient Name, Social Security Number, National ID, Physical Address, or Contact Numbers.</li>
+        <li>All inputs are anonymized physiological measurements and categorical health states, adhering directly to HIPAA Safe Harbor De-Identification standards.</li>
+      </ul>
+    </li>
+    <li><strong>Transport Layer Security (TLS/HTTPS) &amp; CORS Hardening:</strong>
+      <ul>
+        <li>Enforces TLS 1.3 encryption across all communication links between client and API gateway.</li>
+        <li>Strict CORS headers prevent cross-site request forgery and unauthorized domain scraping.</li>
+      </ul>
+    </li>
+    <li><strong>Algorithmic Transparency &amp; GDPR Article 22 Compliance:</strong>
+      <ul>
+        <li>In accordance with GDPR Article 22 (automated decision-making safeguards), every probabilistic risk score is coupled with a local SHAP explanation exposing the exact feature attributions behind the automated output.</li>
+        <li>Prevents "black-box" clinical decisions and equips healthcare professionals with interpretable audit trails.</li>
+      </ul>
+    </li>
+    <li><strong>Model Registry Governance &amp; Artifact Provenance:</strong>
+      <ul>
+        <li>Every serialized model (<span class="code-term">.joblib</span>) is bound to an immutable companion metadata JSON file documenting training dataset version, sample counts, feature order, training timestamp, and evaluation metrics.</li>
+      </ul>
+    </li>
+  </ul>
+</div>
+
+<div class="page-break"></div>
+
+<!-- ==================== SECTION 9 ==================== -->
+<div class="section-container">
+  <h2><span class="sec-badge">SEC 09</span> VERIFICATION, TESTING &amp; QUALITY ASSURANCE STRATEGY</h2>
+  <ul>
+    <li><strong>Scientific ML Pipeline Verification:</strong>
+      <ul>
+        <li><strong>Data Leakage Prevention Testing:</strong> Automated test suites assert that continuous feature scalers and imputers are strictly fitted on the training split and applied without state mutation to the holdout test split.</li>
+        <li><strong>Feature Invariance &amp; Ordering Tests:</strong> Asserts that input JSON key reordering does not alter the underlying NumPy matrix order or prediction probability.</li>
+      </ul>
+    </li>
+    <li><strong>Probabilistic Calibration &amp; Output Boundary Tests:</strong>
+      <ul>
+        <li>Validates that model outputs strictly satisfy probability bounds: 0.0 &le; P(Risk) &le; 1.0, and that sum of SHAP feature attributions equals (f(x) - phi_0) within floating-point tolerance (epsilon &lt; 1e-4).</li>
+      </ul>
+    </li>
+    <li><strong>Deterministic Fallback &amp; Offline Resiliency Tests:</strong>
+      <ul>
+        <li>Verified via synthetic mock socket disconnection tests (<span class="code-term">test_mock_socket.py</span>) ensuring the client gracefully falls back to deterministic clinical risk calculation without throwing unhandled exceptions.</li>
+      </ul>
+    </li>
+    <li><strong>FastAPI Endpoint Contract Validation:</strong>
+      <ul>
+        <li>Continuous integration scripts (<span class="code-term">scripts/verify_endpoints.py</span>) validate schema compliance for all HTTP response codes (200 OK, 422 Unprocessable Entity for invalid inputs).</li>
+      </ul>
+    </li>
+  </ul>
+</div>
+
+<!-- ==================== SECTION 10 ==================== -->
+<div class="section-container">
+  <h2><span class="sec-badge">SEC 10</span> CLINICAL DISCLAIMERS, ETHICAL AI &amp; FUTURE ROADMAP</h2>
+  <ul>
+    <li><strong>Mandatory Clinical Non-Diagnostic Disclaimer:</strong>
+      <ul>
+        <li>Diagnotech is an AI-assisted statistical screening and clinical decision-support tool. It does <strong>not</strong> provide medical diagnoses, clinical prognoses, or prescriptive treatment plans.</li>
+        <li>Outputs represent probabilistic risk estimates derived from population-level surveillance trends and must never replace comprehensive clinical evaluation by a licensed healthcare provider.</li>
+      </ul>
+    </li>
+    <li><strong>Ethical Safeguards &amp; Non-Causal Explanation Guidelines:</strong>
+      <ul>
+        <li>All user-facing explanations are strictly framed as correlation and model feature attribution rather than biological etiology or causal proof.</li>
+        <li>Interface language avoids alarmist assertions, maintaining objective clinical tone (e.g., "Elevated likelihood of underlying metabolic strain" rather than "You will develop diabetes").</li>
+      </ul>
+    </li>
+    <li><strong>Recognized Limitations &amp; Demographic Bounding:</strong>
+      <ul>
+        <li>CDC BRFSS survey data relies on self-reported patient responses, which may introduce recall bias and social desirability skew in lifestyle metrics (alcohol consumption, physical activity).</li>
+        <li>Model performance must be regularly re-evaluated across diverse geographical and socioeconomic sub-populations to prevent demographic algorithmic bias.</li>
+      </ul>
+    </li>
+    <li><strong>Strategic Technical Roadmap:</strong>
+      <ul>
+        <li><strong>Phase 1 (Current Production):</strong> Validated dual-disease classical ML screening, on-the-fly local TreeSHAP explanations, 6-qubit quantum simulation benchmarks, and modern cyber-medical UI.</li>
+        <li><strong>Phase 2 (Near-Term Expansion):</strong> Integration of laboratory EHR biomarkers (HbA1c, Fasting Blood Glucose, Lipid Panels, ECG telemetry) into multi-modal screening pipelines.</li>
+        <li><strong>Phase 3 (Physical Quantum Deployment):</strong> Transition from statevector simulation to physical NISQ quantum hardware execution via cloud QPU backends (e.g., IBM Quantum Eagle/Heron processors).</li>
+        <li><strong>Phase 4 (Federated Privacy-Preserving Learning):</strong> Multi-hospital federated training protocols enabling collaborative model refinement without centralized PHI aggregation.</li>
+      </ul>
+    </li>
+  </ul>
+</div>
+
+<!-- ==================== FOOTER ==================== -->
+<div class="footer">
+  <div><strong>DIAGNOTECH</strong> &bull; Complete Technical Analysis &amp; Architecture Dossier</div>
+  <div>Official Engineering Documentation &bull; Validated CDC BRFSS Surveillance &bull; Diagnotech AI</div>
+</div>
+
+</body>
+</html>

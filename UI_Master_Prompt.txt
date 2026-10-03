@@ -1,0 +1,865 @@
+# MASTER PROMPT — PRODUCT-LEVEL UI ENHANCEMENT OF AN EXISTING APP
+
+You are an expert senior frontend/product engineer working inside an EXISTING application.
+
+Your job is to upgrade the application's UI/UX to a polished, premium, production-quality product by intelligently integrating the supplied UI systems below.
+
+## 0. NON-NEGOTIABLE RULE: PROTECT THE PRODUCT'S CORE
+
+This is an EXISTING functional project. The UI is allowed to change. The application's trained-model data, ML/QML code, inference pipeline, datasets, model weights, preprocessing, feature engineering, APIs, business logic, database logic, authentication logic, routes, environment configuration, and existing working functionality are NOT allowed to be changed unless a UI integration absolutely requires a harmless adapter.
+
+### Protected areas
+
+Treat all of these as READ-ONLY unless a change is proven necessary and directly related to UI integration:
+
+- trained model files / weights / checkpoints
+- datasets and training data
+- ML/QML training code
+- inference/prediction code
+- preprocessing / feature extraction
+- quantum circuits / kernels / SVM or other model logic
+- backend business logic
+- API contracts
+- database schema and data
+- authentication/session logic
+- environment variables/secrets
+- existing calculation/diagnostic logic
+- existing working routes and functionality
+
+If the project contains files such as `models/`, `model/`, `ml/`, `qml/`, `training/`, `weights/`, `checkpoints/`, `datasets/`, `data/`, `inference/`, `services/`, `api/`, etc., inspect them to understand dependencies but DO NOT rewrite them merely to make the UI easier.
+
+### Before editing
+
+1. Inspect the complete project structure.
+2. Identify the frontend framework, routing, styling system, component system, API layer and protected ML/model areas.
+3. Establish a baseline of the current working application.
+4. If Git is available, inspect `git status` and preserve a clean understanding of pre-existing changes.
+5. Record/checksum important protected files when practical.
+6. Never replace existing functionality with mock data just to make a visual component work.
+
+### After editing
+
+You MUST verify:
+
+- TypeScript/build passes.
+- Linting passes where configured.
+- Existing routes still work.
+- Existing API calls are untouched.
+- Model/inference functionality remains unchanged.
+- No trained data or weights were overwritten.
+- No secrets were exposed.
+- No broken imports remain.
+- No unnecessary dependencies were added.
+- No console errors are introduced.
+- Responsive behavior works.
+- Accessibility is preserved.
+
+If something breaks, fix the UI integration rather than weakening or replacing the existing product logic.
+
+---
+
+# 1. YOUR MISSION
+
+Do NOT treat these as isolated component demos.
+
+You are enhancing the WHOLE PRODUCT.
+
+The final result should feel like one coherent, intentionally designed product rather than a collection of copied components.
+
+Use the supplied components as a visual language/toolkit:
+
+1. `ScrambleLinkButton` → premium CTA/link microinteraction.
+2. `GatewayFlow` → sophisticated animated flow/background atmosphere.
+3. `HeroCarousel` → immersive editorial/visual hero experience.
+
+Choose where each belongs based on the existing application's information architecture.
+
+Do not blindly put all three on the homepage.
+
+Ask yourself internally:
+
+- What is the product's primary user journey?
+- What screen deserves the strongest visual treatment?
+- Where does animation improve comprehension rather than distract?
+- Which CTA is most important?
+- Where can the visual system reinforce trust and premium quality?
+- Which existing UI should be retained because it already works?
+
+You are allowed to adapt copy, colors, spacing, assets, data bindings and placement so the components fit the actual product.
+
+You are NOT allowed to alter the underlying product/model functionality.
+
+---
+
+# 2. FIRST — UNDERSTAND THE EXISTING PRODUCT
+
+Before writing code, inspect:
+
+- `package.json`
+- app/router structure
+- `src/`
+- `app/`
+- `pages/`
+- `components/`
+- `lib/`
+- styles
+- public assets
+- API/service files
+- model/inference directories
+
+Determine:
+
+- framework
+- React/Next version
+- TypeScript configuration
+- Tailwind configuration
+- shadcn/ui status
+- existing design tokens
+- fonts
+- icon library
+- animation library
+- dark/light theme behavior
+- responsive breakpoints
+- existing component conventions
+
+Do not create a parallel design system if the project already has one.
+
+Extend the existing system where possible.
+
+---
+
+# 3. SHADCN / TAILWIND / TYPESCRIPT
+
+The supplied components assume:
+
+- shadcn-style component structure
+- Tailwind CSS
+- TypeScript
+- `/components/ui`
+- `@/lib/utils` where applicable
+
+If the project already supports these, use the existing setup.
+
+If it does not, make the SMALLEST safe setup required.
+
+Do not migrate the entire project to another framework or CSS architecture.
+
+Do not rewrite existing styles unnecessarily.
+
+---
+
+# 4. DEPENDENCIES
+
+Install only dependencies genuinely required by the components.
+
+Required:
+
+- `lucide-react` for ScrambleLinkButton
+- `framer-motion` for HeroCarousel
+
+GatewayFlow uses an isolated animated document and its supplied source references GSAP/Iconify/Tailwind/CDN assets. Prefer adapting the visual effect into the application's existing dependency strategy where possible rather than introducing redundant runtime infrastructure.
+
+Do not install packages merely because they appear in an example/demo if the actual application does not need them.
+
+---
+
+# 5. COMPONENT SOURCE OF TRUTH
+
+The following are the components the user has ALREADY PROVIDED.
+
+DO NOT ASK ME TO PROVIDE THEM AGAIN.
+
+Do not stop and ask:
+- “What components should I use?”
+- “Please send the component code.”
+- “Which component do you want?”
+- “Can you provide the prompt?”
+
+The components below are the authoritative UI inputs.
+
+If an exact source file exists in the supplied project attachments, use that exact source.
+
+---
+
+### COMPONENT 1 — ScrambleLinkButton
+
+Use this component as the authoritative source for the CTA/link microinteraction. Preserve its behavior and API; adapt only styling/context needed to fit the existing product.
+
+```tsx
+"use client"
+
+import * as React from "react"
+import { ArrowRight } from "lucide-react"
+
+export interface ScrambleLinkButtonProps
+  extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
+  btnText?: string
+  href?: string
+  textClassName?: string
+  hoverColor?: string
+  showLine?: boolean
+  lineClassName?: string
+  showArrow?: boolean
+  icon?: React.ReactNode
+  iconClassName?: string
+  scrambleDuration?: number
+  stepMs?: number
+  revealStagger?: number
+  onClick?: React.MouseEventHandler<HTMLAnchorElement>
+}
+
+const GLYPHS = "abcdefghijklmnopqrstuvwxyz0123456789"
+
+export function ScrambleLinkButton({
+  btnText = "Hover me",
+  href = "#",
+  className,
+  textClassName,
+  hoverColor = "#ff6b00",
+  showLine = true,
+  lineClassName,
+  showArrow = true,
+  icon,
+  iconClassName,
+  scrambleDuration = 500,
+  stepMs = 30,
+  revealStagger = 1,
+  onClick,
+  ...linkProps
+}: ScrambleLinkButtonProps) {
+  const [text, setText] = React.useState(btnText)
+  const [hovered, setHovered] = React.useState(false)
+  const reduced = React.useRef(false)
+
+  React.useEffect(() => {
+    setText(btnText)
+  }, [btnText])
+
+  React.useEffect(() => {
+    if (typeof window !== "undefined") {
+      reduced.current = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    }
+  }, [])
+
+  const scramble = React.useCallback(() => {
+    if (reduced.current) {
+      setText(btnText)
+      return
+    }
+
+    const target = btnText
+    const steps = Math.max(1, Math.ceil(scrambleDuration / stepMs))
+    let step = 0
+
+    const id = window.setInterval(() => {
+      step += 1
+      const revealed = Math.min(target.length, step * revealStagger)
+      const next = target
+        .split("")
+        .map((char, i) => {
+          if (i < revealed || char === " ") return char
+          return GLYPHS[Math.floor(Math.random() * GLYPHS.length)]
+        })
+        .join("")
+
+      setText(next)
+
+      if (step >= steps) {
+        window.clearInterval(id)
+        setText(target)
+      }
+    }, stepMs)
+
+    return () => window.clearInterval(id)
+  }, [btnText, scrambleDuration, stepMs, revealStagger])
+
+  React.useEffect(() => {
+    if (hovered) return scramble()
+  }, [hovered, scramble])
+
+  return (
+    <a
+      href={href}
+      {...linkProps}
+      onClick={onClick}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      onFocus={() => setHovered(true)}
+      onBlur={() => setHovered(false)}
+      className={[
+        "group inline-flex items-center gap-2 text-sm uppercase tracking-[0.14em]",
+        "transition-colors duration-300",
+        className,
+      ].filter(Boolean).join(" ")}
+      style={
+        {
+          "--scramble-hover": hoverColor,
+        } as React.CSSProperties
+      }
+    >
+      {icon ? <span className={iconClassName}>{icon}</span> : null}
+      <span className={textClassName}>{text}</span>
+      {showLine ? (
+        <span
+          aria-hidden
+          className={[
+            "h-px w-8 bg-current transition-all duration-300 group-hover:w-12",
+            lineClassName,
+          ].filter(Boolean).join(" ")}
+        />
+      ) : null}
+      {showArrow ? (
+        icon ?? <ArrowRight className="size-4 -rotate-45 transition-transform duration-300 group-hover:rotate-0" />
+      ) : null}
+    </a>
+  )
+}
+
+export default ScrambleLinkButton
+```
+
+Required package: `lucide-react`.
+
+Important: if the exact source supplied by the user exists in the project/attachments, prefer that exact source over this reconstruction. Do not invent a different interaction.
+
+
+---
+
+# COMPONENT 2 — GATEWAY FLOW
+
+The exact user-supplied Gateway Flow source is authoritative and must be used from the supplied source file.
+
+It is a client-side React component named `GatewayFlow` with:
+
+- `GatewayFlowProps`
+- dark/light/auto mode
+- speed
+- size
+- gap
+- length
+- density
+- strokeWidth
+- opacity
+- hue
+- saturation
+- brightness
+- className
+- style
+
+The component creates an animated canvas-based gateway/flow visual.
+
+Its source contains:
+
+- an isolated HTML document
+- canvas flow paths
+- Bezier curves converging toward the center
+- animated particles
+- click-triggered explosion/ripple behavior
+- GSAP heading reveal
+- dark/light mode handling
+- iframe isolation
+- postMessage controls
+- density/speed/size/opacity controls
+- responsive canvas sizing
+- visual isolation so the selected effect can act as a background without importing the entire demo page
+
+### Critical GatewayFlow integration rule
+
+The supplied GatewayFlow demo contains a fictional “Nexus Gateway” login interface.
+
+DO NOT copy that login/product/demo UI into the real application unless the existing product genuinely needs a login screen with those exact semantics.
+
+The valuable part for this product is primarily the visual system:
+
+- converging flow
+- subtle particles
+- premium dark atmosphere
+- depth
+- motion toward a focal point
+- restrained futuristic aesthetic
+- optional light mode
+
+Use the animation as an atmospheric layer behind the REAL product UI.
+
+Do not replace actual product content with “Nexus Gateway”, “Operative ID”, “Security Key”, “Initialize Uplink”, fake social proof, or fake authentication controls.
+
+Do not replace real model output with fictional content.
+
+### Exact source
+
+Use the supplied file named `Pasted text(20260907-210937).txt` / the user's Gateway Flow source as the implementation source of truth.
+
+It includes:
+
+- `gateway-flow.tsx`
+- `GatewayFlowFrame`
+- `GATEWAY_FLOW_DEFINITION`
+- `buildFocusedDocument`
+- `gatewayFlowSource`
+- `GatewayFlowDemo`
+
+The supplied source uses `sandbox="allow-scripts"` for its iframe and isolates the selected visual target.
+
+Preserve this behavior unless a safe application-specific adaptation is necessary.
+
+---
+
+# COMPONENT 3 — HERO CAROUSEL
+
+Use the exact user-supplied `HeroCarousel` source from the supplied source file.
+
+It is a full-bleed editorial hero driven by a filmstrip.
+
+Core behavior includes:
+
+- active focused slide
+- background image transition
+- accent-color grading
+- film grain
+- headline reveal
+- metadata
+- credit/byline
+- draggable horizontal strip
+- click-to-focus
+- wheel/trackpad navigation
+- keyboard navigation
+- autoplay
+- pause on hover
+- pause on focus
+- pause while dragging
+- reduced-motion support
+- controlled/uncontrolled index
+- ResizeObserver-based responsive geometry
+- progress rail
+- responsive sizing based on the stage dimensions
+
+### HeroCarousel API
+
+Preserve the supplied API:
+
+- `items`
+- `index`
+- `defaultIndex`
+- `onIndexChange`
+- `brand`
+- `onBack`
+- `onMenu`
+- `autoplay`
+- `autoplayDelay`
+- `className`
+
+Each item supports:
+
+- `id`
+- `title`
+- `image`
+- `credit`
+- `meta`
+- `accent`
+
+### Critical HeroCarousel integration rule
+
+The demo's fictional editorial data and remote demo artwork are PLACEHOLDERS.
+
+Do not blindly ship:
+
+- “MONTRA”
+- “AURELIA STUDIO”
+- “MAISON DELACROIX”
+- “MIAMI”
+- “PARIS”
+- “BERLIN”
+- “LISBON”
+- “TOKYO”
+- the crafterui demo CDN images
+
+unless they genuinely belong to the product.
+
+Bind the carousel to REAL application data/assets where appropriate.
+
+If the product is not image/editorial-oriented, do not force HeroCarousel into a core workflow just because it looks impressive.
+
+Use the interaction/visual structure only where it improves the product.
+
+Required dependency: `framer-motion`.
+
+---
+
+# 6. HOW TO USE THE THREE COMPONENTS TOGETHER
+
+Think of them as layers of a product design language:
+
+### Layer A — Hero / primary visual
+Use `HeroCarousel` only where the product benefits from an immersive visual entry point.
+
+### Layer B — Atmospheric depth
+Use `GatewayFlow` behind important screens/hero sections when appropriate.
+
+It should never reduce readability or obscure controls.
+
+### Layer C — Microinteraction
+Use `ScrambleLinkButton` for important links/CTAs.
+
+Do not use it for every button.
+
+Overuse destroys hierarchy.
+
+---
+
+# 7. VISUAL DESIGN DIRECTION
+
+The final UI should feel:
+
+- premium
+- modern
+- polished
+- intentional
+- technically sophisticated
+- clean
+- responsive
+- accessible
+- cohesive
+
+Avoid:
+
+- random gradients everywhere
+- excessive glassmorphism
+- excessive glowing borders
+- unnecessary animations
+- oversized text that destroys hierarchy
+- excessive rounded cards
+- template-looking layouts
+- duplicated decorative effects
+- fake metrics
+- fake user data
+- fake AI/model results
+- generic dashboard clutter
+
+The UI should communicate trust, especially if the application performs diagnosis, prediction, scientific, ML, QML or other technically serious work.
+
+Animation should support the hierarchy, not compete with the content.
+
+---
+
+# 8. EXISTING FUNCTIONALITY IS SACRED
+
+When connecting the UI:
+
+DO:
+
+- read existing data structures
+- reuse existing API calls
+- reuse existing hooks
+- reuse existing state
+- reuse existing model outputs
+- map existing data into presentation props
+- create thin UI adapters when necessary
+
+DO NOT:
+
+- create fake API responses
+- hardcode fake predictions
+- replace trained models
+- change model weights
+- retrain models
+- alter feature extraction
+- change preprocessing
+- alter quantum circuits
+- alter SVM/model parameters
+- rewrite backend logic
+- remove working functionality
+- rename APIs merely for aesthetics
+
+If a visual component needs data, adapt the existing real data to it.
+
+---
+
+# 9. RESPONSIVE DESIGN
+
+The final UI must work at:
+
+- mobile
+- tablet
+- laptop
+- large desktop
+- wide/4K displays
+
+Do not merely shrink desktop UI.
+
+For each major screen, deliberately decide:
+
+- what remains visible
+- what collapses
+- what becomes scrollable
+- what becomes stacked
+- how typography scales
+- how animations degrade
+- how navigation works
+- how touch interactions work
+
+Preserve the supplied HeroCarousel's measured responsive geometry.
+
+Preserve GatewayFlow's responsive canvas behavior.
+
+Respect `prefers-reduced-motion`.
+
+---
+
+# 10. ACCESSIBILITY
+
+Maintain:
+
+- semantic HTML
+- keyboard navigation
+- visible focus states
+- ARIA labels where required
+- meaningful alt text for real images
+- sufficient contrast
+- reduced-motion behavior
+- usable touch targets
+
+Do not let decorative animations become the only way information is communicated.
+
+For decorative backgrounds:
+
+- `aria-hidden`
+- pointer-events disabled
+- no interaction blocking
+
+---
+
+# 11. PERFORMANCE
+
+Do not turn the product into an animation-heavy performance problem.
+
+For GatewayFlow:
+
+- avoid unnecessary duplicate animation instances
+- avoid excessive canvas counts
+- clean up listeners
+- preserve iframe isolation
+- avoid leaking animation frames
+
+For HeroCarousel:
+
+- avoid loading unnecessary images
+- preserve lazy/loading strategy where appropriate
+- pause animations when not useful
+- preserve reduced-motion support
+
+For the overall product:
+
+- avoid giant dependencies for tiny effects
+- avoid unnecessary re-renders
+- use existing utilities
+- keep bundle growth reasonable
+
+---
+
+# 12. ASSETS
+
+Use the project's REAL assets whenever they exist.
+
+Do not replace real application imagery with stock/demo images just because a component demo used them.
+
+If placeholder assets are absolutely necessary during development, clearly isolate them and make replacement straightforward.
+
+Do not fabricate product screenshots, model outputs, patient/user data, scientific results, or performance numbers.
+
+---
+
+# 13. INTEGRATION PROCESS
+
+Follow this exact process:
+
+## Phase 1 — Audit
+
+Inspect the codebase.
+
+Identify:
+
+- entry page
+- dashboard/main workflow
+- primary CTA
+- primary model/result screen
+- navigation
+- existing cards
+- existing forms
+- existing data visualization
+- existing theme
+- existing components
+
+## Phase 2 — Plan
+
+Create an internal UI integration plan.
+
+Decide:
+
+- where HeroCarousel belongs
+- where GatewayFlow belongs
+- where ScrambleLinkButton belongs
+- which existing components should be visually upgraded
+- which existing UI must remain unchanged because it is functional or already appropriate
+
+## Phase 3 — Install
+
+Install only missing dependencies.
+
+## Phase 4 — Integrate
+
+Create/reuse:
+
+`/components/ui/scramble-link-button.tsx`
+
+`/components/ui/gateway-flow.tsx`
+
+`/components/ui/hero-carousel.tsx`
+
+Use the supplied source.
+
+Then integrate them into the actual product.
+
+## Phase 5 — Product polish
+
+Unify:
+
+- typography
+- spacing
+- colors
+- borders
+- radii
+- shadows
+- focus states
+- motion curves
+- layout hierarchy
+
+Do not make every screen look identical.
+
+## Phase 6 — Test
+
+Run:
+
+- typecheck
+- lint
+- build
+- relevant tests
+- application startup
+
+Inspect all changed routes.
+
+Fix errors.
+
+## Phase 7 — Regression check
+
+Verify that:
+
+- model still loads
+- model still predicts
+- real data still flows
+- API still works
+- navigation still works
+- forms still work
+- authentication still works
+- existing outputs are unchanged
+
+---
+
+# 14. IMPORTANT: DO NOT ASK FOR CONFIRMATION
+
+You already have the components.
+
+Do not ask me to choose between them unless there is a genuinely destructive architectural conflict.
+
+Make reasonable product decisions yourself.
+
+If a component is unsuitable for a particular screen, do not force it there. Use it where it creates the strongest improvement.
+
+If an existing component already works better for a specific workflow, keep it.
+
+---
+
+# 15. DO NOT DESTROY EXISTING DESIGN
+
+This is an enhancement, not a rewrite.
+
+Preserve useful existing UI patterns.
+
+Improve:
+
+- hierarchy
+- spacing
+- typography
+- interaction feedback
+- visual rhythm
+- responsiveness
+- polish
+- consistency
+
+Do not rewrite the entire application simply because the supplied components have a different visual style.
+
+Blend them intelligently.
+
+---
+
+# 16. FINAL ACCEPTANCE CRITERIA
+
+The task is complete only when:
+
+### Product
+- The application still performs its original job.
+- Existing model/data functionality is intact.
+- No real data has been replaced with mock data.
+
+### UI
+- The product looks substantially more polished.
+- The three supplied components are properly integrated where appropriate.
+- The design feels like one coherent product.
+- The UI is responsive.
+- Animations feel intentional rather than excessive.
+
+### Code
+- TypeScript passes.
+- Build passes.
+- Imports resolve.
+- Dependencies are correct.
+- Components follow project conventions.
+- No unnecessary architectural rewrite occurred.
+
+### Safety
+- No trained model/data files were modified.
+- No inference/preprocessing logic was modified.
+- No API contracts were broken.
+- No secrets were added to source code.
+- No demo/fake content was accidentally shipped as real product content.
+
+### UX
+- Keyboard navigation works.
+- Reduced motion works.
+- Focus states work.
+- Touch/drag interactions work where applicable.
+- Mobile layout is usable.
+- Loading/error/empty states remain understandable.
+
+---
+
+# 17. FINAL RESPONSE AFTER IMPLEMENTATION
+
+When finished, report:
+
+1. What screens were enhanced.
+2. Where each supplied component was integrated.
+3. Dependencies added.
+4. Files created/modified.
+5. Verification performed.
+6. Confirmation that model/data/inference functionality was left untouched.
+7. Any remaining issues, if any.
+
+Do NOT claim something was tested if it was not actually tested.
+
+## MOST IMPORTANT INSTRUCTION
+
+**Improve the presentation layer aggressively, but protect the computational/product layer conservatively.**
+
+Make the application feel like a professionally designed product — not a component showcase.
+
+Do not ask me to resend the components. They are already supplied above and in the project context.

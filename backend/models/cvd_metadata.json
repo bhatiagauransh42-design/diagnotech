@@ -1,0 +1,45 @@
+{
+  "disease": "cardiovascular",
+  "model_name": "XGBoost Classifier (Gradient Boosted)",
+  "version": "cvd_xgb_v1.0",
+  "algorithm": "XGBClassifier",
+  "dataset": "CDC BRFSS Cardiovascular Disease Indicators",
+  "total_dataset_samples": 253680,
+  "training_samples": 36000,
+  "test_samples": 9000,
+  "feature_count": 17,
+  "status": "production",
+  "features": [
+    "HighBP",
+    "HighChol",
+    "CholCheck",
+    "BMI",
+    "Smoker",
+    "Stroke",
+    "Diabetes_binary",
+    "PhysActivity",
+    "Fruits",
+    "Veggies",
+    "HvyAlcoholConsump",
+    "GenHlth",
+    "MentHlth",
+    "PhysHlth",
+    "DiffWalk",
+    "Sex",
+    "Age"
+  ],
+  "metrics": {
+    "accuracy": 0.7883,
+    "precision": 0.6993,
+    "recall": 0.6423,
+    "specificity": 0.8616,
+    "f1": 0.6696,
+    "roc_auc": 0.8553,
+    "confusion_matrix": {
+      "true_positive": 1930,
+      "true_negative": 5165,
+      "false_positive": 830,
+      "false_negative": 1075
+    }
+  }
+}

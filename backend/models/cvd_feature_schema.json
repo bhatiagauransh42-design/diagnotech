@@ -1,0 +1,90 @@
+{
+  "disease": "cardiovascular",
+  "features": [
+    {
+      "name": "HighBP",
+      "type": "float",
+      "description": "HighBP"
+    },
+    {
+      "name": "HighChol",
+      "type": "float",
+      "description": "HighChol"
+    },
+    {
+      "name": "CholCheck",
+      "type": "float",
+      "description": "CholCheck"
+    },
+    {
+      "name": "BMI",
+      "type": "float",
+      "description": "BMI"
+    },
+    {
+      "name": "Smoker",
+      "type": "float",
+      "description": "Smoker"
+    },
+    {
+      "name": "Stroke",
+      "type": "float",
+      "description": "Stroke"
+    },
+    {
+      "name": "Diabetes_binary",
+      "type": "float",
+      "description": "Diabetes_binary"
+    },
+    {
+      "name": "PhysActivity",
+      "type": "float",
+      "description": "PhysActivity"
+    },
+    {
+      "name": "Fruits",
+      "type": "float",
+      "description": "Fruits"
+    },
+    {
+      "name": "Veggies",
+      "type": "float",
+      "description": "Veggies"
+    },
+    {
+      "name": "HvyAlcoholConsump",
+      "type": "float",
+      "description": "HvyAlcoholConsump"
+    },
+    {
+      "name": "GenHlth",
+      "type": "float",
+      "description": "GenHlth"
+    },
+    {
+      "name": "MentHlth",
+      "type": "float",
+      "description": "MentHlth"
+    },
+    {
+      "name": "PhysHlth",
+      "type": "float",
+      "description": "PhysHlth"
+    },
+    {
+      "name": "DiffWalk",
+      "type": "float",
+      "description": "DiffWalk"
+    },
+    {
+      "name": "Sex",
+      "type": "float",
+      "description": "Sex"
+    },
+    {
+      "name": "Age",
+      "type": "float",
+      "description": "Age"
+    }
+  ]
+}
