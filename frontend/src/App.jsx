@@ -12,7 +12,6 @@ import AnalyticsDashboard from './components/AnalyticsDashboard';
 import QuantumBenchmarkView from './components/QuantumBenchmarkView';
 import CdcDataDocsView from './components/CdcDataDocsView';
 import { PATIENT_REGISTRY } from './data/patientRegistryData';
-import PatientHeaderBar from './components/ui/PatientHeaderBar';
 import PatientRegistryModal from './components/ui/PatientRegistryModal';
 import TelehealthScheduleModal from './components/ui/TelehealthScheduleModal';
 import HealthcareTableOfContents from './components/ui/HealthcareTableOfContents';
@@ -516,18 +515,7 @@ export default function App() {
       />
 
       {/* Main Content Area */}
-      <main className="container" style={{ flex: 1, paddingBottom: '3rem' }}>
-        
-        {/* Koru Category 2: EHR Active Patient Identity Context Bar */}
-        <PatientHeaderBar
-          patient={currentPatient}
-          onOpenRegistry={() => setRegistryOpen(true)}
-          onOpenTelehealth={(mode = 'call') => {
-            setTelehealthMode(mode);
-            setTelehealthOpen(true);
-          }}
-        />
-
+      <main className="container" style={{ flex: 1, paddingBottom: '3rem', paddingTop: '1rem' }}>
         {/* Clinical Workspace Layout: Koru Table of Content (Left with Solid Black Boundary) + Main Tabs (Right) */}
         <div style={{ display: 'flex', gap: '2rem', alignItems: 'flex-start' }}>
 

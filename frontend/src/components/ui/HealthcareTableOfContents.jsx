@@ -41,11 +41,8 @@ export default function HealthcareTableOfContents({
 
     switch (item.key) {
       case 'lookup':
-        if (onOpenRegistry) onOpenRegistry();
-        break;
       case 'records':
-        const ehrBar = document.getElementById('ehr-patient-context-bar');
-        if (ehrBar) ehrBar.scrollIntoView({ behavior: 'smooth' });
+        if (onOpenRegistry) onOpenRegistry();
         break;
       case 'scheduling':
       case 'telemedicine':
