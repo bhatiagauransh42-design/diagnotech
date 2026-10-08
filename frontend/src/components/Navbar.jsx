@@ -7,9 +7,6 @@ import {
   Stethoscope, 
   ArrowRight, 
   Globe, 
-  Users, 
-  Video, 
-  ClipboardList,
   Search,
   BookOpen
 } from 'lucide-react';
@@ -121,25 +118,6 @@ export default function Navbar({
           </button>
 
           <button
-            className={`pill-nav-link ${activeTab === 'careplan' ? 'is-active' : ''}`}
-            onClick={() => setActiveTab('careplan')}
-            id="nav-careplan-btn"
-            style={{
-              padding: '0.45rem 1rem',
-              borderRadius: '9999px',
-              fontSize: '0.84rem',
-              fontWeight: activeTab === 'careplan' ? 700 : 500,
-              color: activeTab === 'careplan' ? '#0f0f0f' : '#4b5563',
-              backgroundColor: activeTab === 'careplan' ? '#f1f5f9' : 'transparent',
-              border: activeTab === 'careplan' ? '1px solid #e2e8f0' : '1px solid transparent',
-              cursor: 'pointer',
-              transition: 'all 0.15s ease'
-            }}
-          >
-            Care Plan
-          </button>
-
-          <button
             className={`pill-nav-link ${activeTab === 'analytics' ? 'is-active' : ''}`}
             onClick={() => setActiveTab('analytics')}
             id="nav-analytics-btn"
@@ -199,55 +177,6 @@ export default function Navbar({
 
         {/* Right: Quick Clinical Actions & Language Switcher */}
         <div className="pill-right-group" style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
-          {onOpenRegistry && (
-            <button
-              onClick={onOpenRegistry}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.4rem',
-                padding: '0.45rem 0.85rem',
-                borderRadius: '9999px',
-                fontSize: '0.78rem',
-                fontWeight: 700,
-                backgroundColor: '#eff6ff',
-                border: '1px solid #dbeafe',
-                color: '#1d4ed8',
-                cursor: 'pointer',
-                transition: 'all 0.15s ease'
-              }}
-              title="Open Patient Registry (Category 1)"
-              id="nav-open-registry-btn"
-            >
-              <Users size={14} />
-              <span>Patients</span>
-            </button>
-          )}
-
-          {onOpenTelehealth && (
-            <button
-              onClick={() => onOpenTelehealth('call')}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.4rem',
-                padding: '0.45rem 0.85rem',
-                borderRadius: '9999px',
-                fontSize: '0.78rem',
-                fontWeight: 700,
-                backgroundColor: '#f0fdf4',
-                border: '1px solid #dcfce7',
-                color: '#15803d',
-                cursor: 'pointer',
-                transition: 'all 0.15s ease'
-              }}
-              title="Launch Telemedicine Virtual Room (Category 4)"
-              id="nav-open-telehealth-btn"
-            >
-              <Video size={14} />
-              <span>Telehealth</span>
-            </button>
-          )}
 
           {/* Language Selector Dropdown */}
           <div style={{ position: 'relative' }}>

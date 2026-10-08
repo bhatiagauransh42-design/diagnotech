@@ -4,7 +4,6 @@ import {
   FileText, 
   Calendar, 
   Video, 
-  ClipboardList, 
   Activity, 
   BarChart3, 
   MessageSquare, 
@@ -18,12 +17,11 @@ export const HEALTHCARE_CATEGORIES = [
   { id: 2, key: 'records', name: 'Patient Records', icon: FileText, badge: 'EHR', desc: 'Clinical context & biometric history' },
   { id: 3, key: 'scheduling', name: 'Appointment Scheduling', icon: Calendar, badge: 'Calendar', desc: 'Provider slots & calendar sync' },
   { id: 4, key: 'telemedicine', name: 'Telemedicine', icon: Video, badge: 'Live HUD', desc: 'Virtual room with telemetry stream' },
-  { id: 5, key: 'careplan', name: 'Care Plan', icon: ClipboardList, badge: 'POGI', desc: 'Problem-Objective-Goal-Intervention' },
-  { id: 6, key: 'vitals', name: 'Vital Signs and Measurements', icon: Activity, badge: 'Telemetry', desc: 'BP, BMI, Glucose & Wearables' },
-  { id: 7, key: 'dashboard', name: 'Healthcare Dashboard', icon: BarChart3, badge: 'Analytics', desc: 'Epidemiological trends & metrics' },
-  { id: 8, key: 'communication', name: 'Patient Communication', icon: MessageSquare, badge: 'AI Chat', desc: 'Clinical NLP assistant & alerts' },
-  { id: 9, key: 'outreach', name: 'Patient Outreach', icon: BellRing, badge: 'Preventive', desc: 'Risk stratification & recalls' },
-  { id: 10, key: 'portals', name: 'Patient Portals', icon: FileCheck, badge: 'Lab OCR', desc: 'AI medical report scanner & docs' },
+  { id: 5, key: 'vitals', name: 'Vital Signs and Measurements', icon: Activity, badge: 'Telemetry', desc: 'BP, BMI, Glucose & Wearables' },
+  { id: 6, key: 'dashboard', name: 'Healthcare Dashboard', icon: BarChart3, badge: 'Analytics', desc: 'Epidemiological trends & metrics' },
+  { id: 7, key: 'communication', name: 'Patient Communication', icon: MessageSquare, badge: 'AI Chat', desc: 'Clinical NLP assistant & alerts' },
+  { id: 8, key: 'outreach', name: 'Patient Outreach', icon: BellRing, badge: 'Preventive', desc: 'Risk stratification & recalls' },
+  { id: 9, key: 'portals', name: 'Patient Portals', icon: FileCheck, badge: 'Lab OCR', desc: 'AI medical report scanner & docs' },
 ];
 
 export default function HealthcareTableOfContents({
@@ -31,7 +29,6 @@ export default function HealthcareTableOfContents({
   onSelectCategory,
   onOpenRegistry,
   onOpenTelehealth,
-  onOpenCarePlan,
   onOpenScanner,
   onOpenAiAssistant
 }) {
@@ -53,9 +50,6 @@ export default function HealthcareTableOfContents({
       case 'scheduling':
       case 'telemedicine':
         if (onOpenTelehealth) onOpenTelehealth(item.key === 'telemedicine' ? 'call' : 'schedule');
-        break;
-      case 'careplan':
-        if (onOpenCarePlan) onOpenCarePlan();
         break;
       case 'vitals':
         const vitalsSection = document.getElementById('screening-form-section');
@@ -210,7 +204,7 @@ export default function HealthcareTableOfContents({
         <span>Koru UX Navigation</span>
         <span style={{ color: '#000000', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '4px' }}>
           <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#00E87E' }} />
-          10 Categories Active
+          9 Categories Active
         </span>
       </div>
     </aside>

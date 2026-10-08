@@ -16,7 +16,6 @@ import PatientHeaderBar from './components/ui/PatientHeaderBar';
 import PatientRegistryModal from './components/ui/PatientRegistryModal';
 import TelehealthScheduleModal from './components/ui/TelehealthScheduleModal';
 import HealthcareTableOfContents from './components/ui/HealthcareTableOfContents';
-import CarePlanView from './components/CarePlanView';
 import { 
   Sparkles, 
   Printer, 
@@ -527,7 +526,6 @@ export default function App() {
             setTelehealthMode(mode);
             setTelehealthOpen(true);
           }}
-          onNavigateCarePlan={() => setActiveTab('careplan')}
         />
 
         {/* Clinical Workspace Layout: Koru Table of Content (Left with Solid Black Boundary) + Main Tabs (Right) */}
@@ -536,10 +534,9 @@ export default function App() {
           {/* Left Sticky Koru Table of Contents Navigator (with Solid Black Boundary) */}
           <div className="koru-toc-sidebar" style={{ position: 'sticky', top: '5.5rem', zIndex: 40, flexShrink: 0 }}>
             <HealthcareTableOfContents
-              activeCategory={activeTab === 'careplan' ? 'careplan' : activeTab === 'analytics' ? 'dashboard' : 'vitals'}
+              activeCategory={activeTab === 'analytics' ? 'dashboard' : 'vitals'}
               onSelectCategory={(cat) => {
-                if (cat === 'careplan') setActiveTab('careplan');
-                else if (cat === 'dashboard') setActiveTab('analytics');
+                if (cat === 'dashboard') setActiveTab('analytics');
                 else if (cat === 'lookup') setRegistryOpen(true);
                 else if (cat === 'scheduling') {
                   setTelehealthMode('schedule');
@@ -554,7 +551,6 @@ export default function App() {
                 setTelehealthMode(mode);
                 setTelehealthOpen(true);
               }}
-              onOpenCarePlan={() => setActiveTab('careplan')}
               onOpenAiAssistant={() => {
                 const assistantTrigger = document.getElementById('ai-assistant-toggle-btn') || document.getElementById('health-ai-assistant-toggle-btn');
                 if (assistantTrigger) assistantTrigger.click();
@@ -812,12 +808,15 @@ export default function App() {
                           Clinical Risk Evaluation Complete • Next Care Pathways
                         </div>
                         <div style={{ fontSize: '0.8rem', color: '#6B7280', marginTop: '2px' }}>
-                          Initiate personalized POGI care plan or schedule specialist consultation with AIIMS faculty.
+                          Schedule specialist consultation with AIIMS faculty or review longitudinal telemetry.
                         </div>
                       </div>
                       <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
                         <button
-                          onClick={() => setActiveTab('careplan')}
+                          onClick={() => {
+                            setTelehealthMode('schedule');
+                            setTelehealthOpen(true);
+                          }}
                           style={{
                             display: 'inline-flex',
                             alignItems: 'center',
@@ -831,30 +830,6 @@ export default function App() {
                             border: 'none',
                             cursor: 'pointer',
                             boxShadow: '0 4px 14px rgba(0, 232, 126, 0.35)'
-                          }}
-                          id="result-action-careplan-btn"
-                        >
-                          <ClipboardList size={16} />
-                          <span>Generate POGI Care Plan</span>
-                        </button>
-                        <button
-                          onClick={() => {
-                            setTelehealthMode('schedule');
-                            setTelehealthOpen(true);
-                          }}
-                          style={{
-                            display: 'inline-flex',
-                            alignItems: 'center',
-                            gap: '0.45rem',
-                            backgroundColor: '#FFFFFF',
-                            color: '#1F2937',
-                            fontWeight: 700,
-                            fontSize: '0.82rem',
-                            padding: '0.55rem 1.25rem',
-                            borderRadius: '9999px',
-                            border: '1px solid #E5E7EB',
-                            cursor: 'pointer',
-                            boxShadow: '0 2px 6px rgba(0, 0, 0, 0.04)'
                           }}
                           id="result-action-telehealth-btn"
                         >
@@ -888,51 +863,6 @@ export default function App() {
               </div>
             )}
 
-            {/* TAB 2: POGI CARE PLAN (KORU CATEGORY 5) */}
-            {activeTab === 'careplan' && (
-              <div>
-                {/* Koru Category 5 Banner */}
-                <div style={{
-                  backgroundColor: '#309BF5',
-                  borderRadius: '16px',
-                  padding: '1.75rem 2rem',
-                  marginBottom: '2rem',
-                  color: '#FFFFFF',
-                  boxShadow: '0 8px 24px rgba(48, 155, 245, 0.25)'
-                }}>
-                  <div style={{
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    gap: '0.5rem',
-                    backgroundColor: 'rgba(255, 255, 255, 0.2)',
-                    padding: '3px 10px',
-                    borderRadius: '9999px',
-                    fontSize: '0.75rem',
-                    fontWeight: 800,
-                    letterSpacing: '0.06em',
-                    marginBottom: '0.6rem'
-                  }}>
-                    <ClipboardList size={14} />
-                    <span>CATEGORY 05 • CARE MANAGEMENT</span>
-                  </div>
-                  <h1 style={{ fontSize: '1.85rem', fontWeight: 800, margin: 0, color: '#FFFFFF', letterSpacing: '-0.02em' }}>
-                    Problem-Objective-Goal-Intervention (POGI) Care Plan
-                  </h1>
-                  <p style={{ fontSize: '0.92rem', opacity: 0.92, marginTop: '0.4rem', maxWidth: '680px', lineHeight: 1.5 }}>
-                    Personalized longitudinal care trajectory with clinical interventions, wearable telemetry targets, and scheduled specialist consultations.
-                  </p>
-                </div>
-
-                <CarePlanView
-                  patient={currentPatient}
-                  screeningResult={result}
-                  onOpenTelehealth={(mode) => {
-                    setTelehealthMode(mode);
-                    setTelehealthOpen(true);
-                  }}
-                />
-              </div>
-            )}
 
             {/* TAB 3: EPIDEMIOLOGY ANALYTICS (KORU CATEGORY 7) */}
             {activeTab === 'analytics' && (

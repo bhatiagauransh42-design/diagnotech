@@ -2,15 +2,13 @@ import React from 'react';
 import { 
   Search, 
   Video, 
-  Activity, 
-  FileText
+  Activity
 } from 'lucide-react';
 
 export default function PatientHeaderBar({
   patient,
   onOpenRegistry,
-  onOpenTelehealth,
-  onNavigateCarePlan
+  onOpenTelehealth
 }) {
   if (!patient) return null;
 
@@ -114,17 +112,6 @@ export default function PatientHeaderBar({
           <span>Telehealth Call</span>
         </button>
 
-        {onNavigateCarePlan && (
-          <button
-            onClick={onNavigateCarePlan}
-            className="koru-btn-secondary"
-            title="Open Care Plan for this patient"
-            id="btn-quick-careplan"
-          >
-            <FileText size={14} />
-            <span>Care Plan</span>
-          </button>
-        )}
       </div>
     </div>
   );
